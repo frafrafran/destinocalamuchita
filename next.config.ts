@@ -20,12 +20,18 @@ const securityHeaders = [
 ];
 
 /**
- * `npm run cf:build` sets CF_BUILD=1: the Cloudflare Worker uses the Prisma client generated for
- * workerd, and Node-only packages (native image library, SMTP, AWS SDK) are swapped for a stub that
- * the Worker never calls (it uses the Images binding, Resend and R2 bindings instead).
+ * Building for the Cloudflare Worker: `npm run cf:build` sets CF_BUILD=1, and OpenNext itself sets
+ * NEXT_PRIVATE_STANDALONE before calling `next build` (so a CI running plain `opennextjs-cloudflare build`
+ * gets the same result). Nothing else in this project builds in standalone mode.
+ */
+const cloudflareBuild = process.env.CF_BUILD === "1" || process.env.NEXT_PRIVATE_STANDALONE === "true";
+
+/**
+ * The Worker uses the Prisma client generated for workerd, and Node-only packages (native image library,
+ * SMTP, AWS SDK) are swapped for a stub the Worker never calls (it uses the Images binding, Resend and R2).
  */
 const cloudflareAliases: Record<string, string> =
-  process.env.CF_BUILD === "1"
+  cloudflareBuild
     ? {
         "@/generated/prisma/client": "./src/generated/prisma-cf/client.ts",
         "@/generated/prisma/enums": "./src/generated/prisma-cf/enums.ts",
@@ -35,8 +41,58 @@ const cloudflareAliases: Record<string, string> =
       }
     : {};
 
+/**
+ * The WASM loader Turbopack uses for the Prisma query compiler resolves chunks through a dynamic path,
+ * so file tracing matches the whole project and OpenNext would pack every .wasm it finds (Prisma CLI,
+ * embedded databases, test browsers…) into the Worker. None of these run in production.
+ */
+const cloudflareTracingExcludes =
+  cloudflareBuild
+    ? {
+        "*": [
+          "node_modules/prisma/**",
+          "node_modules/@prisma/dev/**",
+          "node_modules/@prisma/engines/**",
+          "node_modules/@prisma/client/runtime/*.wasm",
+          "node_modules/@prisma/client/runtime/*wasm-base64*",
+          "node_modules/@prisma/client/runtime/query_compiler_*",
+          "node_modules/@electric-sql/**",
+          "node_modules/@embedded-postgres/**",
+          "node_modules/embedded-postgres/**",
+          "node_modules/playwright/**",
+          "node_modules/playwright-core/**",
+          "node_modules/@playwright/**",
+          "node_modules/next-intl-swc-plugin-extractor/**",
+          "node_modules/@swc/core/**",
+          "node_modules/@swc/core-*/**",
+          "node_modules/next/dist/compiled/@vercel/og/**",
+          "node_modules/sharp/**",
+          "node_modules/@img/**",
+          "node_modules/wrangler/**",
+          "node_modules/workerd/**",
+          "node_modules/@cloudflare/workerd-*/**",
+          "node_modules/esbuild/**",
+          "node_modules/@esbuild/**",
+          "node_modules/typescript/**",
+          "node_modules/vitest/**",
+          "node_modules/vite/**",
+          "node_modules/@vitest/**",
+          "node_modules/tsx/**",
+          "node_modules/eslint*/**",
+          "node_modules/@aws-sdk/**",
+          "node_modules/@smithy/**",
+          "node_modules/nodemailer/**",
+          "src/generated/prisma/**",
+          "tests/**",
+          "storage/**",
+          ".data/**",
+        ],
+      }
+    : undefined;
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  outputFileTracingExcludes: cloudflareTracingExcludes,
   images: {
     remotePatterns,
     formats: ["image/avif", "image/webp"],

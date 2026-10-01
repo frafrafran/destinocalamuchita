@@ -143,9 +143,11 @@ La web se publica en **Cloudflare Workers** (con el adaptador OpenNext para Next
 | Emails | [Resend](https://resend.com) | Avisos a huéspedes y al equipo | Plan gratuito: 3.000 emails/mes |
 | Tarea periódica | Cron de Cloudflare | Vencimientos, recordatorios, Airbnb cada 15 min | Incluido |
 
-**Nota sobre el plan:** iniciar sesión en el panel cifra la contraseña de forma segura (scrypt, recomendado
-por OWASP) y eso usa unos 130 ms de procesador. El plan gratuito de Workers permite 10 ms por pedido, así
-que el panel no funcionaría ahí. El plan pago (USD 5/mes) incluye 10 millones de visitas por mes.
+**Nota sobre el plan:** el plan gratuito de Workers documenta un límite de 10 ms de procesador por pedido.
+Medido en producción, la mayoría de las páginas usan entre 7 y 50 ms, la primera carga del login unos
+500 ms y el inicio de sesión unos 200 ms (cifra la contraseña con scrypt, como recomienda OWASP). Hoy
+Cloudflare los deja pasar, pero en el plan gratuito puede cortarlos. Para que funcione siempre, activá
+**Workers Paid (USD 5/mes)**, que permite hasta 30 segundos por pedido e incluye 10 millones de visitas.
 
 **En Windows:** el armado para Cloudflare tiene que hacerse en Linux. Usá **WSL (Ubuntu)** o los deploys
 automáticos desde GitHub (sección 3.6). Los comandos de abajo se ejecutan en una terminal de Ubuntu, dentro
@@ -240,7 +242,7 @@ termina dentro del sitio publicado.
 En Cloudflare: **Workers & Pages → destinocalamuchita → Settings → Builds → Connect** y elegí el repositorio.
 Configurá:
 
-- Comando de build: `npm run cf:build`
+- Comando de build: `npm run cf:build` (también funciona el que propone Cloudflare, `npx opennextjs-cloudflare build`)
 - Comando de deploy: `npx opennextjs-cloudflare deploy`
 
 Desde ahí, cada cambio que se sube a la rama `main` se publica solo.

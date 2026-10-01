@@ -13,12 +13,12 @@
   // Lets OpenNext call back into this Worker (required by the adapter).
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "destinocalamuchita" }],
 
-  // PostgreSQL through Hyperdrive (pooled, close to the database). `id` comes from
-  // `npx wrangler hyperdrive create`; `localConnectionString` is used by `npm run cf:preview`.
+  // PostgreSQL (Supabase, São Paulo) through Hyperdrive, query caching disabled so availability is
+  // always current. `localConnectionString` is used by `npm run cf:preview`.
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
-      "id": "REPLACE_WITH_HYPERDRIVE_ID",
+      "id": "b1d9577a7fb64f1e9379640ac0df6ece",
       "localConnectionString": "postgresql://remanso:remanso@localhost:5433/remanso",
     },
   ],
@@ -35,9 +35,11 @@
 
   // Non-secret settings. APP_URL must be the public address (workers.dev or your own domain).
   "vars": {
-    "APP_URL": "https://destinocalamuchita.REPLACE_WITH_SUBDOMAIN.workers.dev",
+    "APP_URL": "https://destinocalamuchita.franciscoaybar2110.workers.dev",
     "STORAGE_DRIVER": "r2",
-    "EMAIL_DRIVER": "resend",
+    // "console" writes emails to the Worker logs. Switch to "resend" (and set the RESEND_API_KEY
+    // secret and EMAIL_FROM) once a domain is verified in Resend.
+    "EMAIL_DRIVER": "console",
     "EMAIL_FROM": "DestinoCalamuchita <reservas@example.com>",
     "ICAL_SYNC_INTERVAL_MINUTES": "30",
   },
