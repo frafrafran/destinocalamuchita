@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DestinoCalamuchita: alquileres temporarios con reserva directa
 
-## Getting Started
+Sitio de reservas y panel de gestión para una administradora de alquileres temporarios del Valle de
+Calamuchita (Córdoba). Los huéspedes eligen fechas, reservan online, pagan por transferencia al
+propietario y suben el comprobante; el equipo lo verifica y confirma. Se sincroniza con Airbnb (y otros
+canales) por iCal para que nunca haya reservas superpuestas. Español, inglés y portugués.
 
-First, run the development server:
+- **Cómo usarla y administrarla, paso a paso:** [docs/GUIA-DE-USO.md](docs/GUIA-DE-USO.md)
+- **Arquitectura, modelo de datos y seguridad:** [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md)
+
+## Inicio rápido (desarrollo)
+
+Requiere Node.js 22 o superior. La base PostgreSQL local viene incluida.
+
+```bash
+npm install
+```
+
+Copiá `.env.example` a `.env` y completá `APP_SECRET`, `CRON_SECRET` y `SEED_ADMIN_PASSWORD`. Luego, en
+una terminal:
+
+```bash
+npm run db:local
+```
+
+Y en otra:
+
+```bash
+npx prisma migrate deploy
+```
+
+```bash
+npm run db:seed
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sitio: <http://localhost:3000> · Panel: <http://localhost:3000/admin> (usuario `SEED_ADMIN_EMAIL`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Comandos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando | Qué hace |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` / `npm start` | Build y servidor de producción |
+| `npm run db:local` | PostgreSQL local (puerto 5433, datos en `.data/`) |
+| `npm run db:migrate` | Crear una migración tras cambiar `prisma/schema.prisma` |
+| `npm run db:deploy` | Aplicar migraciones pendientes |
+| `npm run db:seed` | Datos de demostración (o solo el administrador con `SEED_DEMO_DATA=false`) |
+| `npm run db:studio` | Editor visual de la base |
+| `npm run typecheck` / `npm run lint` | Tipos y estilo |
+| `npm test` | Pruebas unitarias y de integración (incluye reservas simultáneas) |
+| `npm run test:e2e` | Pruebas de punta a punta con Microsoft Edge (reserva, comprobante, aprobación) |
+| `npm run check:messages` | Verifica que las traducciones tengan las mismas claves |
 
-## Learn More
+## Tecnología
 
-To learn more about Next.js, take a look at the following resources:
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · PostgreSQL + Prisma 7 · next-intl ·
+Radix UI · Motion · MapLibre · ical.js · sharp. Pensado para Vercel + Neon/Supabase + Cloudflare R2 + Resend.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Las superposiciones se impiden en la base de datos (restricción `EXCLUDE` sobre rangos de fechas y bloqueo
+por propiedad), no solo en la interfaz.

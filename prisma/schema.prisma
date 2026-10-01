@@ -1,0 +1,596 @@
+// DestinoCalamuchita data model.
+// Stay dates are DATE columns and every range is half-open: [startDate, endDate).
+// Availability-affecting constraints that Prisma cannot express (exclusion constraints, CHECKs)
+// live in prisma/migrations/*_constraints/migration.sql.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  OWNER
+  GUEST
+}
+
+enum PropertyStatus {
+  DRAFT
+  PUBLISHED
+  PAUSED
+  ARCHIVED
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+  CABIN
+  VILLA
+  LOFT
+}
+
+enum Currency {
+  ARS
+  USD
+}
+
+enum ReservationStatus {
+  PENDING
+  AWAITING_PAYMENT
+  PROOF_RECEIVED
+  UNDER_REVIEW
+  CONFIRMED
+  REJECTED
+  CANCELLED
+  COMPLETED
+  EXPIRED
+}
+
+enum ReservationSource {
+  DIRECT
+  MANUAL
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  REFUNDED
+}
+
+enum ProofStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  RESUBMISSION_REQUESTED
+}
+
+enum PriceRuleType {
+  SPECIAL_DATE
+  LENGTH_DISCOUNT
+  FEE
+}
+
+enum FeeUnit {
+  PER_STAY
+  PER_NIGHT
+  PER_GUEST
+  PER_GUEST_NIGHT
+}
+
+enum AvailabilityReason {
+  OWNER_USE
+  MAINTENANCE
+  MANUAL
+  OTHER
+}
+
+enum CalendarChannel {
+  AIRBNB
+  BOOKING
+  VRBO
+  GOOGLE
+  OTHER
+}
+
+enum SyncResult {
+  SUCCESS
+  FAILED
+}
+
+enum CalendarEventKind {
+  BOOKING
+  BLOCKED
+}
+
+enum NotificationChannel {
+  EMAIL
+  WHATSAPP
+  SMS
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED
+}
+
+enum ActorType {
+  USER
+  GUEST
+  SYSTEM
+}
+
+// ─── Identity ─────────────────────────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         UserRole  @default(MANAGER)
+  isActive     Boolean   @default(true)
+  ownerId      String?   @unique
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  owner                Owner?          @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  sessions             Session[]
+  auditLogs            AuditLog[]
+  notifications        Notification[]
+  reviewedProofs       PaymentProof[]  @relation("ProofReviewer")
+  verifiedPayments     Payment[]       @relation("PaymentVerifier")
+  createdReservations  Reservation[]   @relation("ReservationCreator")
+  createdAvailability  Availability[]
+}
+
+model Session {
+  /// SHA-256 of the session token; the raw token only lives in the cookie.
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  userAgent String?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+// ─── Owners & properties ──────────────────────────────────────────────────────
+
+model Owner {
+  id                String   @id @default(cuid())
+  firstName         String
+  lastName          String
+  email             String
+  phone             String?
+  taxId             String?
+  bankName          String?
+  accountHolder     String?
+  cbu               String?
+  alias             String?
+  accountTaxId      String?
+  commissionPercent Decimal  @default(0) @db.Decimal(5, 2)
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  properties Property[]
+  user       User?
+
+  @@index([lastName, firstName])
+}
+
+model Property {
+  id                  String         @id @default(cuid())
+  slug                String         @unique
+  status              PropertyStatus @default(DRAFT)
+  type                PropertyType   @default(HOUSE)
+  title               String
+  summary             String         @default("")
+  description         String         @default("")
+  houseRules          String         @default("")
+  arrivalInstructions String         @default("")
+  cancellationPolicy  String         @default("")
+  ownerId             String?
+
+  // Location
+  city       String
+  region     String   @default("Córdoba")
+  country    String   @default("AR")
+  address    String   @default("")
+  postalCode String?
+  latitude   Decimal? @db.Decimal(9, 6)
+  longitude  Decimal? @db.Decimal(9, 6)
+
+  // Capacity
+  maxGuests Int
+  bedrooms  Int
+  beds      Int
+  bathrooms Decimal @db.Decimal(3, 1)
+  areaM2    Int?
+
+  // Pricing (nightly amounts in `currency`)
+  currency     Currency @default(ARS)
+  basePrice    Decimal  @db.Decimal(12, 2)
+  weekendPrice Decimal? @db.Decimal(12, 2)
+  cleaningFee  Decimal  @default(0) @db.Decimal(12, 2)
+  minNights    Int      @default(1)
+  maxNights    Int?
+
+  checkInTime  String @default("15:00")
+  checkOutTime String @default("10:00")
+
+  videoUrl        String?
+  featured        Boolean   @default(false)
+  ratingAverage   Decimal?  @db.Decimal(3, 2)
+  ratingCount     Int       @default(0)
+  icalExportToken String    @unique
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  owner                Owner?                @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  images               PropertyImage[]
+  translations         PropertyTranslation[]
+  amenities            PropertyAmenity[]
+  seasons              Season[]
+  priceRules           PriceRule[]
+  availability         Availability[]
+  calendarIntegrations CalendarIntegration[]
+  calendarEvents       CalendarEvent[]
+  reservations         Reservation[]
+
+  @@index([status, featured])
+  @@index([city])
+  @@index([ownerId])
+}
+
+model PropertyTranslation {
+  id                  String   @id @default(cuid())
+  propertyId          String
+  locale              String
+  title               String?
+  summary             String?
+  description         String?
+  houseRules          String?
+  arrivalInstructions String?
+  cancellationPolicy  String?
+  updatedAt           DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, locale])
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  propertyId String
+  url        String
+  storageKey String?
+  alt        String   @default("")
+  width      Int
+  height     Int
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, position])
+}
+
+model Amenity {
+  id       String @id @default(cuid())
+  key      String @unique
+  label    String
+  icon     String @default("Sparkle")
+  category String @default("general")
+
+  properties PropertyAmenity[]
+}
+
+model PropertyAmenity {
+  propertyId String
+  amenityId  String
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  amenity  Amenity  @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([propertyId, amenityId])
+  @@index([amenityId])
+}
+
+// ─── Pricing ──────────────────────────────────────────────────────────────────
+
+model Season {
+  id           String   @id @default(cuid())
+  propertyId   String
+  name         String
+  startDate    DateTime @db.Date
+  /// Exclusive.
+  endDate      DateTime @db.Date
+  nightlyPrice Decimal  @db.Decimal(12, 2)
+  weekendPrice Decimal? @db.Decimal(12, 2)
+  minNights    Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, startDate, endDate])
+}
+
+model PriceRule {
+  id         String        @id @default(cuid())
+  propertyId String
+  type       PriceRuleType
+  name       String
+  isActive   Boolean       @default(true)
+  /// SPECIAL_DATE: date range (endDate exclusive) and nightly `amount`.
+  startDate  DateTime?     @db.Date
+  endDate    DateTime?     @db.Date
+  /// SPECIAL_DATE: nightly price. FEE: fee amount.
+  amount     Decimal?      @db.Decimal(12, 2)
+  /// LENGTH_DISCOUNT: percent off the nightly subtotal.
+  percent    Decimal?      @db.Decimal(5, 2)
+  /// LENGTH_DISCOUNT: minimum nights for the discount to apply.
+  minNights  Int?
+  /// FEE: how the amount is multiplied.
+  feeUnit    FeeUnit?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId, type])
+}
+
+// ─── Availability & channels ──────────────────────────────────────────────────
+
+model Availability {
+  id          String             @id @default(cuid())
+  propertyId  String
+  startDate   DateTime           @db.Date
+  /// Exclusive.
+  endDate     DateTime           @db.Date
+  reason      AvailabilityReason @default(MANUAL)
+  note        String?
+  createdById String?
+  createdAt   DateTime           @default(now())
+
+  property  Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdBy User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([propertyId, startDate, endDate])
+}
+
+model CalendarIntegration {
+  id                  String          @id @default(cuid())
+  propertyId          String
+  channel             CalendarChannel
+  name                String
+  importUrl           String
+  isActive            Boolean         @default(true)
+  lastSyncedAt        DateTime?
+  lastSyncStatus      SyncResult?
+  lastSyncError       String?
+  lastEventCount      Int             @default(0)
+  consecutiveFailures Int             @default(0)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  property Property        @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  events   CalendarEvent[]
+
+  @@unique([propertyId, importUrl])
+  @@index([isActive, lastSyncedAt])
+}
+
+model CalendarEvent {
+  id            String            @id @default(cuid())
+  integrationId String
+  propertyId    String
+  /// UID (+ RECURRENCE-ID when present) from the source feed.
+  externalId    String
+  kind          CalendarEventKind @default(BOOKING)
+  summary       String            @default("")
+  startDate     DateTime          @db.Date
+  /// Exclusive.
+  endDate       DateTime          @db.Date
+  hasConflict   Boolean           @default(false)
+  firstSeenAt   DateTime          @default(now())
+  lastSeenAt    DateTime          @default(now())
+
+  integration CalendarIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  property    Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([integrationId, externalId])
+  @@index([propertyId, startDate, endDate])
+}
+
+// ─── Reservations & payments ──────────────────────────────────────────────────
+
+model Guest {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String
+  country   String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reservations Reservation[]
+
+  @@index([lastName, firstName])
+}
+
+model Reservation {
+  id              String            @id @default(cuid())
+  /// Human-friendly reference shown to guests, e.g. RMS-7K3F9Q.
+  code            String            @unique
+  propertyId      String
+  guestId         String
+  status          ReservationStatus @default(AWAITING_PAYMENT)
+  source          ReservationSource @default(DIRECT)
+  checkIn         DateTime          @db.Date
+  /// Exclusive (departure day).
+  checkOut        DateTime          @db.Date
+  nights          Int
+  guestCount      Int
+  comments        String?
+  locale          String            @default("es")
+  currency        Currency
+  nightlySubtotal Decimal           @db.Decimal(12, 2)
+  discountTotal   Decimal           @default(0) @db.Decimal(12, 2)
+  feesTotal       Decimal           @default(0) @db.Decimal(12, 2)
+  cleaningFee     Decimal           @default(0) @db.Decimal(12, 2)
+  total           Decimal           @db.Decimal(12, 2)
+  /// Frozen quote at booking time (see src/lib/pricing.ts `Quote`).
+  priceBreakdown  Json
+  holdExpiresAt   DateTime?
+  /// Guest links are HMAC(APP_SECRET, id:accessVersion); bump to revoke every link sent so far.
+  accessVersion   Int               @default(1)
+  hasConflict     Boolean           @default(false)
+  adminNotes      String?
+  cancelReason    String?
+  confirmedAt     DateTime?
+  cancelledAt     DateTime?
+  completedAt     DateTime?
+  createdById     String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  property      Property       @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+  guest         Guest          @relation(fields: [guestId], references: [id], onDelete: Restrict)
+  createdBy     User?          @relation("ReservationCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  payments      Payment[]
+  notifications Notification[]
+
+  @@index([propertyId, checkIn, checkOut])
+  @@index([status, holdExpiresAt])
+  @@index([guestId])
+  @@index([checkIn])
+}
+
+model Payment {
+  id             String        @id @default(cuid())
+  reservationId  String
+  method         PaymentMethod @default(BANK_TRANSFER)
+  status         PaymentStatus @default(PENDING)
+  currency       Currency
+  amountDue      Decimal       @db.Decimal(12, 2)
+  amountReceived Decimal?      @db.Decimal(12, 2)
+  /// Bank details shown to the guest when the reservation was created.
+  bankSnapshot   Json
+  verifiedAt     DateTime?
+  verifiedById   String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  reservation Reservation    @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  verifiedBy  User?          @relation("PaymentVerifier", fields: [verifiedById], references: [id], onDelete: SetNull)
+  proofs      PaymentProof[]
+
+  @@index([reservationId])
+  @@index([status])
+}
+
+model PaymentProof {
+  id             String      @id @default(cuid())
+  paymentId      String
+  storageKey     String      @unique
+  fileName       String
+  mimeType       String
+  sizeBytes      Int
+  /// SHA-256 of the uploaded bytes, used to flag reused receipts.
+  sha256         String
+  declaredAmount Decimal?    @db.Decimal(12, 2)
+  status         ProofStatus @default(PENDING_REVIEW)
+  reviewNote     String?
+  reviewedAt     DateTime?
+  reviewedById   String?
+  uploaderIp     String?
+  uploadedAt     DateTime    @default(now())
+
+  payment    Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  reviewedBy User?   @relation("ProofReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([paymentId])
+  @@index([sha256])
+  @@index([status, uploadedAt])
+}
+
+// ─── Platform ─────────────────────────────────────────────────────────────────
+
+model Notification {
+  id            String              @id @default(cuid())
+  channel       NotificationChannel
+  template      String
+  /// Email address or phone number; null for IN_APP.
+  recipient     String?
+  userId        String?
+  reservationId String?
+  locale        String              @default("es")
+  payload       Json
+  status        NotificationStatus  @default(PENDING)
+  attempts      Int                 @default(0)
+  lastError     String?
+  sentAt        DateTime?
+  readAt        DateTime?
+  createdAt     DateTime            @default(now())
+
+  user        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservation Reservation? @relation(fields: [reservationId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([userId, readAt])
+  @@index([reservationId, template])
+}
+
+model AuditLog {
+  id         String    @id @default(cuid())
+  actorType  ActorType
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  ip         String?
+  createdAt  DateTime  @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model RateLimit {
+  key     String   @id
+  count   Int
+  resetAt DateTime
+}

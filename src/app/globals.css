@@ -1,26 +1,327 @@
 @import "tailwindcss";
 
+/*
+ * DestinoCalamuchita design tokens.
+ * One accent (pine green), cool neutral base, semantic status colours used only with text labels.
+ * Light and dark values are defined together; components only ever reference the tokens.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --bg: #f5f6f4;
+  --surface: #fdfdfc;
+  --surface-2: #eff1ee;
+  --surface-3: #e5e9e5;
+  --ink: #121815;
+  --ink-2: #3a433e;
+  --ink-3: #626c66;
+  --line: #e0e4e0;
+  --line-strong: #c8cfca;
+  --accent: #1f4d3d;
+  --accent-hover: #173b2f;
+  --accent-ink: #f3f7f4;
+  --accent-soft: #e2ede7;
+  --accent-text: #1f4d3d;
+  --focus: #2c7a5c;
+  --overlay: rgb(10 16 13 / 0.5);
+  --shadow-rgb: 18 32 26;
+
+  --warning-bg: #fbf0d9;
+  --warning-fg: #7f5200;
+  --info-bg: #e3edfb;
+  --info-fg: #1c4b8a;
+  --progress-bg: #dcf0ef;
+  --progress-fg: #0f5a5a;
+  --success-bg: #dff1e5;
+  --success-fg: #19643a;
+  --danger-bg: #fae4e2;
+  --danger-fg: #9c2d27;
+  --neutral-bg: #e9ede9;
+  --neutral-fg: #3a433e;
+  --muted-bg: #eef0ed;
+  --muted-fg: #6a736d;
+
+  --cal-available: #fdfdfc;
+  --cal-booked: #1f4d3d;
+  --cal-pending: #f3dfae;
+  --cal-blocked: #d7dbd7;
+  --cal-external: #f0cfc6;
+  /* Third categorical colour for charts (external channels). */
+  --chart-3: #c47a52;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0c110f;
+  --surface: #131916;
+  --surface-2: #1a221e;
+  --surface-3: #222c27;
+  --ink: #e7ece9;
+  --ink-2: #b6c0ba;
+  --ink-3: #8b958f;
+  --line: #242e29;
+  --line-strong: #34403a;
+  --accent: #8cc5a8;
+  --accent-hover: #a5d4bb;
+  --accent-ink: #0b1811;
+  --accent-soft: #192c23;
+  --accent-text: #9bd0b4;
+  --focus: #8cc5a8;
+  --overlay: rgb(0 0 0 / 0.62);
+  --shadow-rgb: 0 0 0;
+
+  --warning-bg: #36290f;
+  --warning-fg: #f0c469;
+  --info-bg: #16283f;
+  --info-fg: #93bcf0;
+  --progress-bg: #112f2f;
+  --progress-fg: #7ed0cf;
+  --success-bg: #132d1d;
+  --success-fg: #85d2a2;
+  --danger-bg: #3a1916;
+  --danger-fg: #f09a92;
+  --neutral-bg: #202925;
+  --neutral-fg: #c3cbc6;
+  --muted-bg: #1a211e;
+  --muted-fg: #8b958f;
+
+  --cal-available: #131916;
+  --cal-booked: #8cc5a8;
+  --cal-pending: #6b5421;
+  --cal-blocked: #2c3531;
+  --cal-external: #6b3a31;
+  --chart-3: #e19c76;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0c110f;
+    --surface: #131916;
+    --surface-2: #1a221e;
+    --surface-3: #222c27;
+    --ink: #e7ece9;
+    --ink-2: #b6c0ba;
+    --ink-3: #8b958f;
+    --line: #242e29;
+    --line-strong: #34403a;
+    --accent: #8cc5a8;
+    --accent-hover: #a5d4bb;
+    --accent-ink: #0b1811;
+    --accent-soft: #192c23;
+    --accent-text: #9bd0b4;
+    --focus: #8cc5a8;
+    --overlay: rgb(0 0 0 / 0.62);
+    --shadow-rgb: 0 0 0;
+
+    --warning-bg: #36290f;
+    --warning-fg: #f0c469;
+    --info-bg: #16283f;
+    --info-fg: #93bcf0;
+    --progress-bg: #112f2f;
+    --progress-fg: #7ed0cf;
+    --success-bg: #132d1d;
+    --success-fg: #85d2a2;
+    --danger-bg: #3a1916;
+    --danger-fg: #f09a92;
+    --neutral-bg: #202925;
+    --neutral-fg: #c3cbc6;
+    --muted-bg: #1a211e;
+    --muted-fg: #8b958f;
+
+    --cal-available: #131916;
+    --cal-booked: #8cc5a8;
+    --cal-pending: #6b5421;
+    --cal-blocked: #2c3531;
+    --cal-external: #6b3a31;
+    --chart-3: #e19c76;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-focus: var(--focus);
+  --color-overlay: var(--overlay);
+
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-fg: var(--warning-fg);
+  --color-info-bg: var(--info-bg);
+  --color-info-fg: var(--info-fg);
+  --color-progress-bg: var(--progress-bg);
+  --color-progress-fg: var(--progress-fg);
+  --color-success-bg: var(--success-bg);
+  --color-success-fg: var(--success-fg);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-fg: var(--danger-fg);
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-fg: var(--neutral-fg);
+  --color-muted-bg: var(--muted-bg);
+  --color-muted-fg: var(--muted-fg);
+
+  --color-cal-available: var(--cal-available);
+  --color-cal-booked: var(--cal-booked);
+  --color-cal-pending: var(--cal-pending);
+  --color-cal-blocked: var(--cal-blocked);
+  --color-cal-external: var(--cal-external);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --shadow-hairline: 0 0 0 1px rgb(var(--shadow-rgb) / 0.06);
+  --shadow-soft: 0 1px 2px rgb(var(--shadow-rgb) / 0.04), 0 6px 20px -8px rgb(var(--shadow-rgb) / 0.12);
+  --shadow-lift: 0 2px 6px rgb(var(--shadow-rgb) / 0.05), 0 24px 48px -16px rgb(var(--shadow-rgb) / 0.22);
+  --shadow-float: 0 12px 32px -8px rgb(var(--shadow-rgb) / 0.28), 0 2px 6px rgb(var(--shadow-rgb) / 0.08);
+
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snappy: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* avoids iOS zoom on focus */
+  }
+  @media (min-width: 768px) {
+    input,
+    textarea,
+    select {
+      font-size: 15px;
+    }
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+/* Tailwind v4 positions with the individual `translate` property, so animate that (not transform). */
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    translate: -50% calc(-50% + 8px);
+    scale: 0.98;
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+@keyframes scroll-hint {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
+}
+
+/* Scroll length of the pinned home hero (the header's transparent zone follows it). */
+:root {
+  --home-hero-h: 250svh;
+  /* Night-forest ink of the mountain silhouettes; the same in both themes. */
+  --scene-ink: #0c1310;
+}
+@media (max-width: 767px) {
+  :root {
+    --home-hero-h: 215svh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --home-hero-h: 100svh;
+  }
 }

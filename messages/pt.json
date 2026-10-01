@@ -1,0 +1,1506 @@
+{
+  "emails": {
+    "greeting": "Olá {name},",
+    "signature": "Um abraço,\nEquipe {agency}",
+    "footer": "Você recebeu este e-mail por uma reserva feita em {agency}. Se não foi você, responda esta mensagem e verificaremos.",
+    "viewReservation": "Ver minha reserva",
+    "openInAdmin": "Abrir no painel",
+    "transferTitle": "Dados para a transferência",
+    "arrivalTitle": "Como chegar e dados de entrada",
+    "labels": {
+      "code": "Reserva",
+      "property": "Imóvel",
+      "checkIn": "Entrada",
+      "checkOut": "Saída",
+      "guests": "Hóspedes",
+      "total": "Total",
+      "guest": "Hóspede",
+      "declaredAmount": "Valor declarado",
+      "bank": "Banco",
+      "holder": "Titular",
+      "cbu": "CBU",
+      "alias": "Alias",
+      "taxId": "CUIT",
+      "amount": "Valor a transferir",
+      "deadline": "Transfira até"
+    },
+    "RESERVATION_REQUESTED": {
+      "subject": "Recebemos sua solicitação {code}",
+      "title": "Sua solicitação foi registrada",
+      "intro": "Seguramos as datas para você até {deadline}. Para confirmar, transfira o total para a conta indicada e envie o comprovante pela página da reserva."
+    },
+    "PROOF_RECEIVED": {
+      "subject": "Recebemos seu comprovante ({code})",
+      "title": "Comprovante recebido",
+      "intro": "Obrigado. Estamos verificando a transferência e avisaremos assim que a reserva for confirmada."
+    },
+    "RESERVATION_CONFIRMED": {
+      "subject": "Reserva confirmada: {property}",
+      "title": "Sua reserva está confirmada",
+      "intro": "Verificamos o pagamento e as datas são suas. Abaixo estão os dados de entrada."
+    },
+    "PROOF_REJECTED": {
+      "subject": "Precisamos revisar seu pagamento ({code})",
+      "title": "Precisamos de um novo comprovante",
+      "intro": "Não conseguimos validar o comprovante enviado. Suas datas continuam reservadas até {deadline}: você pode enviar outro pela página da reserva."
+    },
+    "RESERVATION_REJECTED": {
+      "subject": "Não foi possível confirmar a reserva {code}",
+      "title": "A solicitação não pôde ser confirmada",
+      "intro": "Lamentamos não poder confirmar esta reserva. Se você já transferiu, responda este e-mail e combinaremos a devolução."
+    },
+    "RESERVATION_CANCELLED": {
+      "subject": "Reserva cancelada ({code})",
+      "title": "Sua reserva foi cancelada",
+      "intro": "A reserva {code} foi cancelada. Se tiver dúvidas sobre devoluções, responda este e-mail."
+    },
+    "RESERVATION_EXPIRED": {
+      "subject": "Sua solicitação {code} expirou",
+      "title": "O prazo para transferir terminou",
+      "intro": "Não recebemos o comprovante a tempo e liberamos as datas. Se ainda tiver interesse, pode reservar novamente."
+    },
+    "DATES_CHANGED": {
+      "subject": "Atualizamos sua reserva {code}",
+      "title": "Os dados da sua reserva mudaram",
+      "intro": "Estes são os dados atualizados da sua estadia."
+    },
+    "CHECKIN_REMINDER": {
+      "subject": "Sua estadia começa em breve",
+      "title": "Esperamos você em {date}",
+      "intro": "Falta pouco para sua chegada a {property}. Aqui está tudo o que você precisa para a entrada."
+    },
+    "POST_STAY": {
+      "subject": "Obrigado por se hospedar em {property}",
+      "title": "Obrigado por nos escolher",
+      "intro": "Esperamos que tenha aproveitado a estadia. Quando quiser voltar, reservando direto você tem sempre a melhor tarifa."
+    },
+    "ACCESS_LINK": {
+      "subject": "Seu link para a reserva {code}",
+      "title": "Acesse sua reserva",
+      "intro": "Use o botão para ver o status, os dados de pagamento e enviar comprovantes. Não compartilhe este link."
+    },
+    "ADMIN_NEW_RESERVATION": {
+      "subject": "Nova solicitação {code}: {property}",
+      "title": "Nova solicitação de reserva",
+      "intro": "Chegou uma solicitação para {property}. As datas ficam retidas enquanto o hóspede transfere."
+    },
+    "ADMIN_NEW_PROOF": {
+      "subject": "Comprovante para revisar ({code})",
+      "title": "Chegou um comprovante",
+      "intro": "O hóspede de {code} enviou um comprovante de transferência. Revise para confirmar a reserva."
+    },
+    "ADMIN_CALENDAR_CONFLICT": {
+      "subject": "Conflito de calendário em {property}",
+      "title": "Conflito com {channel}",
+      "intro": "{channel} tem datas da reserva {code} ocupadas. Ela não poderá ser confirmada até resolver."
+    },
+    "ADMIN_SYNC_FAILING": {
+      "subject": "A sincronização com {channel} está falhando",
+      "title": "O calendário de {channel} não responde",
+      "intro": "O calendário de {channel} para {property} falhou várias vezes seguidas. Mantemos os últimos dados conhecidos. Verifique o link iCal."
+    }
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "invalid": "Verifique este campo",
+    "minLength": "Use pelo menos {min} caracteres",
+    "maxLength": "Use no máximo {max} caracteres",
+    "minValue": "Deve ser {min} ou mais",
+    "maxValue": "Deve ser {max} ou menos",
+    "minItems": "Escolha pelo menos {min}",
+    "maxItems": "No máximo {max}",
+    "email": "Digite um e-mail válido",
+    "url": "Digite um link válido",
+    "phone": "Digite um telefone válido, com código de área",
+    "dateOrder": "A data final deve ser posterior à inicial",
+    "pastDate": "Não é possível bloquear datas passadas",
+    "terms": "Precisamos que você aceite as condições"
+  },
+  "errors": {
+    "UNAUTHORIZED": "Sua sessão terminou. Entre novamente.",
+    "FORBIDDEN": "Você não tem permissão para fazer isso.",
+    "VALIDATION": "Revise os campos destacados.",
+    "NOT_FOUND": "Não encontramos o que você procurava.",
+    "RATE_LIMITED": "Muitas tentativas. Aguarde alguns minutos e tente de novo.",
+    "DATES_UNAVAILABLE": "Essas datas acabaram de ser ocupadas. Escolha outras.",
+    "PRICE_CHANGED": "O preço foi atualizado. Revise o novo total antes de continuar.",
+    "INVALID_STATE": "Esta ação não está mais disponível para esta reserva.",
+    "CALENDAR_CONFLICT": "Há um bloqueio ou uma reserva de outro canal nessas datas. Resolva antes de confirmar.",
+    "INVALID_CREDENTIALS": "E-mail ou senha incorretos.",
+    "FILE_TOO_LARGE": "O arquivo excede o tamanho máximo.",
+    "FILE_TYPE": "Formato não suportado. Envie um JPG, PNG ou PDF.",
+    "FILE_UNSAFE": "Não conseguimos processar o arquivo. Tente exportá-lo novamente.",
+    "TOO_MANY_FILES": "Você atingiu o número máximo de arquivos.",
+    "HAS_RESERVATIONS": "Possui reservas. Você pode arquivar em vez de excluir.",
+    "DUPLICATE": "Já existe um registro com esses dados.",
+    "ICAL_URL": "O link do calendário não é válido. Deve começar com https://",
+    "QUOTE": "Verifique as datas e o número de hóspedes.",
+    "UNKNOWN": "Algo deu errado. Tente novamente em alguns segundos.",
+    "NO_BANK_ACCOUNT": "Este imóvel ainda não aceita reservas online. Escreva para reservar."
+  },
+  "quoteErrors": {
+    "INVALID_DATES": "Escolha uma data de saída posterior à entrada.",
+    "PAST_DATE": "A data de entrada já passou.",
+    "MIN_NIGHTS": "A estadia mínima é de {minNights} noites para essas datas.",
+    "MAX_NIGHTS": "A estadia máxima é de {maxNights} noites.",
+    "INVALID_GUESTS": "Informe quantas pessoas vão se hospedar.",
+    "MAX_GUESTS": "A capacidade máxima é de {maxGuests} hóspedes."
+  },
+  "meta": {
+    "title": "{name} | Aluguel por temporada no Vale de Calamuchita",
+    "description": "Casas, cabanas e apartamentos selecionados nas serras de Córdoba, Argentina. Reserve direto, com preço final claro e atendimento pessoal."
+  },
+  "common": {
+    "skipToContent": "Ir para o conteúdo",
+    "close": "Fechar",
+    "back": "Voltar",
+    "continue": "Continuar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "loading": "Carregando",
+    "retry": "Tentar de novo",
+    "optional": "opcional",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "seeMore": "Ver mais",
+    "seeLess": "Ver menos",
+    "theme": {
+      "label": "Tema de cores",
+      "system": "Automático",
+      "light": "Claro",
+      "dark": "Escuro"
+    }
+  },
+  "nav": {
+    "primary": "Navegação principal",
+    "properties": "Imóveis",
+    "destinations": "Destinos",
+    "howItWorks": "Como reservar",
+    "contact": "Contato",
+    "myBooking": "Minha reserva",
+    "language": "Idioma",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "menu": "Menu"
+  },
+  "footer": {
+    "explore": "Explorar",
+    "help": "Ajuda",
+    "legal": "Legal",
+    "cancellation": "Política de cancelamento",
+    "terms": "Termos e condições",
+    "privacy": "Privacidade",
+    "tagline": "Aluguéis por temporada selecionados nas serras de Córdoba, com reserva direta e atendimento de pessoas reais."
+  },
+  "notFound": {
+    "title": "Não encontramos esta página",
+    "description": "O link pode estar errado ou o imóvel não está mais publicado.",
+    "home": "Ir para o início",
+    "properties": "Ver imóveis"
+  },
+  "home": {
+    "viewProperties": "Ver imóveis",
+    "hero": {
+      "title": "Aqui o tempo passa de outro jeito.",
+      "subtitle": "Casas escolhidas uma a uma no Vale de Calamuchita. Você reserva direto com quem cuida delas.",
+      "statement": "Serras que mudam de cor com a tarde, riachos gelados e vilarejos onde ninguém tem pressa. O vale espera por você.",
+      "scrollHint": "Desça ao vale"
+    },
+    "featured": {
+      "title": "Casas que valem a viagem",
+      "subtitle": "Nossa seleção para esta temporada."
+    },
+    "destinations": {
+      "title": "Vilarejos do vale",
+      "subtitle": "Do bosque de La Cumbrecita ao lago de Embalse, cada vilarejo tem seu ritmo.",
+      "count": "{count, plural, one {# imóvel} other {# imóveis}}"
+    },
+    "benefits": {
+      "title": "Reservar direto faz sentido",
+      "subtitle": "Sem intermediários entre você e a casa. Mais claro, mais humano e sem comissões.",
+      "noFees": {
+        "title": "Sem taxas de plataforma",
+        "body": "Você paga o preço da casa, não o de um intermediário."
+      },
+      "personal": {
+        "title": "Fale com quem cuida da casa",
+        "body": "Respondemos por WhatsApp ou e-mail antes e durante a estadia."
+      },
+      "clearPrice": {
+        "title": "Preço final desde o início",
+        "body": "Veja o total com limpeza e taxas antes de reservar."
+      },
+      "synced": {
+        "title": "Datas protegidas",
+        "body": "Sincronizamos com Airbnb e outros canais para evitar reservas duplicadas."
+      }
+    },
+    "process": {
+      "title": "Como reservar",
+      "subtitle": "Quatro passos, sem criar conta nem baixar nada.",
+      "dates": {
+        "title": "Escolha as datas",
+        "body": "Veja a disponibilidade real e o preço total na hora."
+      },
+      "details": {
+        "title": "Deixe seus dados",
+        "body": "Nome, e-mail e telefone. Nada mais."
+      },
+      "transfer": {
+        "title": "Transfira e envie o comprovante",
+        "body": "Mostramos os dados bancários e seguramos as datas enquanto isso."
+      },
+      "confirmed": {
+        "title": "Receba a confirmação",
+        "body": "Verificamos o pagamento e enviamos tudo para sua chegada."
+      }
+    },
+    "newest": {
+      "title": "Recém-chegadas",
+      "subtitle": "As últimas casas que entraram no vale."
+    },
+    "recommended": {
+      "title": "As favoritas dos hóspedes",
+      "subtitle": "Ordenadas pela avaliação de quem já se hospedou."
+    },
+    "testimonials": {
+      "title": "Hóspedes que voltam"
+    },
+    "trust": {
+      "title": "Sua transferência, com respaldo",
+      "body": "Cada reserva tem um número, um comprovante vinculado e um status que você pode consultar quando quiser.",
+      "code": {
+        "title": "Número da reserva",
+        "body": "Você recebe por e-mail assim que envia a solicitação."
+      },
+      "receipt": {
+        "title": "Comprovante registrado",
+        "body": "Sua transferência fica vinculada à reserva e avisamos quando for verificada."
+      },
+      "policy": {
+        "title": "Regras claras",
+        "body": "Política de cancelamento e condições visíveis antes de pagar."
+      }
+    },
+    "cta": {
+      "title": "Sua próxima estadia começa escolhendo uma data."
+    }
+  },
+  "search": {
+    "label": "Buscar hospedagem",
+    "destination": "Destino",
+    "anyDestination": "Qualquer vilarejo",
+    "dates": "Datas",
+    "addDates": "Adicionar datas",
+    "checkOut": "saída",
+    "guests": "Hóspedes",
+    "guestsCount": "{count, plural, one {# hóspede} other {# hóspedes}}",
+    "guestsHint": "Adultos e crianças",
+    "fewerGuests": "Remover um hóspede",
+    "moreGuests": "Adicionar um hóspede",
+    "submit": "Buscar",
+    "searchPlaceholder": "Buscar por nome ou vilarejo",
+    "filters": "Filtros",
+    "closeFilters": "Fechar filtros",
+    "clearFilters": "Limpar filtros",
+    "clearAll": "Limpar",
+    "type": "Tipo de hospedagem",
+    "bedrooms": "Quartos",
+    "any": "Qualquer",
+    "pricePerNight": "Preço por noite",
+    "minimum": "Mínimo",
+    "maximum": "Máximo",
+    "amenities": "Comodidades",
+    "sortBy": "Ordenar por",
+    "sort": {
+      "recommended": "Recomendados",
+      "price_asc": "Menor preço",
+      "price_desc": "Maior preço",
+      "newest": "Mais novos",
+      "rating": "Melhor avaliados"
+    }
+  },
+  "calendar": {
+    "title": "Escolha as datas",
+    "close": "Fechar calendário",
+    "previousMonth": "Mês anterior",
+    "nextMonth": "Próximo mês",
+    "unavailable": "Indisponível",
+    "checkoutOnly": "Disponível apenas para saída",
+    "selectedCheckIn": "Entrada",
+    "selectedCheckOut": "Saída",
+    "tooShort": "Abaixo da estadia mínima",
+    "nights": "{count, plural, one {# noite} other {# noites}}",
+    "pickCheckIn": "Escolha o dia de entrada",
+    "pickCheckOut": "Agora escolha o dia de saída",
+    "clear": "Limpar datas",
+    "done": "Pronto"
+  },
+  "property": {
+    "ratingLabel": "Avaliação {rating} de 5, {count} avaliações",
+    "new": "Nova",
+    "capacityShort": "{guests, plural, one {# hóspede} other {# hóspedes}}, {bedrooms, plural, one {# quarto} other {# quartos}}, {beds, plural, one {# cama} other {# camas}}",
+    "totalFor": "{nights, plural, one {por # noite} other {por # noites}}",
+    "from": "a partir de",
+    "perNight": "/ noite",
+    "availableForDates": "Disponível nas suas datas",
+    "featured": "Destaque",
+    "showAllAmenities": "Ver as {count} comodidades",
+    "amenitiesTitle": "O que este lugar oferece",
+    "close": "Fechar",
+    "gallery": {
+      "open": "Ver foto {index}",
+      "showAll": "Ver as {count} fotos",
+      "description": "Galeria de fotos em tela cheia",
+      "counter": "{index} de {total}",
+      "close": "Fechar galeria",
+      "previous": "Foto anterior",
+      "next": "Próxima foto"
+    }
+  },
+  "propertyTypes": {
+    "HOUSE": "Casa",
+    "APARTMENT": "Apartamento",
+    "CABIN": "Cabana",
+    "VILLA": "Casa de campo",
+    "LOFT": "Loft"
+  },
+  "amenities": {
+    "wifi": "Wifi",
+    "linens": "Roupa de cama e toalhas",
+    "heating": "Aquecimento",
+    "air_conditioning": "Ar-condicionado",
+    "kitchen": "Cozinha equipada",
+    "oven": "Forno",
+    "coffee_maker": "Cafeteira",
+    "dishwasher": "Lava-louças",
+    "fireplace": "Lareira a lenha",
+    "tv": "Smart TV",
+    "workspace": "Espaço de trabalho",
+    "washer": "Máquina de lavar",
+    "bathtub": "Banheira",
+    "hair_dryer": "Secador de cabelo",
+    "pool": "Piscina",
+    "grill": "Churrasqueira",
+    "garden": "Jardim",
+    "mountain_view": "Vista para as serras",
+    "lake_access": "Acesso ao lago",
+    "bikes": "Bicicletas",
+    "parking": "Estacionamento",
+    "crib": "Berço",
+    "pets": "Aceita animais",
+    "first_aid": "Kit de primeiros socorros",
+    "smart_lock": "Entrada autônoma",
+    "categories": {
+      "essentials": "Essenciais",
+      "kitchen": "Cozinha",
+      "comfort": "Conforto",
+      "outdoor": "Área externa",
+      "services": "Serviços",
+      "family": "Famílias e animais",
+      "safety": "Segurança",
+      "general": "Outros"
+    }
+  },
+  "status": {
+    "reservation": {
+      "PENDING": "Reserva pendente",
+      "AWAITING_PAYMENT": "Pagamento pendente",
+      "PROOF_RECEIVED": "Comprovante recebido",
+      "UNDER_REVIEW": "Em revisão",
+      "CONFIRMED": "Confirmada",
+      "REJECTED": "Recusada",
+      "CANCELLED": "Cancelada",
+      "COMPLETED": "Finalizada",
+      "EXPIRED": "Expirada"
+    },
+    "proof": {
+      "PENDING_REVIEW": "Aguardando revisão",
+      "APPROVED": "Aprovado",
+      "REJECTED": "Recusado",
+      "RESUBMISSION_REQUESTED": "Outro solicitado"
+    },
+    "property": {
+      "DRAFT": "Rascunho",
+      "PUBLISHED": "Publicado",
+      "PAUSED": "Pausado",
+      "ARCHIVED": "Arquivado"
+    },
+    "payment": {
+      "PENDING": "Pendente",
+      "VERIFIED": "Verificado",
+      "REJECTED": "Recusado",
+      "REFUNDED": "Reembolsado"
+    }
+  },
+  "catalog": {
+    "metaTitle": "Imóveis",
+    "metaDescription": "Explore casas, cabanas e apartamentos no Vale de Calamuchita com disponibilidade real e preço final.",
+    "title": "Todos os imóveis",
+    "subtitle": "Disponibilidade real e preço final, sem surpresas ao reservar.",
+    "results": "{count, plural, one {# imóvel} other {# imóveis}}",
+    "resultsWithDates": "{count, plural, one {# imóvel disponível nas suas datas} other {# imóveis disponíveis nas suas datas}}",
+    "hiddenUnavailable": "{count, plural, one {# não está disponível nessas datas} other {# não estão disponíveis nessas datas}}",
+    "emptyTitle": "Nenhum imóvel com esses filtros",
+    "emptyDescription": "Tente remover algum filtro ou buscar em outro vilarejo.",
+    "emptyWithDates": "Nenhum imóvel está livre nessas datas. Tente mover a entrada ou a saída em um dia.",
+    "seeAll": "Ver todos"
+  },
+  "booking": {
+    "breakdown": {
+      "nightsUniform": "{price} x {count, plural, one {# noite} other {# noites}}",
+      "nightsVariable": "{count, plural, one {# noite} other {# noites}}",
+      "weekend": "fim de semana",
+      "discount": "{name} (-{percent}%)",
+      "cleaning": "Limpeza final",
+      "total": "Total"
+    },
+    "widget": {
+      "from": "a partir de",
+      "perNight": "por noite",
+      "perNightAverage": "por noite em média",
+      "checkIn": "Entrada",
+      "checkOut": "Saída",
+      "addDate": "Adicionar data",
+      "guests": "Hóspedes",
+      "guestsCount": "{count, plural, one {# hóspede} other {# hóspedes}}",
+      "maxGuests": "Até {count}",
+      "fewerGuests": "Remover um hóspede",
+      "moreGuests": "Adicionar um hóspede",
+      "reserve": "Reservar",
+      "chooseDates": "Escolher datas",
+      "pickDates": "Escolha as datas para ver o preço final",
+      "pickCheckOut": "Escolha o dia de saída",
+      "unavailable": "Essas datas não estão mais disponíveis",
+      "noChargeYet": "Você ainda não será cobrado",
+      "trust": "Você paga por transferência para a conta do proprietário. Seguramos as datas enquanto você envia o comprovante."
+    },
+    "availability": {
+      "legendAvailable": "Disponível",
+      "legendBooked": "Ocupado",
+      "legendSelected": "Sua estadia",
+      "minNights": "{count, plural, one {Estadia mínima de # noite} other {Estadia mínima de # noites}}; pode variar conforme a temporada."
+    },
+    "steps": {
+      "label": "Etapas da reserva",
+      "dates": "Datas",
+      "details": "Dados",
+      "payment": "Pagamento",
+      "proof": "Comprovante",
+      "confirmation": "Confirmação"
+    },
+    "flow": {
+      "metaTitle": "Complete sua reserva",
+      "datesTitle": "Confirme suas datas",
+      "datesSubtitle": "O que você vê está livre agora. Verificamos novamente ao enviar a solicitação.",
+      "guests": "Hóspedes",
+      "guestsCount": "{count, plural, one {# hóspede} other {# hóspedes}}",
+      "maxGuests": "Capacidade máxima: {count}",
+      "fewerGuests": "Remover um hóspede",
+      "moreGuests": "Adicionar um hóspede",
+      "pickDates": "Escolha o dia de entrada",
+      "pickCheckOut": "Escolha o dia de saída",
+      "datesReady": "De {checkIn} a {checkOut}",
+      "continue": "Continuar",
+      "changeDates": "Alterar datas",
+      "detailsTitle": "Seus dados",
+      "detailsSubtitle": "Usamos para enviar a confirmação e combinar sua chegada.",
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "email": "E-mail",
+      "emailHint": "Enviamos lá o link para acompanhar sua reserva.",
+      "phone": "Telefone ou WhatsApp",
+      "phoneHint": "Com código do país e de área, por exemplo +55 11 98472 3310.",
+      "country": "País",
+      "comments": "Comentários",
+      "commentsHint": "Horário estimado de chegada, animais, pedidos especiais.",
+      "optional": "opcional",
+      "acceptTerms": "Li e aceito os <terms>termos e condições</terms> e a <cancellation>política de cancelamento</cancellation>.",
+      "nextStepHint": "Na próxima etapa você verá os dados para a transferência.",
+      "submit": "Solicitar reserva",
+      "checkIn": "Entrada",
+      "checkOut": "Saída",
+      "fromTime": "a partir das {time}",
+      "untilTime": "até as {time}",
+      "summaryEmpty": "Escolha as datas para ver o preço final.",
+      "cancellationTitle": "Cancelamento:"
+    }
+  },
+  "propertyPage": {
+    "metaFallback": "{type} em {city} para {guests} hóspedes.",
+    "breadcrumb": "Trilha de navegação",
+    "reviews": "{count, plural, one {# avaliação} other {# avaliações}}",
+    "facts": {
+      "guests": "{count, plural, one {# hóspede} other {# hóspedes}}",
+      "bedrooms": "{count, plural, one {# quarto} other {# quartos}}",
+      "beds": "{count, plural, one {# cama} other {# camas}}",
+      "bathrooms": "{count, plural, one {# banheiro} other {# banheiros}}",
+      "area": "{area} m²"
+    },
+    "video": "Tour em vídeo",
+    "videoTitle": "Vídeo de {title}",
+    "amenities": "O que oferece",
+    "availability": "Disponibilidade",
+    "availabilityHint": "Escolha a entrada e a saída direto no calendário.",
+    "schedule": "Horários",
+    "checkIn": "Entrada",
+    "checkOut": "Saída",
+    "checkInFrom": "Entrada a partir das {time}",
+    "checkOutUntil": "Saída até as {time}",
+    "rules": "Regras da casa",
+    "cancellation": "Política de cancelamento",
+    "readTerms": "Ler termos e condições",
+    "location": "Localização",
+    "locationPrivacy": "Enviamos o endereço exato quando a reserva for confirmada.",
+    "mapLabel": "Mapa com a área aproximada em {city}",
+    "contactTitle": "Dúvidas? Escreva para {agency}",
+    "contactBody": "Você fala com pessoas, não com robôs. Pergunte sobre a casa, a região ou uma estadia especial.",
+    "whatsappMessage": "Olá, quero perguntar sobre {title}."
+  },
+  "reservation": {
+    "metaTitle": "Reserva {code}",
+    "hello": "Olá, {name}",
+    "title": "Reserva",
+    "statusText": {
+      "PENDING": "Registramos sua solicitação. Entraremos em contato para combinar o pagamento.",
+      "AWAITING_PAYMENT": "Estamos segurando as datas para você. Transfira o total e envie o comprovante para confirmar.",
+      "PROOF_RECEIVED": "Recebemos seu comprovante. Estamos verificando e avisaremos por e-mail.",
+      "UNDER_REVIEW": "Estamos conferindo a transferência com o banco. Avisaremos assim que estiver confirmada.",
+      "CONFIRMED": "Tudo pronto: as datas são suas. Abaixo estão os dados de entrada.",
+      "REJECTED": "Não foi possível confirmar esta reserva.",
+      "CANCELLED": "Esta reserva foi cancelada.",
+      "COMPLETED": "Obrigado por se hospedar conosco. Esperamos vê-lo novamente.",
+      "EXPIRED": "O prazo para transferir terminou e as datas foram liberadas."
+    },
+    "payment": {
+      "title": "Dados para a transferência",
+      "subtitle": "Transfira o valor total exato para esta conta. Você pode copiar cada dado.",
+      "amount": "Valor a transferir",
+      "bank": "Banco",
+      "holder": "Titular",
+      "cbu": "CBU",
+      "alias": "Alias",
+      "taxId": "CUIT",
+      "reference": "No campo de referência da transferência escreva {code} para identificarmos mais rápido.",
+      "holdUntil": "Seguramos as datas até {date}",
+      "holdRemaining": "Restam {hours} h {minutes} min",
+      "holdExpired": "O prazo terminou. Se você já transferiu, envie o comprovante mesmo assim e vamos revisar."
+    },
+    "upload": {
+      "title": "Envie o comprovante",
+      "subtitle": "Uma captura de tela ou o PDF do seu banco. Revisamos e avisamos por e-mail.",
+      "anotherTitle": "Fez outra transferência?",
+      "anotherSubtitle": "Você pode adicionar outro comprovante se pagou em partes.",
+      "dropTitle": "Arraste o arquivo aqui",
+      "formats": "JPG, PNG ou PDF, até 10 MB",
+      "choose": "Escolher arquivo",
+      "remove": "Remover arquivo",
+      "amount": "Valor transferido",
+      "amountHint": "Somente números. Ajuda a verificar mais rápido.",
+      "submit": "Enviar comprovante",
+      "tooLarge": "O arquivo excede {max} MB.",
+      "successTitle": "Comprovante recebido!",
+      "successBody": "Enviamos um e-mail de confirmação e avisaremos assim que o pagamento for verificado."
+    },
+    "proofs": {
+      "title": "Comprovantes enviados"
+    },
+    "reviewing": {
+      "title": "Estamos verificando seu pagamento",
+      "body": "Normalmente confirmamos em até um dia útil. Suas datas continuam reservadas."
+    },
+    "confirmed": {
+      "title": "Reserva confirmada!",
+      "body": "Verificamos seu pagamento. Também enviamos estas informações por e-mail.",
+      "arrivalTitle": "Dados para a sua chegada",
+      "address": "Endereço",
+      "times": "Entrada a partir das {checkIn}, saída até as {checkOut}",
+      "addToCalendar": "Adicionar ao meu calendário",
+      "directions": "Como chegar",
+      "print": "Imprimir ou salvar PDF"
+    },
+    "closed": {
+      "bookAgain": "Ver disponibilidade e reservar de novo"
+    },
+    "summary": {
+      "checkIn": "Entrada",
+      "checkOut": "Saída",
+      "guests": "Hóspedes",
+      "cancellation": "Política de cancelamento"
+    },
+    "contact": {
+      "title": "Precisa de ajuda?",
+      "body": "Escreva para nós informando o número da reserva {code}.",
+      "whatsappMessage": "Olá, escrevo sobre minha reserva {code}."
+    },
+    "locked": {
+      "title": "Acesse sua reserva",
+      "body": "Por segurança, as reservas abrem com o link que enviamos por e-mail. Peça um novo com o número da reserva e seu e-mail."
+    },
+    "lookup": {
+      "metaTitle": "Minha reserva",
+      "title": "Consulte sua reserva",
+      "subtitle": "Informe o número da reserva e o e-mail usado. Enviaremos um link seguro para acessá-la.",
+      "point1": "Ver o status e os dados de pagamento.",
+      "point2": "Enviar ou reenviar o comprovante.",
+      "point3": "Baixar as informações para a chegada.",
+      "code": "Número da reserva",
+      "codeHint": "Começa com RMS, por exemplo RMS-7K3F9Q.",
+      "email": "E-mail",
+      "submit": "Enviar o link",
+      "sent": "Se os dados corresponderem a uma reserva, você receberá um e-mail com o link em alguns minutos.",
+      "invalidLink": "Esse link não é válido ou foi substituído. Peça um novo."
+    }
+  },
+  "admin": {
+    "metaTitle": "Painel",
+    "login": {
+      "metaTitle": "Entrar",
+      "title": "Bem-vindo de volta",
+      "subtitle": "Entre para gerenciar imóveis, reservas e pagamentos.",
+      "email": "E-mail",
+      "password": "Senha",
+      "showPassword": "Mostrar senha",
+      "hidePassword": "Ocultar senha",
+      "submit": "Entrar"
+    },
+    "nav": {
+      "label": "Seções do painel",
+      "dashboard": "Início",
+      "reservations": "Reservas",
+      "calendar": "Calendário",
+      "properties": "Imóveis",
+      "payments": "Pagamentos",
+      "guests": "Hóspedes",
+      "owners": "Proprietários",
+      "availability": "Canais e bloqueios",
+      "settings": "Configurações",
+      "pendingCount": "{count} pendentes"
+    },
+    "header": {
+      "openMenu": "Abrir menu",
+      "closeMenu": "Fechar menu",
+      "menu": "Menu do painel",
+      "search": "Buscar reserva, hóspede ou e-mail",
+      "viewSite": "Ver site",
+      "notifications": "Notificações, {count} não lidas",
+      "notificationsTitle": "Notificações",
+      "markAllRead": "Marcar todas como lidas",
+      "noNotifications": "Você não tem notificações.",
+      "account": "Sua conta",
+      "logout": "Sair",
+      "roles": {
+        "ADMIN": "Administrador",
+        "MANAGER": "Gestão",
+        "OWNER": "Proprietário",
+        "GUEST": "Hóspede"
+      },
+      "myAccount": "Minha conta"
+    },
+    "dashboard": {
+      "title": "Olá, {name}",
+      "subtitle": "Resumo de {month}.",
+      "conflictsTitle": "{count, plural, one {Há # reserva em conflito com outro canal} other {Há # reservas em conflito com outros canais}}",
+      "revenueMonth": "Receita do mês",
+      "vsPrevious": "{delta} vs. mês anterior",
+      "noPrevious": "Sem dados do mês anterior",
+      "bookingsMonth": "Reservas do mês",
+      "inHouse": "{count, plural, one {# estadia em andamento} other {# estadias em andamento}}",
+      "occupancyMonth": "Ocupação do mês",
+      "todayOccupied": "Hoje: {occupied} ocupados, {available} livres",
+      "pendingPayments": "Comprovantes para revisar",
+      "awaitingTransfer": "{count, plural, one {# reserva aguarda a transferência} other {# reservas aguardam a transferência}}",
+      "revenueChart": "Receita por mês",
+      "revenueChartHint": "Reservas confirmadas, pelo mês de entrada.",
+      "revenueSummary": "Receita dos últimos 12 meses: {total}",
+      "revenue": "Receita",
+      "sources": "Origem das reservas",
+      "sourcesHint": "Últimos 12 meses, todas as fontes.",
+      "sourceDirect": "Site direto",
+      "sourceManual": "Registro manual",
+      "sourceOther": "Outros canais",
+      "bookingsLabel": "reservas",
+      "proofsTitle": "Comprovantes para revisar",
+      "viewAll": "Ver tudo",
+      "declared": "Declarou {amount}",
+      "noProofs": "Nenhum comprovante pendente.",
+      "occupancyByProperty": "Ocupação por imóvel",
+      "occupancy": "Ocupação",
+      "noProperties": "Ainda não há imóveis publicados.",
+      "arrivals": "Próximas entradas",
+      "departures": "Próximas saídas",
+      "nextDays": "Próximos 7 dias",
+      "arrivalsEmpty": "Sem entradas esta semana",
+      "departuresEmpty": "Sem saídas esta semana",
+      "recent": "Reservas recentes",
+      "noReservations": "Ainda não há reservas.",
+      "table": {
+        "code": "Código",
+        "guest": "Hóspede",
+        "property": "Imóvel",
+        "dates": "Datas",
+        "total": "Total",
+        "status": "Status"
+      }
+    },
+    "reservations": {
+      "title": "Reservas",
+      "subtitle": "Todas as reservas diretas e manuais. As do Airbnb e outros canais aparecem no calendário.",
+      "new": "Nova reserva",
+      "all": "Todas",
+      "attention": "Requerem atenção",
+      "search": "Código, hóspede, e-mail ou telefone",
+      "allProperties": "Todos os imóveis",
+      "from": "De",
+      "to": "Até",
+      "conflict": "Conflito com outro canal",
+      "nightsGuests": "{nights, plural, one {# noite} other {# noites}}, {guests, plural, one {# hóspede} other {# hóspedes}}",
+      "previous": "Anterior",
+      "next": "Próxima",
+      "pageSummary": "Página {page} de {pages}, {total} reservas",
+      "empty": "Nenhuma reserva com esses filtros",
+      "emptyHint": "Tente remover filtros ou buscar outro dado.",
+      "table": {
+        "code": "Código",
+        "guest": "Hóspede",
+        "property": "Imóvel",
+        "stay": "Estadia",
+        "total": "Total",
+        "status": "Status"
+      },
+      "source": {
+        "DIRECT": "Site",
+        "MANUAL": "Manual"
+      }
+    },
+    "reservation": {
+      "back": "Voltar às reservas",
+      "meta": "{source}, criada em {created} por {by}",
+      "guest": "o hóspede",
+      "saved": "Alterações salvas",
+      "markReview": "Marcar em revisão",
+      "confirm": "Confirmar reserva",
+      "more": "Mais ações",
+      "changeDates": "Alterar datas",
+      "sendLink": "Reenviar link ao hóspede",
+      "revokeLinks": "Invalidar links e enviar um novo",
+      "reject": "Recusar solicitação",
+      "cancel": "Cancelar reserva",
+      "confirmTitle": "Confirmar a reserva",
+      "confirmDescription": "Marca o pagamento como verificado, bloqueia as datas e envia a confirmação com os dados de chegada.",
+      "amountReceived": "Valor recebido",
+      "amountReceivedHint": "O que você viu creditado na conta.",
+      "note": "Nota interna",
+      "changeDatesDescription": "Verificamos se as novas datas estão livres antes de salvar.",
+      "checkIn": "Entrada",
+      "checkOut": "Saída",
+      "guests": "Hóspedes",
+      "pricing": "Preço",
+      "pricingKeep": "Manter o preço atual",
+      "pricingRecalculate": "Recalcular com as tarifas vigentes",
+      "notifyGuest": "Avisar o hóspede por e-mail",
+      "cancelTitle": "Cancelar a reserva",
+      "cancelDescription": "As datas são liberadas. Se houve pagamento, faça a devolução conforme a política de cancelamento.",
+      "rejectTitle": "Recusar a solicitação",
+      "rejectDescription": "A solicitação é recusada e as datas liberadas. O hóspede recebe um aviso.",
+      "reason": "Motivo",
+      "reasonHint": "O hóspede vê no e-mail.",
+      "conflictTitle": "Conflito com outro canal",
+      "conflictBody": "Outro canal (por exemplo Airbnb) tem essas datas ocupadas. Não pode ser confirmada até resolver.",
+      "openCalendar": "Abrir o calendário",
+      "holdUntil": "As datas ficam retidas até {date}. Se o comprovante não chegar, a reserva expira sozinha.",
+      "reasonTitle": "Motivo",
+      "stay": "Estadia",
+      "property": "Imóvel",
+      "nights": "Noites",
+      "language": "Idioma",
+      "comments": "Comentários do hóspede",
+      "payment": "Pagamento",
+      "amountDue": "Valor a cobrar",
+      "verifiedBy": "Verificado por",
+      "bankShown": "Conta informada ao hóspede",
+      "proofs": "{count, plural, =0 {Comprovantes} one {Comprovante (#)} other {Comprovantes (#)}}",
+      "noProofs": "Nenhum comprovante enviado ainda.",
+      "guestTitle": "Hóspede",
+      "guestHistory": "{count, plural, one {Ver ficha (# reserva)} other {Ver ficha (# reservas)}}",
+      "notes": "Notas internas",
+      "notesPlaceholder": "Só a equipe vê.",
+      "saveNotes": "Salvar notas",
+      "activity": "Atividade",
+      "emails": "E-mails enviados",
+      "actor": {
+        "USER": "Equipe",
+        "GUEST": "Hóspede",
+        "SYSTEM": "Sistema"
+      },
+      "templates": {
+        "RESERVATION_REQUESTED": "Solicitação recebida",
+        "PROOF_RECEIVED": "Comprovante recebido",
+        "RESERVATION_CONFIRMED": "Reserva confirmada",
+        "PROOF_REJECTED": "Comprovante recusado",
+        "RESERVATION_REJECTED": "Solicitação recusada",
+        "RESERVATION_CANCELLED": "Reserva cancelada",
+        "RESERVATION_EXPIRED": "Prazo vencido",
+        "DATES_CHANGED": "Datas atualizadas",
+        "CHECKIN_REMINDER": "Sua estadia começa em breve",
+        "POST_STAY": "Obrigado pela estadia",
+        "ACCESS_LINK": "Link de acesso",
+        "ADMIN_NEW_RESERVATION": "Aviso: nova solicitação",
+        "ADMIN_NEW_PROOF": "Aviso: novo comprovante",
+        "ADMIN_CALENDAR_CONFLICT": "Aviso: conflito de calendário",
+        "ADMIN_SYNC_FAILING": "Aviso: falha de sincronização"
+      },
+      "emailStatus": {
+        "PENDING": "Na fila",
+        "SENT": "Enviado",
+        "FAILED": "Falhou",
+        "SKIPPED": "Ignorado"
+      },
+      "source": {
+        "DIRECT": "Reserva pelo site",
+        "MANUAL": "Registro manual"
+      }
+    },
+    "proof": {
+      "previewAlt": "Pré-visualização de {name}",
+      "declared": "Valor declarado:",
+      "mismatch": "O valor declarado não coincide com o total a cobrar.",
+      "duplicateTitle": "Arquivo repetido",
+      "duplicateBody": "Este mesmo arquivo já foi usado em: {codes}.",
+      "open": "Ver",
+      "download": "Baixar",
+      "amountReceived": "Valor recebido",
+      "note": "Nota para o hóspede",
+      "noteHint": "Obrigatória para recusar ou pedir outro.",
+      "approve": "Aprovar e confirmar",
+      "requestNew": "Pedir outro comprovante",
+      "reject": "Recusar comprovante",
+      "done": {
+        "APPROVE": "Pagamento aprovado e reserva confirmada",
+        "REQUEST_NEW": "Pedimos um novo comprovante ao hóspede",
+        "REJECT": "Comprovante recusado"
+      }
+    },
+    "activity": {
+      "reservation": {
+        "created": "Reservada pelo site",
+        "created_manual": "Registrada manualmente",
+        "confirmed": "Reserva confirmada",
+        "under_review": "Marcada em revisão",
+        "rejected": "Solicitação recusada",
+        "cancelled": "Reserva cancelada",
+        "expired": "Prazo de pagamento vencido",
+        "dates_changed": "Datas alteradas",
+        "notes_updated": "Notas atualizadas",
+        "link_sent": "Link reenviado",
+        "links_revoked": "Links invalidados",
+        "calendar_conflict": "Conflito detectado com outro canal"
+      },
+      "proof": {
+        "uploaded": "Comprovante enviado",
+        "rejected": "Comprovante recusado",
+        "resubmission_requested": "Outro comprovante solicitado"
+      }
+    },
+    "manual": {
+      "back": "Voltar às reservas",
+      "title": "Nova reserva manual",
+      "subtitle": "Para reservas por telefone, WhatsApp ou presenciais. Valem as mesmas regras de disponibilidade.",
+      "property": "Imóvel",
+      "chooseProperty": "Escolha um imóvel",
+      "dates": "Datas",
+      "pickDates": "Escolha entrada e saída",
+      "loadingCalendar": "Carregando disponibilidade",
+      "guests": "Hóspedes",
+      "maxGuests": "Capacidade: {count}",
+      "guestTitle": "Dados do hóspede",
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "bookingTitle": "Reserva",
+      "status": "Status inicial",
+      "statusConfirmed": "Confirmada (pagamento já recebido)",
+      "statusAwaiting": "Pagamento pendente (envia dados de transferência)",
+      "statusPending": "Reserva pendente (provisória)",
+      "language": "Idioma do hóspede",
+      "totalOverride": "Total combinado",
+      "totalOverrideHint": "Opcional. Se deixar vazio, usa o preço calculado.",
+      "notifyGuest": "Enviar e-mail ao hóspede",
+      "notes": "Notas internas",
+      "summary": "Resumo",
+      "summaryEmpty": "Escolha imóvel e datas para ver o preço.",
+      "overrideApplied": "Será salvo o total combinado: {total}",
+      "submit": "Criar reserva"
+    },
+    "common": {
+      "saved": "Alterações salvas"
+    },
+    "properties": {
+      "title": "Imóveis",
+      "subtitle": "{count, plural, one {# imóvel} other {# imóveis}} no total.",
+      "new": "Novo imóvel",
+      "featured": "Destaque",
+      "perNight": "/ noite base",
+      "guests": "{count, plural, one {# hóspede} other {# hóspedes}}",
+      "occupiedNow": "Ocupado agora",
+      "nextStay": "Próxima chegada: {date}",
+      "noUpcoming": "Sem reservas próximas",
+      "channels": "{count, plural, one {# canal} other {# canais}}",
+      "empty": "Você ainda não cadastrou imóveis",
+      "emptyHint": "Crie o primeiro: o assistente guia você passo a passo."
+    },
+    "property": {
+      "back": "Voltar aos imóveis",
+      "editorSubtitle": "Complete cada etapa. As alterações são salvas por seção.",
+      "viewOnSite": "Ver no site",
+      "newTitle": "Novo imóvel",
+      "newSubtitle": "Comece pelas informações básicas. Depois você adiciona fotos, preços e calendário.",
+      "steps": {
+        "label": "Etapas do imóvel",
+        "info": "Informações",
+        "fotos": "Fotos",
+        "servicios": "Comodidades",
+        "precios": "Preços",
+        "reglas": "Regras e chegada",
+        "canales": "Airbnb e iCal",
+        "publicar": "Publicar"
+      },
+      "info": {
+        "general": "Dados gerais",
+        "title": "Nome do imóvel",
+        "type": "Tipo",
+        "slug": "Endereço web",
+        "slugHint": "Gerado a partir do nome se ficar vazio.",
+        "slugPlaceholder": "casa-do-lago",
+        "summary": "Resumo",
+        "summaryHint": "Uma frase que aparece nos cartões e no Google.",
+        "description": "Descrição",
+        "descriptionHint": "Separe os parágrafos com uma linha em branco.",
+        "capacity": "Capacidade",
+        "maxGuests": "Hóspedes máx.",
+        "bedrooms": "Quartos",
+        "beds": "Camas",
+        "bathrooms": "Banheiros",
+        "bathroomsHint": "Use ,5 para lavabos.",
+        "area": "Área (m²)",
+        "location": "Localização",
+        "city": "Localidade",
+        "region": "Província",
+        "address": "Endereço",
+        "addressHint": "Só é mostrado ao hóspede com a reserva confirmada.",
+        "postalCode": "CEP",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "coordinatesHint": "Copie do Google Maps (clique direito no local).",
+        "extra": "Outros dados",
+        "owner": "Proprietário",
+        "ownerHint": "Os dados bancários dele são mostrados ao hóspede para a transferência.",
+        "noOwner": "Sem proprietário (usa a conta da agência)",
+        "video": "Vídeo (YouTube ou Vimeo)",
+        "videoHint": "Opcional. Cole o link do vídeo.",
+        "featured": "Mostrar como destaque na página inicial",
+        "save": "Salvar informações",
+        "create": "Criar e continuar",
+        "translations": "Traduções",
+        "translationsHint": "O que ficar vazio é mostrado em espanhol.",
+        "saveTranslation": "Salvar tradução",
+        "ratingAverage": "Avaliação média (opcional)",
+        "ratingAverageHint": "De 1 a 5, a que aparece no Airbnb ou em outra plataforma. Vazio: não aparece.",
+        "ratingCount": "Quantidade de avaliações",
+        "ratingCountHint": "Obrigatória se você informar uma avaliação."
+      },
+      "photos": {
+        "dropTitle": "Arraste fotos aqui",
+        "dropHint": "JPG, PNG, WEBP ou AVIF até 15 MB. Otimizamos automaticamente.",
+        "choose": "Escolher fotos",
+        "someFailed": "Algumas fotos não puderam ser enviadas",
+        "uploaded": "{count, plural, one {# foto enviada} other {# fotos enviadas}}",
+        "orderHint": "Arraste para ordenar. A primeira é a capa.",
+        "saveOrder": "Salvar ordem e textos",
+        "cover": "Capa",
+        "altLabel": "Descrição da foto {index}",
+        "altPlaceholder": "Descreva a foto (acessibilidade e Google)",
+        "moveLeft": "Mover para antes",
+        "moveRight": "Mover para depois",
+        "delete": "Excluir",
+        "confirmDelete": "Excluir esta foto? Não pode ser desfeito.",
+        "deleted": "Foto excluída",
+        "empty": "Ainda não há fotos",
+        "emptyHint": "Envie pelo menos 3 para publicar."
+      },
+      "amenities": {
+        "selected": "{count, plural, one {# comodidade selecionada} other {# comodidades selecionadas}}",
+        "custom": "Comodidade personalizada",
+        "customTitle": "Nova comodidade",
+        "customHint": "Fica disponível para todos os imóveis.",
+        "customLabel": "Nome",
+        "customCategory": "Categoria",
+        "customIcon": "Ícone",
+        "createCustom": "Criar comodidade",
+        "save": "Salvar comodidades"
+      },
+      "pricing": {
+        "base": "Preço base",
+        "currency": "Moeda",
+        "basePrice": "Preço por noite",
+        "perNight": "De domingo a quinta",
+        "weekendPrice": "Preço de fim de semana",
+        "weekendHint": "Noites de sexta e sábado. Opcional.",
+        "cleaningFee": "Limpeza",
+        "perStay": "Uma vez por estadia",
+        "minNights": "Noites mínimas",
+        "maxNights": "Noites máximas",
+        "optional": "Opcional",
+        "saveBase": "Salvar preço base",
+        "seasons": "Temporadas",
+        "seasonsHint": "Substituem o preço base nessas datas (por exemplo verão ou férias de inverno).",
+        "addSeason": "Adicionar temporada",
+        "noSeasons": "Nenhuma temporada.",
+        "minNightsShort": "mínimo {count, plural, one {# noite} other {# noites}}",
+        "weekendShort": "fim de semana {price}",
+        "specialDates": "Datas especiais",
+        "specialDatesHint": "Feriados e eventos com preço próprio. Têm prioridade sobre tudo.",
+        "addSpecialDate": "Adicionar data especial",
+        "noSpecialDates": "Nenhuma data especial.",
+        "discounts": "Descontos por estadia longa",
+        "discountsHint": "Aplica-se o maior desconto cabível, apenas sobre as noites.",
+        "addDiscount": "Adicionar desconto",
+        "noDiscounts": "Nenhum desconto.",
+        "fromNights": "A partir de {count, plural, one {# noite} other {# noites}}",
+        "fees": "Taxas adicionais",
+        "feesHint": "Taxas, roupa de cama, aquecimento ou outras cobranças.",
+        "addFee": "Adicionar taxa",
+        "noFees": "Nenhuma taxa adicional.",
+        "edit": "Editar",
+        "delete": "Excluir",
+        "confirmDelete": "Excluir? Não pode ser desfeito.",
+        "simulator": "Simulador de preço",
+        "simulatorHint": "O que um hóspede pagaria com a configuração salva.",
+        "simCheckIn": "Entrada",
+        "simNights": "Noites",
+        "simGuests": "Hóspedes",
+        "simError": {
+          "INVALID_DATES": "Datas inválidas.",
+          "PAST_DATE": "A data já passou.",
+          "MIN_NIGHTS": "Abaixo da estadia mínima.",
+          "MAX_NIGHTS": "Acima da estadia máxima.",
+          "INVALID_GUESTS": "Número de hóspedes inválido.",
+          "MAX_GUESTS": "Acima da capacidade."
+        },
+        "seasonDialog": "Temporada",
+        "ruleDialog": {
+          "SPECIAL_DATE": "Data especial",
+          "LENGTH_DISCOUNT": "Desconto por estadia",
+          "FEE": "Taxa adicional"
+        },
+        "name": "Nome",
+        "firstNight": "Primeira noite",
+        "lastNight": "Última noite",
+        "nightlyPrice": "Preço por noite",
+        "seasonMinHint": "Opcional, substitui o mínimo geral.",
+        "discountMinNights": "A partir de (noites)",
+        "percent": "Desconto (%)",
+        "amount": "Valor",
+        "feeUnit": "Cobrado",
+        "unit": {
+          "PER_STAY": "Uma vez por estadia",
+          "PER_NIGHT": "Por noite",
+          "PER_GUEST": "Por hóspede",
+          "PER_GUEST_NIGHT": "Por hóspede por noite"
+        }
+      },
+      "rules": {
+        "checkIn": "Entrada a partir de",
+        "checkOut": "Saída até",
+        "houseRules": "Regras da casa",
+        "houseRulesHint": "Uma regra por linha.",
+        "arrival": "Instruções de chegada",
+        "arrivalHint": "Só o hóspede com reserva confirmada vê: códigos, chaves, estacionamento.",
+        "cancellation": "Política de cancelamento própria",
+        "cancellationHint": "Opcional. Se ficar vazia, usa a política geral da agência.",
+        "save": "Salvar regras",
+        "translations": "Traduções",
+        "translationsHint": "O que ficar vazio é mostrado em espanhol.",
+        "saveTranslation": "Salvar tradução"
+      },
+      "channels": {
+        "importTitle": "Calendários de outros canais",
+        "importHint": "Cole o link iCal do Airbnb, Booking ou outro canal. Sincronizamos a cada 30 minutos e antes de cada reserva para que nunca se sobreponham.",
+        "channel": "Canal",
+        "url": "Link iCal",
+        "urlHint": "No Airbnb: Calendário, Disponibilidade, Conectar calendários, Exportar calendário.",
+        "connect": "Conectar",
+        "addedAndSynced": "Canal conectado e sincronizado",
+        "addedButFailed": "Canal conectado, mas a primeira sincronização falhou: {error}",
+        "paused": "Pausado",
+        "failing": "Com erros",
+        "ok": "Sincronizado",
+        "lastSync": "Última sincronização: {date}. {count, plural, one {# evento} other {# eventos}}.",
+        "neverSynced": "Ainda não sincronizado",
+        "syncNow": "Sincronizar",
+        "synced": "{count, plural, one {# evento importado} other {# eventos importados}}",
+        "pause": "Pausar",
+        "resume": "Retomar",
+        "delete": "Desconectar",
+        "confirmDelete": "Desconectar este canal? As datas dele deixam de bloquear o calendário.",
+        "noChannels": "Nenhum canal conectado ainda.",
+        "exportTitle": "Seu calendário para outros canais",
+        "exportHint": "Copie este link e cole no Airbnb (ou outro canal) para bloquear as reservas feitas neste site.",
+        "rotate": "Gerar um novo link",
+        "confirmRotate": "O link atual deixará de funcionar. Você precisará colar o novo em cada canal. Continuar?",
+        "howto1": "No Airbnb, abra o Calendário deste anúncio e vá em Disponibilidade.",
+        "howto2": "Escolha Conectar calendários, depois Importar calendário, e cole este link.",
+        "howto3": "Dê um nome, por exemplo Site direto, e salve. O Airbnb atualiza a cada poucas horas."
+      },
+      "publish": {
+        "checklist": "Pronto para publicar",
+        "items": {
+          "photos": {
+            "title": "Pelo menos 3 fotos",
+            "body": "Anúncios com boas fotos recebem muito mais consultas."
+          },
+          "price": {
+            "title": "Preço por noite",
+            "body": "Necessário para calcular o total."
+          },
+          "description": {
+            "title": "Descrição completa",
+            "body": "Conte o que torna a casa especial."
+          },
+          "location": {
+            "title": "Localização com coordenadas",
+            "body": "Para o mapa aproximado."
+          },
+          "bank": {
+            "title": "Conta para transferências",
+            "body": "Do proprietário ou a conta geral da agência."
+          }
+        },
+        "visibility": "Visibilidade",
+        "notReady": "Complete a lista para publicar.",
+        "publish": "Publicar",
+        "published": "Imóvel publicado",
+        "pause": "Pausar",
+        "toDraft": "Passar para rascunho",
+        "view": "Ver no site",
+        "pauseHint": "Um imóvel pausado não aparece nem recebe novas reservas. As reservas existentes são mantidas.",
+        "dangerZone": "Zona de risco",
+        "archiveHint": "Tem {count, plural, one {# reserva} other {# reservas}}: pode ser arquivado, mas não excluído.",
+        "deleteHint": "Sem reservas vinculadas: pode ser excluído definitivamente.",
+        "archive": "Arquivar",
+        "confirmArchive": "Arquivar este imóvel? Ele deixa de aparecer no site.",
+        "delete": "Excluir definitivamente",
+        "confirmDelete": "Excluir o imóvel e as fotos? Não pode ser desfeito.",
+        "deleted": "Imóvel excluído"
+      }
+    },
+    "calendar": {
+      "title": "Calendário",
+      "subtitle": "Reservas, bloqueios e eventos do Airbnb ou outros canais em uma só visão.",
+      "previous": "Período anterior",
+      "next": "Próximo período",
+      "today": "Hoje",
+      "property": "Imóvel",
+      "allProperties": "Todos os imóveis",
+      "views": {
+        "month": "Mês",
+        "week": "Semana",
+        "list": "Lista"
+      },
+      "block": "Bloquear datas",
+      "legend": {
+        "confirmed": "Confirmada",
+        "pending": "Aguardando pagamento",
+        "external": "Outro canal",
+        "blocked": "Bloqueio"
+      },
+      "clickHint": "Toque em um dia livre para bloqueá-lo.",
+      "open": "Abrir",
+      "unblock": "Desbloquear",
+      "confirmUnblock": "Liberar estas datas?",
+      "unblocked": "Datas liberadas",
+      "blocked": "Datas bloqueadas",
+      "emptyPeriod": "Nenhuma ocupação neste período.",
+      "blockDay": "Bloquear {property} em {date}",
+      "nights": "{count, plural, one {# noite} other {# noites}}",
+      "externalHint": "Importado do calendário do canal. Altere nesse canal.",
+      "externalBlocked": "bloqueado",
+      "blockTitle": "Bloquear datas",
+      "blockDescription": "Ninguém poderá reservar essas noites, nem no site nem nos canais que leem seu calendário.",
+      "orCreateBooking": "Criar uma reserva",
+      "from": "De",
+      "until": "Até (inclusive)",
+      "untilHint": "Última noite bloqueada.",
+      "reason": "Motivo",
+      "note": "Nota interna",
+      "reasons": {
+        "OWNER_USE": "Uso do proprietário",
+        "MAINTENANCE": "Manutenção",
+        "MANUAL": "Bloqueio manual",
+        "OTHER": "Outro"
+      }
+    },
+    "payments": {
+      "title": "Pagamentos",
+      "subtitle": "Comprovantes de transferência enviados pelos hóspedes. Os pendentes são ordenados do mais antigo ao mais novo.",
+      "all": "Todos",
+      "table": {
+        "uploaded": "Recebido",
+        "reservation": "Reserva",
+        "guest": "Hóspede",
+        "due": "A cobrar",
+        "declared": "Declarado",
+        "status": "Status"
+      },
+      "duplicate": "Arquivo já usado em: {codes}",
+      "previous": "Anterior",
+      "next": "Próxima",
+      "summary": "{total} comprovantes",
+      "empty": "Nenhum comprovante nesta lista",
+      "emptyHint": "Quando um hóspede enviar um, ele aparece aqui e avisamos você."
+    },
+    "guests": {
+      "title": "Hóspedes",
+      "subtitle": "{count, plural, one {# hóspede} other {# hóspedes}} registrados.",
+      "search": "Nome, e-mail ou telefone",
+      "table": {
+        "name": "Nome",
+        "contact": "Contato",
+        "country": "País",
+        "stays": "Reservas",
+        "last": "Última reserva",
+        "code": "Código",
+        "property": "Imóvel",
+        "dates": "Datas",
+        "total": "Total",
+        "status": "Status"
+      },
+      "previous": "Anterior",
+      "next": "Próxima",
+      "summary": "{total} hóspedes",
+      "empty": "Nenhum hóspede com esses dados.",
+      "back": "Voltar aos hóspedes",
+      "summaryLine": "{count, plural, one {# reserva} other {# reservas}}, {spent} em estadias confirmadas",
+      "history": "Histórico de reservas",
+      "profile": "Ficha",
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "phone": "Telefone",
+      "country": "País",
+      "notes": "Notas internas",
+      "notesHint": "Preferências, alergias, animais. Só a equipe vê.",
+      "save": "Salvar ficha"
+    },
+    "owners": {
+      "title": "Proprietários",
+      "subtitle": "Donos dos imóveis, suas contas bancárias e comissões.",
+      "new": "Novo proprietário",
+      "table": {
+        "name": "Nome",
+        "contact": "Contato",
+        "properties": "Imóveis",
+        "bank": "Conta",
+        "commission": "Comissão"
+      },
+      "hasLogin": "Tem acesso ao painel",
+      "cbuOnly": "CBU cadastrado",
+      "noBank": "Sem conta",
+      "empty": "Nenhum proprietário cadastrado",
+      "emptyHint": "Não é necessário se todas as casas recebem na conta da agência.",
+      "back": "Voltar aos proprietários",
+      "personal": "Dados pessoais",
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "taxId": "CUIT / CUIL",
+      "taxIdHint": "Formato 20-12345678-9.",
+      "commission": "Comissão da agência (%)",
+      "commissionHint": "Para suas liquidações. Não altera o preço ao hóspede.",
+      "bank": "Conta para transferências",
+      "bankHint": "Estes dados são mostrados ao hóspede para pagar as reservas dos imóveis deste proprietário. Revise com cuidado.",
+      "bankName": "Banco",
+      "accountHolder": "Titular",
+      "cbu": "CBU / CVU",
+      "cbuHint": "22 números, sem espaços.",
+      "alias": "Alias",
+      "accountTaxId": "CUIT do titular",
+      "notes": "Notas",
+      "notesHint": "Acordos, forma de liquidação, contatos.",
+      "save": "Salvar",
+      "create": "Criar proprietário",
+      "delete": "Excluir proprietário",
+      "confirmDelete": "Excluir este proprietário?",
+      "deleted": "Proprietário excluído",
+      "propertiesTitle": "Seus imóveis",
+      "noProperties": "Ainda sem imóveis atribuídos.",
+      "assignHint": "Atribua o proprietário na etapa Informações de cada imóvel."
+    },
+    "availability": {
+      "title": "Canais e bloqueios",
+      "subtitle": "Calendários do Airbnb e outros canais. Sincronizam sozinhos a cada {minutes} minutos e antes de cada reserva.",
+      "syncAll": "Sincronizar tudo agora",
+      "syncedAll": "{synced, plural, one {# calendário sincronizado} other {# calendários sincronizados}}",
+      "syncedWithErrors": "{synced} sincronizados, {failed} com erros",
+      "sync": "Sincronizar",
+      "syncedOne": "{count, plural, one {# evento} other {# eventos}}",
+      "channelsTitle": "Calendários conectados",
+      "channelsHint": "Para conectar um novo, abra o imóvel e vá em Airbnb e iCal.",
+      "table": {
+        "property": "Imóvel",
+        "channel": "Canal",
+        "status": "Status",
+        "lastSync": "Última sincronização",
+        "events": "Eventos"
+      },
+      "paused": "Pausado",
+      "failing": "{count, plural, one {Falhou # vez} other {Falhou # vezes seguidas}}",
+      "ok": "Em dia",
+      "pending": "Pendente",
+      "noChannels": "Nenhum calendário conectado ainda",
+      "noChannelsHint": "Conecte o Airbnb em cada imóvel para evitar reservas sobrepostas.",
+      "blocksTitle": "Próximos bloqueios",
+      "blocksHint": "Datas fechadas manualmente (uso do proprietário, manutenção).",
+      "unblock": "Desbloquear",
+      "confirmUnblock": "Liberar estas datas?",
+      "unblocked": "Datas liberadas",
+      "noBlocks": "Nenhum bloqueio próximo.",
+      "toCalendar": "Ir ao calendário para bloquear datas"
+    },
+    "settings": {
+      "title": "Configurações",
+      "subtitle": "Dados da agência, regras de reserva, textos legais e acessos.",
+      "save": "Salvar",
+      "tabs": {
+        "agencia": "Agência",
+        "reservas": "Reservas",
+        "banco": "Conta geral",
+        "notificaciones": "Notificações",
+        "politicas": "Políticas",
+        "portada": "Página inicial",
+        "usuarios": "Usuários",
+        "auditoria": "Auditoria"
+      },
+      "agency": {
+        "name": "Nome comercial",
+        "nameHint": "Aparece no site, nos e-mails e no painel.",
+        "legalName": "Razão social",
+        "taxId": "CUIT",
+        "email": "E-mail de contato",
+        "phone": "Telefone",
+        "whatsapp": "WhatsApp",
+        "whatsappHint": "Com código do país, por exemplo +54 9 3546 40-1122.",
+        "address": "Endereço",
+        "city": "Localidade e província",
+        "instagram": "Instagram"
+      },
+      "booking": {
+        "holdHours": "Horas para transferir",
+        "holdHoursHint": "Por quanto tempo seguramos as datas esperando o comprovante (1 a 168).",
+        "reminder": "Lembrete prévio (dias)",
+        "reminderHint": "Quantos dias antes da entrada enviamos o e-mail de boas-vindas."
+      },
+      "bank": {
+        "hint": "Usada para imóveis sem proprietário ou cujo proprietário não cadastrou a conta.",
+        "bankName": "Banco",
+        "accountHolder": "Titular",
+        "cbu": "CBU / CVU",
+        "alias": "Alias",
+        "accountTaxId": "CUIT do titular"
+      },
+      "notifications": {
+        "hint": "Envio atual: {driver}. Configure o provedor de e-mail nas variáveis de ambiente (veja o guia).",
+        "emails": "E-mails que recebem os avisos",
+        "emailsHint": "Separados por vírgula. Se ficar vazio, os administradores recebem."
+      },
+      "policies": {
+        "cancellation": "Política de cancelamento",
+        "hint": "Um ponto por linha. Aparece no site, no checkout e nos e-mails.",
+        "terms": "Termos e condições"
+      },
+      "home": {
+        "imagesTitle": "Imagens da página inicial",
+        "imagesHint": "Links para fotos horizontais de boa qualidade (mínimo 2000 px de largura).",
+        "hero": "Imagem principal",
+        "cta": "Imagem de fechamento",
+        "destinationsTitle": "Fotos dos destinos",
+        "destinationsHint": "Uma foto por vilarejo. Se ficar vazia, usamos a capa de um imóvel do local.",
+        "testimonialsTitle": "Depoimentos",
+        "testimonialsHint": "Opiniões reais de hóspedes. Se não houver, a seção não aparece.",
+        "name": "Nome",
+        "origin": "Cidade",
+        "quote": "Depoimento",
+        "remove": "Remover depoimento",
+        "add": "Adicionar depoimento"
+      },
+      "users": {
+        "new": "Novo usuário",
+        "name": "Nome",
+        "email": "E-mail",
+        "role": "Função",
+        "lastLogin": "Último acesso",
+        "status": "Status",
+        "active": "Ativo",
+        "inactive": "Inativo",
+        "edit": "Editar usuário",
+        "roleHint": "Cada função vê apenas o que precisa.",
+        "roles": {
+          "ADMIN": "tudo, inclusive as configurações",
+          "MANAGER": "reservas, calendário, pagamentos e imóveis",
+          "OWNER": "somente leitura dos seus imóveis"
+        },
+        "owner": "Proprietário vinculado",
+        "chooseOwner": "Escolha um proprietário",
+        "password": "Senha inicial",
+        "newPassword": "Nova senha",
+        "passwordHint": "Mínimo 10 caracteres. Compartilhe por um canal seguro.",
+        "activeLabel": "Usuário ativo"
+      },
+      "audit": {
+        "when": "Data",
+        "who": "Quem",
+        "action": "Ação",
+        "entity": "Sobre",
+        "ip": "IP",
+        "actor": {
+          "USER": "Equipe",
+          "GUEST": "Hóspede",
+          "SYSTEM": "Sistema"
+        }
+      }
+    },
+    "account": {
+      "title": "Minha conta",
+      "profile": "Seus dados",
+      "name": "Nome",
+      "email": "E-mail",
+      "role": "Função",
+      "password": "Alterar senha",
+      "passwordHint": "Ao alterá-la, suas outras sessões são encerradas.",
+      "current": "Senha atual",
+      "next": "Nova senha",
+      "nextHint": "Mínimo 10 caracteres.",
+      "confirm": "Repetir nova senha",
+      "submit": "Alterar senha",
+      "changed": "Senha atualizada"
+    }
+  },
+  "legal": {
+    "termsTitle": "Termos e condições",
+    "cancellationTitle": "Política de cancelamento",
+    "cancellationAside": "Cada imóvel pode ter condições próprias; você as vê na página dele e no resumo antes de reservar.",
+    "privacyTitle": "Política de privacidade",
+    "empty": "Este texto ainda não foi cadastrado.",
+    "privacyBody": "{agency} usa seus dados (nome, e-mail, telefone e comprovantes de pagamento) apenas para gerenciar sua reserva e se comunicar com você.\nNão vendemos nem compartilhamos seus dados com terceiros, exceto o proprietário da casa reservada quando necessário para sua estadia.\nOs comprovantes de transferência são guardados de forma privada e só a equipe autorizada pode vê-los.\nVocê pode pedir a atualização ou exclusão dos seus dados escrevendo para {email}.\nUsamos apenas cookies técnicos essenciais (idioma, acesso à reserva e sessão do painel). Não usamos cookies publicitários."
+  },
+  "contact": {
+    "title": "Vamos conversar",
+    "subtitle": "Você fala com pessoas, não com robôs. Escreva sobre uma casa, a região ou uma estadia especial.",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "hours": "Atendemos todos os dias das 9 às 21 h.",
+    "haveBooking": "Já tenho uma reserva",
+    "whatsappMessage": "Olá, tenho uma dúvida."
+  }
+}

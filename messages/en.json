@@ -1,0 +1,1506 @@
+{
+  "emails": {
+    "greeting": "Hi {name},",
+    "signature": "Best regards,\nThe {agency} team",
+    "footer": "You are receiving this email because of a booking made at {agency}. If it wasn't you, reply to this message and we'll look into it.",
+    "viewReservation": "View my booking",
+    "openInAdmin": "Open in dashboard",
+    "transferTitle": "Bank transfer details",
+    "arrivalTitle": "Getting there and check-in details",
+    "labels": {
+      "code": "Booking",
+      "property": "Property",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "total": "Total",
+      "guest": "Guest",
+      "declaredAmount": "Declared amount",
+      "bank": "Bank",
+      "holder": "Account holder",
+      "cbu": "CBU",
+      "alias": "Alias",
+      "taxId": "Tax ID (CUIT)",
+      "amount": "Amount to transfer",
+      "deadline": "Transfer before"
+    },
+    "RESERVATION_REQUESTED": {
+      "subject": "We received your request {code}",
+      "title": "Your request is in",
+      "intro": "We are holding the dates for you until {deadline}. To confirm, transfer the total to the account below and upload the receipt from your booking page."
+    },
+    "PROOF_RECEIVED": {
+      "subject": "We received your receipt ({code})",
+      "title": "Receipt received",
+      "intro": "Thank you. We are verifying the transfer and will let you know as soon as your booking is confirmed."
+    },
+    "RESERVATION_CONFIRMED": {
+      "subject": "Booking confirmed: {property}",
+      "title": "Your booking is confirmed",
+      "intro": "We verified your payment and the dates are yours. Check-in details are below."
+    },
+    "PROOF_REJECTED": {
+      "subject": "We need to review your payment ({code})",
+      "title": "We need a new receipt",
+      "intro": "We could not validate the receipt you sent. Your dates are still held until {deadline}: you can upload a new one from your booking page."
+    },
+    "RESERVATION_REJECTED": {
+      "subject": "We could not confirm booking {code}",
+      "title": "Your request could not be confirmed",
+      "intro": "We are sorry we could not confirm this booking. If you already transferred, reply to this email and we will arrange a refund."
+    },
+    "RESERVATION_CANCELLED": {
+      "subject": "Booking cancelled ({code})",
+      "title": "Your booking was cancelled",
+      "intro": "Booking {code} has been cancelled. If you have questions about refunds, reply to this email."
+    },
+    "RESERVATION_EXPIRED": {
+      "subject": "Your request {code} has expired",
+      "title": "The transfer window has closed",
+      "intro": "We did not receive the receipt in time, so the dates were released. If you are still interested, you can book again."
+    },
+    "DATES_CHANGED": {
+      "subject": "We updated your booking {code}",
+      "title": "Your booking details changed",
+      "intro": "Here are the updated details of your stay."
+    },
+    "CHECKIN_REMINDER": {
+      "subject": "Your stay starts soon",
+      "title": "See you on {date}",
+      "intro": "Your arrival at {property} is coming up. Here is everything you need to check in."
+    },
+    "POST_STAY": {
+      "subject": "Thank you for staying at {property}",
+      "title": "Thank you for choosing us",
+      "intro": "We hope you enjoyed your stay. Whenever you want to come back, booking direct always gets you the best rate."
+    },
+    "ACCESS_LINK": {
+      "subject": "Your link to booking {code}",
+      "title": "Access your booking",
+      "intro": "Use the button to check the status, see payment details and upload receipts. Do not share this link."
+    },
+    "ADMIN_NEW_RESERVATION": {
+      "subject": "New request {code}: {property}",
+      "title": "New booking request",
+      "intro": "A request arrived for {property}. The dates are held while the guest transfers."
+    },
+    "ADMIN_NEW_PROOF": {
+      "subject": "Receipt to review ({code})",
+      "title": "A receipt arrived",
+      "intro": "The guest of {code} uploaded a transfer receipt. Review it to confirm the booking."
+    },
+    "ADMIN_CALENDAR_CONFLICT": {
+      "subject": "Calendar conflict at {property}",
+      "title": "Conflict with {channel}",
+      "intro": "{channel} has dates of booking {code} occupied. It cannot be confirmed until this is resolved."
+    },
+    "ADMIN_SYNC_FAILING": {
+      "subject": "{channel} sync is failing",
+      "title": "The {channel} calendar is not responding",
+      "intro": "The {channel} calendar for {property} failed several times in a row. The last known data is kept. Check the iCal link."
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalid": "Please check this field",
+    "minLength": "Use at least {min} characters",
+    "maxLength": "Use at most {max} characters",
+    "minValue": "Must be {min} or more",
+    "maxValue": "Must be {max} or less",
+    "minItems": "Choose at least {min}",
+    "maxItems": "At most {max}",
+    "email": "Enter a valid email",
+    "url": "Enter a valid link",
+    "phone": "Enter a valid phone number, including area code",
+    "dateOrder": "The end date must be after the start date",
+    "pastDate": "Past dates can't be blocked",
+    "terms": "Please accept the conditions"
+  },
+  "errors": {
+    "UNAUTHORIZED": "Your session ended. Please sign in again.",
+    "FORBIDDEN": "You don't have permission to do this.",
+    "VALIDATION": "Please review the highlighted fields.",
+    "NOT_FOUND": "We couldn't find what you were looking for.",
+    "RATE_LIMITED": "Too many attempts. Wait a few minutes and try again.",
+    "DATES_UNAVAILABLE": "Those dates were just taken. Please choose others.",
+    "PRICE_CHANGED": "The price was updated. Review the new total before continuing.",
+    "INVALID_STATE": "This action is no longer available for this booking.",
+    "CALENDAR_CONFLICT": "Another channel's booking or a block overlaps these dates. Resolve it before confirming.",
+    "INVALID_CREDENTIALS": "Wrong email or password.",
+    "FILE_TOO_LARGE": "The file exceeds the maximum size.",
+    "FILE_TYPE": "Unsupported format. Upload a JPG, PNG or PDF.",
+    "FILE_UNSAFE": "We couldn't process the file. Try exporting it again.",
+    "TOO_MANY_FILES": "You reached the maximum number of files.",
+    "HAS_RESERVATIONS": "It has bookings. You can archive it instead of deleting it.",
+    "DUPLICATE": "A record with that data already exists.",
+    "ICAL_URL": "The calendar link is not valid. It must start with https://",
+    "QUOTE": "Please check the dates and number of guests.",
+    "UNKNOWN": "Something went wrong. Try again in a few seconds.",
+    "NO_BANK_ACCOUNT": "This property does not take online bookings yet. Write to us to book."
+  },
+  "quoteErrors": {
+    "INVALID_DATES": "Choose a check-out date after check-in.",
+    "PAST_DATE": "The check-in date has passed.",
+    "MIN_NIGHTS": "The minimum stay is {minNights} nights for those dates.",
+    "MAX_NIGHTS": "The maximum stay is {maxNights} nights.",
+    "INVALID_GUESTS": "Tell us how many people are staying.",
+    "MAX_GUESTS": "Maximum capacity is {maxGuests} guests."
+  },
+  "meta": {
+    "title": "{name} | Holiday rentals in the Calamuchita Valley",
+    "description": "Hand-picked houses, cabins and apartments in the hills of Córdoba, Argentina. Book direct, with a clear final price and personal service."
+  },
+  "common": {
+    "skipToContent": "Skip to content",
+    "close": "Close",
+    "back": "Back",
+    "continue": "Continue",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading",
+    "retry": "Try again",
+    "optional": "optional",
+    "copy": "Copy",
+    "copied": "Copied",
+    "seeMore": "Show more",
+    "seeLess": "Show less",
+    "theme": {
+      "label": "Colour theme",
+      "system": "Automatic",
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "nav": {
+    "primary": "Main navigation",
+    "properties": "Properties",
+    "destinations": "Destinations",
+    "howItWorks": "How to book",
+    "contact": "Contact",
+    "myBooking": "My booking",
+    "language": "Language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menu": "Menu"
+  },
+  "footer": {
+    "explore": "Explore",
+    "help": "Help",
+    "legal": "Legal",
+    "cancellation": "Cancellation policy",
+    "terms": "Terms and conditions",
+    "privacy": "Privacy",
+    "tagline": "Hand-picked holiday rentals in the hills of Córdoba, booked directly and looked after by real people."
+  },
+  "notFound": {
+    "title": "We couldn't find this page",
+    "description": "The link may be mistyped, or the property is no longer listed.",
+    "home": "Go home",
+    "properties": "Browse properties"
+  },
+  "home": {
+    "viewProperties": "Browse properties",
+    "hero": {
+      "title": "Time moves differently here.",
+      "subtitle": "Homes chosen one by one in the Calamuchita Valley. Book directly with the people who look after them.",
+      "statement": "Hills that change colour through the afternoon, icy streams and villages where nobody rushes. The valley is waiting.",
+      "scrollHint": "Into the valley"
+    },
+    "featured": {
+      "title": "Homes worth the trip",
+      "subtitle": "Our selection for this season."
+    },
+    "destinations": {
+      "title": "Villages of the valley",
+      "subtitle": "From the forest of La Cumbrecita to the lake at Embalse, every village has its own pace.",
+      "count": "{count, plural, one {# property} other {# properties}}"
+    },
+    "benefits": {
+      "title": "Booking direct makes sense",
+      "subtitle": "No middlemen between you and the house. Clearer, more human and commission-free.",
+      "noFees": {
+        "title": "No platform fees",
+        "body": "You pay for the house, not for an intermediary."
+      },
+      "personal": {
+        "title": "Talk to the people who care for it",
+        "body": "We answer on WhatsApp or email before and during your stay."
+      },
+      "clearPrice": {
+        "title": "Final price up front",
+        "body": "See the total with cleaning and taxes before you book."
+      },
+      "synced": {
+        "title": "Protected dates",
+        "body": "We sync with Airbnb and other channels to prevent double bookings."
+      }
+    },
+    "process": {
+      "title": "How to book",
+      "subtitle": "Four steps, no accounts, nothing to download.",
+      "dates": {
+        "title": "Pick your dates",
+        "body": "See real availability and the total price instantly."
+      },
+      "details": {
+        "title": "Leave your details",
+        "body": "Name, email and phone. Nothing else."
+      },
+      "transfer": {
+        "title": "Transfer and upload the receipt",
+        "body": "We show you the bank details and hold the dates meanwhile."
+      },
+      "confirmed": {
+        "title": "Get your confirmation",
+        "body": "We verify the payment and send you everything for your arrival."
+      }
+    },
+    "newest": {
+      "title": "Just added",
+      "subtitle": "The latest homes to join the valley."
+    },
+    "recommended": {
+      "title": "Guest favourites",
+      "subtitle": "Ranked by the ratings of people who stayed there."
+    },
+    "testimonials": {
+      "title": "Guests who come back"
+    },
+    "trust": {
+      "title": "Your transfer, backed",
+      "body": "Every booking has a number, an attached receipt and a status you can check any time.",
+      "code": {
+        "title": "Booking number",
+        "body": "You get it by email as soon as you send the request."
+      },
+      "receipt": {
+        "title": "Receipt on record",
+        "body": "Your transfer is linked to your booking and we let you know once it's verified."
+      },
+      "policy": {
+        "title": "Clear rules",
+        "body": "Cancellation policy and conditions visible before you pay."
+      }
+    },
+    "cta": {
+      "title": "Your next stay starts by picking a date."
+    }
+  },
+  "search": {
+    "label": "Search stays",
+    "destination": "Destination",
+    "anyDestination": "Any village",
+    "dates": "Dates",
+    "addDates": "Add dates",
+    "checkOut": "check-out",
+    "guests": "Guests",
+    "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+    "guestsHint": "Adults and children",
+    "fewerGuests": "Remove a guest",
+    "moreGuests": "Add a guest",
+    "submit": "Search",
+    "searchPlaceholder": "Search by name or village",
+    "filters": "Filters",
+    "closeFilters": "Close filters",
+    "clearFilters": "Clear filters",
+    "clearAll": "Clear",
+    "type": "Type of place",
+    "bedrooms": "Bedrooms",
+    "any": "Any",
+    "pricePerNight": "Price per night",
+    "minimum": "Minimum",
+    "maximum": "Maximum",
+    "amenities": "Amenities",
+    "sortBy": "Sort by",
+    "sort": {
+      "recommended": "Recommended",
+      "price_asc": "Lowest price",
+      "price_desc": "Highest price",
+      "newest": "Newest",
+      "rating": "Top rated"
+    }
+  },
+  "calendar": {
+    "title": "Pick your dates",
+    "close": "Close calendar",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "unavailable": "Unavailable",
+    "checkoutOnly": "Available for check-out only",
+    "selectedCheckIn": "Check-in",
+    "selectedCheckOut": "Check-out",
+    "tooShort": "Below the minimum stay",
+    "nights": "{count, plural, one {# night} other {# nights}}",
+    "pickCheckIn": "Choose your check-in day",
+    "pickCheckOut": "Now choose your check-out day",
+    "clear": "Clear dates",
+    "done": "Done"
+  },
+  "property": {
+    "ratingLabel": "Rated {rating} out of 5, {count} reviews",
+    "new": "New",
+    "capacityShort": "{guests, plural, one {# guest} other {# guests}}, {bedrooms, plural, one {# bedroom} other {# bedrooms}}, {beds, plural, one {# bed} other {# beds}}",
+    "totalFor": "{nights, plural, one {for # night} other {for # nights}}",
+    "from": "from",
+    "perNight": "/ night",
+    "availableForDates": "Available for your dates",
+    "featured": "Featured",
+    "showAllAmenities": "Show all {count} amenities",
+    "amenitiesTitle": "What this place offers",
+    "close": "Close",
+    "gallery": {
+      "open": "View photo {index}",
+      "showAll": "Show all {count} photos",
+      "description": "Fullscreen photo gallery",
+      "counter": "{index} of {total}",
+      "close": "Close gallery",
+      "previous": "Previous photo",
+      "next": "Next photo"
+    }
+  },
+  "propertyTypes": {
+    "HOUSE": "House",
+    "APARTMENT": "Apartment",
+    "CABIN": "Cabin",
+    "VILLA": "Country house",
+    "LOFT": "Loft"
+  },
+  "amenities": {
+    "wifi": "Wifi",
+    "linens": "Bed linen and towels",
+    "heating": "Heating",
+    "air_conditioning": "Air conditioning",
+    "kitchen": "Equipped kitchen",
+    "oven": "Oven",
+    "coffee_maker": "Coffee maker",
+    "dishwasher": "Dishwasher",
+    "fireplace": "Wood fireplace",
+    "tv": "Smart TV",
+    "workspace": "Workspace",
+    "washer": "Washing machine",
+    "bathtub": "Bathtub",
+    "hair_dryer": "Hair dryer",
+    "pool": "Pool",
+    "grill": "Barbecue grill",
+    "garden": "Garden",
+    "mountain_view": "Mountain view",
+    "lake_access": "Lake access",
+    "bikes": "Bicycles",
+    "parking": "Parking",
+    "crib": "Crib",
+    "pets": "Pets allowed",
+    "first_aid": "First aid kit",
+    "smart_lock": "Self check-in",
+    "categories": {
+      "essentials": "Essentials",
+      "kitchen": "Kitchen",
+      "comfort": "Comfort",
+      "outdoor": "Outdoors",
+      "services": "Services",
+      "family": "Families and pets",
+      "safety": "Safety",
+      "general": "Other"
+    }
+  },
+  "status": {
+    "reservation": {
+      "PENDING": "Pending booking",
+      "AWAITING_PAYMENT": "Awaiting payment",
+      "PROOF_RECEIVED": "Receipt received",
+      "UNDER_REVIEW": "Under review",
+      "CONFIRMED": "Confirmed",
+      "REJECTED": "Rejected",
+      "CANCELLED": "Cancelled",
+      "COMPLETED": "Completed",
+      "EXPIRED": "Expired"
+    },
+    "proof": {
+      "PENDING_REVIEW": "Awaiting review",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "RESUBMISSION_REQUESTED": "New one requested"
+    },
+    "property": {
+      "DRAFT": "Draft",
+      "PUBLISHED": "Published",
+      "PAUSED": "Paused",
+      "ARCHIVED": "Archived"
+    },
+    "payment": {
+      "PENDING": "Pending",
+      "VERIFIED": "Verified",
+      "REJECTED": "Rejected",
+      "REFUNDED": "Refunded"
+    }
+  },
+  "catalog": {
+    "metaTitle": "Properties",
+    "metaDescription": "Browse houses, cabins and apartments in the Calamuchita Valley with real availability and final prices.",
+    "title": "All properties",
+    "subtitle": "Real availability and final prices, no surprises when you book.",
+    "results": "{count, plural, one {# property} other {# properties}}",
+    "resultsWithDates": "{count, plural, one {# property available for your dates} other {# properties available for your dates}}",
+    "hiddenUnavailable": "{count, plural, one {# is not available on those dates} other {# are not available on those dates}}",
+    "emptyTitle": "No properties match those filters",
+    "emptyDescription": "Try removing a filter or searching another village.",
+    "emptyWithDates": "No property is free on those dates. Try moving your check-in or check-out by a day.",
+    "seeAll": "See all"
+  },
+  "booking": {
+    "breakdown": {
+      "nightsUniform": "{price} x {count, plural, one {# night} other {# nights}}",
+      "nightsVariable": "{count, plural, one {# night} other {# nights}}",
+      "weekend": "weekend",
+      "discount": "{name} (-{percent}%)",
+      "cleaning": "Final cleaning",
+      "total": "Total"
+    },
+    "widget": {
+      "from": "from",
+      "perNight": "per night",
+      "perNightAverage": "per night on average",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "addDate": "Add date",
+      "guests": "Guests",
+      "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+      "maxGuests": "Up to {count}",
+      "fewerGuests": "Remove a guest",
+      "moreGuests": "Add a guest",
+      "reserve": "Reserve",
+      "chooseDates": "Choose dates",
+      "pickDates": "Pick your dates to see the final price",
+      "pickCheckOut": "Choose your check-out day",
+      "unavailable": "Those dates are no longer available",
+      "noChargeYet": "You won't be charged yet",
+      "trust": "You pay by bank transfer to the owner's account. We hold the dates while you send the receipt."
+    },
+    "availability": {
+      "legendAvailable": "Available",
+      "legendBooked": "Booked",
+      "legendSelected": "Your stay",
+      "minNights": "{count, plural, one {Minimum stay of # night} other {Minimum stay of # nights}}; it may vary by season."
+    },
+    "steps": {
+      "label": "Booking steps",
+      "dates": "Dates",
+      "details": "Details",
+      "payment": "Payment",
+      "proof": "Receipt",
+      "confirmation": "Confirmation"
+    },
+    "flow": {
+      "metaTitle": "Complete your booking",
+      "datesTitle": "Confirm your dates",
+      "datesSubtitle": "What you see is free right now. We check again when you send the request.",
+      "guests": "Guests",
+      "guestsCount": "{count, plural, one {# guest} other {# guests}}",
+      "maxGuests": "Maximum capacity: {count}",
+      "fewerGuests": "Remove a guest",
+      "moreGuests": "Add a guest",
+      "pickDates": "Choose your check-in day",
+      "pickCheckOut": "Choose your check-out day",
+      "datesReady": "From {checkIn} to {checkOut}",
+      "continue": "Continue",
+      "changeDates": "Change dates",
+      "detailsTitle": "Your details",
+      "detailsSubtitle": "We use them to send your confirmation and arrange your arrival.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "emailHint": "We send the link to follow your booking there.",
+      "phone": "Phone or WhatsApp",
+      "phoneHint": "Include country and area code, for example +1 312 847 1928.",
+      "country": "Country",
+      "comments": "Comments",
+      "commentsHint": "Estimated arrival time, pets, special requests.",
+      "optional": "optional",
+      "acceptTerms": "I have read and accept the <terms>terms and conditions</terms> and the <cancellation>cancellation policy</cancellation>.",
+      "nextStepHint": "Next you'll see the bank transfer details.",
+      "submit": "Request booking",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "fromTime": "from {time}",
+      "untilTime": "until {time}",
+      "summaryEmpty": "Pick your dates to see the final price.",
+      "cancellationTitle": "Cancellation:"
+    }
+  },
+  "propertyPage": {
+    "metaFallback": "{type} in {city} for {guests} guests.",
+    "breadcrumb": "Breadcrumb",
+    "reviews": "{count, plural, one {# review} other {# reviews}}",
+    "facts": {
+      "guests": "{count, plural, one {# guest} other {# guests}}",
+      "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
+      "beds": "{count, plural, one {# bed} other {# beds}}",
+      "bathrooms": "{count, plural, one {# bathroom} other {# bathrooms}}",
+      "area": "{area} m²"
+    },
+    "video": "Video tour",
+    "videoTitle": "Video of {title}",
+    "amenities": "What it offers",
+    "availability": "Availability",
+    "availabilityHint": "Choose check-in and check-out right on the calendar.",
+    "schedule": "Times",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "checkInFrom": "Check-in from {time}",
+    "checkOutUntil": "Check-out until {time}",
+    "rules": "House rules",
+    "cancellation": "Cancellation policy",
+    "readTerms": "Read terms and conditions",
+    "location": "Location",
+    "locationPrivacy": "We send you the exact address once the booking is confirmed.",
+    "mapLabel": "Map showing the approximate area in {city}",
+    "contactTitle": "Questions? Write to {agency}",
+    "contactBody": "You'll talk to people, not bots. Ask us about the house, the area or a special stay.",
+    "whatsappMessage": "Hi, I'd like to ask about {title}."
+  },
+  "reservation": {
+    "metaTitle": "Booking {code}",
+    "hello": "Hi, {name}",
+    "title": "Booking",
+    "statusText": {
+      "PENDING": "We registered your request. We'll contact you to arrange payment.",
+      "AWAITING_PAYMENT": "We're holding the dates for you. Transfer the total and upload the receipt to confirm.",
+      "PROOF_RECEIVED": "We received your receipt. We're verifying it and will email you.",
+      "UNDER_REVIEW": "We're checking the transfer with the bank. We'll let you know as soon as it's confirmed.",
+      "CONFIRMED": "All set: the dates are yours. Check-in details are below.",
+      "REJECTED": "We couldn't confirm this booking.",
+      "CANCELLED": "This booking was cancelled.",
+      "COMPLETED": "Thank you for staying with us. We hope to see you again.",
+      "EXPIRED": "The transfer window closed and the dates were released."
+    },
+    "payment": {
+      "title": "Bank transfer details",
+      "subtitle": "Transfer the exact total to this account. You can copy each detail.",
+      "amount": "Amount to transfer",
+      "bank": "Bank",
+      "holder": "Account holder",
+      "cbu": "CBU",
+      "alias": "Alias",
+      "taxId": "Tax ID (CUIT)",
+      "reference": "Write {code} in the transfer reference so we can identify it faster.",
+      "holdUntil": "We hold the dates until {date}",
+      "holdRemaining": "{hours} h {minutes} min left",
+      "holdExpired": "The deadline passed. If you already transferred, upload the receipt anyway and we'll review it."
+    },
+    "upload": {
+      "title": "Upload the receipt",
+      "subtitle": "A screenshot or the PDF from your bank. We'll review it and email you.",
+      "anotherTitle": "Made another transfer?",
+      "anotherSubtitle": "You can add another receipt if you paid in parts.",
+      "dropTitle": "Drag the file here",
+      "formats": "JPG, PNG or PDF, up to 10 MB",
+      "choose": "Choose file",
+      "remove": "Remove file",
+      "amount": "Amount transferred",
+      "amountHint": "Numbers only. It helps us verify faster.",
+      "submit": "Send receipt",
+      "tooLarge": "The file exceeds {max} MB.",
+      "successTitle": "Receipt received!",
+      "successBody": "We sent you a confirmation email and will let you know once the payment is verified."
+    },
+    "proofs": {
+      "title": "Receipts sent"
+    },
+    "reviewing": {
+      "title": "We're verifying your payment",
+      "body": "We usually confirm within one business day. Your dates stay held meanwhile."
+    },
+    "confirmed": {
+      "title": "Booking confirmed!",
+      "body": "We verified your payment. We also sent you this information by email.",
+      "arrivalTitle": "Arrival details",
+      "address": "Address",
+      "times": "Check-in from {checkIn}, check-out until {checkOut}",
+      "addToCalendar": "Add to my calendar",
+      "directions": "Get directions",
+      "print": "Print or save as PDF"
+    },
+    "closed": {
+      "bookAgain": "Check availability and book again"
+    },
+    "summary": {
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "cancellation": "Cancellation policy"
+    },
+    "contact": {
+      "title": "Need help?",
+      "body": "Write to us quoting your booking number {code}.",
+      "whatsappMessage": "Hi, I'm writing about my booking {code}."
+    },
+    "locked": {
+      "title": "Access your booking",
+      "body": "For security, bookings open with the link we emailed you. Request a new one with your booking number and email."
+    },
+    "lookup": {
+      "metaTitle": "My booking",
+      "title": "Find your booking",
+      "subtitle": "Enter your booking number and the email you booked with. We'll send you a secure link to view it.",
+      "point1": "Check the status and payment details.",
+      "point2": "Upload or resend your receipt.",
+      "point3": "Download your arrival information.",
+      "code": "Booking number",
+      "codeHint": "Starts with RMS, for example RMS-7K3F9Q.",
+      "email": "Email",
+      "submit": "Send me the link",
+      "sent": "If the details match a booking, you'll get an email with the link in a few minutes.",
+      "invalidLink": "That link is not valid or was replaced. Request a new one."
+    }
+  },
+  "admin": {
+    "metaTitle": "Dashboard",
+    "login": {
+      "metaTitle": "Sign in",
+      "title": "Welcome back",
+      "subtitle": "Sign in to manage properties, bookings and payments.",
+      "email": "Email",
+      "password": "Password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "submit": "Sign in"
+    },
+    "nav": {
+      "label": "Dashboard sections",
+      "dashboard": "Overview",
+      "reservations": "Bookings",
+      "calendar": "Calendar",
+      "properties": "Properties",
+      "payments": "Payments",
+      "guests": "Guests",
+      "owners": "Owners",
+      "availability": "Channels and blocks",
+      "settings": "Settings",
+      "pendingCount": "{count} pending"
+    },
+    "header": {
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "menu": "Dashboard menu",
+      "search": "Search booking, guest or email",
+      "viewSite": "View site",
+      "notifications": "Notifications, {count} unread",
+      "notificationsTitle": "Notifications",
+      "markAllRead": "Mark all as read",
+      "noNotifications": "You have no notifications.",
+      "account": "Your account",
+      "logout": "Sign out",
+      "roles": {
+        "ADMIN": "Administrator",
+        "MANAGER": "Manager",
+        "OWNER": "Owner",
+        "GUEST": "Guest"
+      },
+      "myAccount": "My account"
+    },
+    "dashboard": {
+      "title": "Hi, {name}",
+      "subtitle": "Summary for {month}.",
+      "conflictsTitle": "{count, plural, one {# booking conflicts with another channel} other {# bookings conflict with other channels}}",
+      "revenueMonth": "Revenue this month",
+      "vsPrevious": "{delta} vs. last month",
+      "noPrevious": "No data for last month",
+      "bookingsMonth": "Bookings this month",
+      "inHouse": "{count, plural, one {# stay in progress} other {# stays in progress}}",
+      "occupancyMonth": "Occupancy this month",
+      "todayOccupied": "Today: {occupied} occupied, {available} free",
+      "pendingPayments": "Receipts to review",
+      "awaitingTransfer": "{count, plural, one {# booking awaits the transfer} other {# bookings await the transfer}}",
+      "revenueChart": "Revenue by month",
+      "revenueChartHint": "Confirmed bookings, by check-in month.",
+      "revenueSummary": "Revenue in the last 12 months: {total}",
+      "revenue": "Revenue",
+      "sources": "Booking sources",
+      "sourcesHint": "Last 12 months, all sources.",
+      "sourceDirect": "Direct website",
+      "sourceManual": "Manual entry",
+      "sourceOther": "Other channels",
+      "bookingsLabel": "bookings",
+      "proofsTitle": "Receipts to review",
+      "viewAll": "View all",
+      "declared": "Declared {amount}",
+      "noProofs": "No receipts pending.",
+      "occupancyByProperty": "Occupancy by property",
+      "occupancy": "Occupancy",
+      "noProperties": "No published properties yet.",
+      "arrivals": "Upcoming arrivals",
+      "departures": "Upcoming departures",
+      "nextDays": "Next 7 days",
+      "arrivalsEmpty": "No arrivals this week",
+      "departuresEmpty": "No departures this week",
+      "recent": "Recent bookings",
+      "noReservations": "No bookings yet.",
+      "table": {
+        "code": "Code",
+        "guest": "Guest",
+        "property": "Property",
+        "dates": "Dates",
+        "total": "Total",
+        "status": "Status"
+      }
+    },
+    "reservations": {
+      "title": "Bookings",
+      "subtitle": "All direct and manual bookings. Airbnb and other channels show up in the calendar.",
+      "new": "New booking",
+      "all": "All",
+      "attention": "Needs attention",
+      "search": "Code, guest, email or phone",
+      "allProperties": "All properties",
+      "from": "From",
+      "to": "To",
+      "conflict": "Conflict with another channel",
+      "nightsGuests": "{nights, plural, one {# night} other {# nights}}, {guests, plural, one {# guest} other {# guests}}",
+      "previous": "Previous",
+      "next": "Next",
+      "pageSummary": "Page {page} of {pages}, {total} bookings",
+      "empty": "No bookings match those filters",
+      "emptyHint": "Try removing filters or searching for something else.",
+      "table": {
+        "code": "Code",
+        "guest": "Guest",
+        "property": "Property",
+        "stay": "Stay",
+        "total": "Total",
+        "status": "Status"
+      },
+      "source": {
+        "DIRECT": "Web",
+        "MANUAL": "Manual"
+      }
+    },
+    "reservation": {
+      "back": "Back to bookings",
+      "meta": "{source}, created {created} by {by}",
+      "guest": "the guest",
+      "saved": "Changes saved",
+      "markReview": "Mark as under review",
+      "confirm": "Confirm booking",
+      "more": "More actions",
+      "changeDates": "Change dates",
+      "sendLink": "Resend link to guest",
+      "revokeLinks": "Invalidate links and send a new one",
+      "reject": "Reject request",
+      "cancel": "Cancel booking",
+      "confirmTitle": "Confirm the booking",
+      "confirmDescription": "Marks the payment as verified, blocks the dates and sends the confirmation with arrival details.",
+      "amountReceived": "Amount received",
+      "amountReceivedHint": "What you saw credited to the account.",
+      "note": "Internal note",
+      "changeDatesDescription": "We check the new dates are free before saving.",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "pricing": "Price",
+      "pricingKeep": "Keep the current price",
+      "pricingRecalculate": "Recalculate with current rates",
+      "notifyGuest": "Email the guest",
+      "cancelTitle": "Cancel the booking",
+      "cancelDescription": "The dates are released. If payment was made, handle the refund per the cancellation policy.",
+      "rejectTitle": "Reject the request",
+      "rejectDescription": "The request is rejected and the dates released. The guest is notified.",
+      "reason": "Reason",
+      "reasonHint": "The guest sees it in the email.",
+      "conflictTitle": "Conflict with another channel",
+      "conflictBody": "Another channel (for example Airbnb) has these dates booked. It cannot be confirmed until resolved.",
+      "openCalendar": "Open the calendar",
+      "holdUntil": "The dates are held until {date}. If no receipt arrives, the booking expires automatically.",
+      "reasonTitle": "Reason",
+      "stay": "Stay",
+      "property": "Property",
+      "nights": "Nights",
+      "language": "Language",
+      "comments": "Guest comments",
+      "payment": "Payment",
+      "amountDue": "Amount due",
+      "verifiedBy": "Verified by",
+      "bankShown": "Account shown to the guest",
+      "proofs": "{count, plural, =0 {Receipts} one {Receipt (#)} other {Receipts (#)}}",
+      "noProofs": "No receipt has been uploaded yet.",
+      "guestTitle": "Guest",
+      "guestHistory": "{count, plural, one {View profile (# booking)} other {View profile (# bookings)}}",
+      "notes": "Internal notes",
+      "notesPlaceholder": "Only visible to the team.",
+      "saveNotes": "Save notes",
+      "activity": "Activity",
+      "emails": "Emails sent",
+      "actor": {
+        "USER": "Team",
+        "GUEST": "Guest",
+        "SYSTEM": "System"
+      },
+      "templates": {
+        "RESERVATION_REQUESTED": "Request received",
+        "PROOF_RECEIVED": "Receipt received",
+        "RESERVATION_CONFIRMED": "Booking confirmed",
+        "PROOF_REJECTED": "Receipt rejected",
+        "RESERVATION_REJECTED": "Request rejected",
+        "RESERVATION_CANCELLED": "Booking cancelled",
+        "RESERVATION_EXPIRED": "Deadline passed",
+        "DATES_CHANGED": "Dates updated",
+        "CHECKIN_REMINDER": "Your stay starts soon",
+        "POST_STAY": "Thanks for staying",
+        "ACCESS_LINK": "Access link",
+        "ADMIN_NEW_RESERVATION": "Alert: new request",
+        "ADMIN_NEW_PROOF": "Alert: new receipt",
+        "ADMIN_CALENDAR_CONFLICT": "Alert: calendar conflict",
+        "ADMIN_SYNC_FAILING": "Alert: sync failing"
+      },
+      "emailStatus": {
+        "PENDING": "Queued",
+        "SENT": "Sent",
+        "FAILED": "Failed",
+        "SKIPPED": "Skipped"
+      },
+      "source": {
+        "DIRECT": "Web booking",
+        "MANUAL": "Manual entry"
+      }
+    },
+    "proof": {
+      "previewAlt": "Preview of {name}",
+      "declared": "Declared amount:",
+      "mismatch": "The declared amount does not match the amount due.",
+      "duplicateTitle": "Reused file",
+      "duplicateBody": "This exact file was already used in: {codes}.",
+      "open": "View",
+      "download": "Download",
+      "amountReceived": "Amount received",
+      "note": "Note for the guest",
+      "noteHint": "Required to reject or request another.",
+      "approve": "Approve and confirm",
+      "requestNew": "Request another receipt",
+      "reject": "Reject receipt",
+      "done": {
+        "APPROVE": "Payment approved and booking confirmed",
+        "REQUEST_NEW": "We asked the guest for a new receipt",
+        "REJECT": "Receipt rejected"
+      }
+    },
+    "activity": {
+      "reservation": {
+        "created": "Booked on the website",
+        "created_manual": "Entered manually",
+        "confirmed": "Booking confirmed",
+        "under_review": "Marked as under review",
+        "rejected": "Request rejected",
+        "cancelled": "Booking cancelled",
+        "expired": "Payment deadline passed",
+        "dates_changed": "Dates changed",
+        "notes_updated": "Notes updated",
+        "link_sent": "Link resent",
+        "links_revoked": "Links invalidated",
+        "calendar_conflict": "Conflict detected with another channel"
+      },
+      "proof": {
+        "uploaded": "Receipt uploaded",
+        "rejected": "Receipt rejected",
+        "resubmission_requested": "Another receipt requested"
+      }
+    },
+    "manual": {
+      "back": "Back to bookings",
+      "title": "New manual booking",
+      "subtitle": "For bookings made by phone, WhatsApp or in person. The same availability rules apply.",
+      "property": "Property",
+      "chooseProperty": "Choose a property",
+      "dates": "Dates",
+      "pickDates": "Choose check-in and check-out",
+      "loadingCalendar": "Loading availability",
+      "guests": "Guests",
+      "maxGuests": "Capacity: {count}",
+      "guestTitle": "Guest details",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "bookingTitle": "Booking",
+      "status": "Initial status",
+      "statusConfirmed": "Confirmed (payment already received)",
+      "statusAwaiting": "Awaiting payment (sends transfer details)",
+      "statusPending": "Pending (tentative)",
+      "language": "Guest language",
+      "totalOverride": "Agreed total",
+      "totalOverrideHint": "Optional. Leave empty to use the calculated price.",
+      "notifyGuest": "Email the guest",
+      "notes": "Internal notes",
+      "summary": "Summary",
+      "summaryEmpty": "Choose a property and dates to see the price.",
+      "overrideApplied": "The agreed total will be saved: {total}",
+      "submit": "Create booking"
+    },
+    "common": {
+      "saved": "Changes saved"
+    },
+    "properties": {
+      "title": "Properties",
+      "subtitle": "{count, plural, one {# property} other {# properties}} in total.",
+      "new": "New property",
+      "featured": "Featured",
+      "perNight": "/ night base",
+      "guests": "{count, plural, one {# guest} other {# guests}}",
+      "occupiedNow": "Occupied now",
+      "nextStay": "Next arrival: {date}",
+      "noUpcoming": "No upcoming bookings",
+      "channels": "{count, plural, one {# channel} other {# channels}}",
+      "empty": "You haven't added any properties yet",
+      "emptyHint": "Create the first one: the wizard guides you step by step."
+    },
+    "property": {
+      "back": "Back to properties",
+      "editorSubtitle": "Complete each step. Changes are saved per section.",
+      "viewOnSite": "View on site",
+      "newTitle": "New property",
+      "newSubtitle": "Start with the basics. Then you'll add photos, prices and calendar.",
+      "steps": {
+        "label": "Property steps",
+        "info": "Information",
+        "fotos": "Photos",
+        "servicios": "Amenities",
+        "precios": "Prices",
+        "reglas": "Rules and arrival",
+        "canales": "Airbnb and iCal",
+        "publicar": "Publish"
+      },
+      "info": {
+        "general": "General details",
+        "title": "Property name",
+        "type": "Type",
+        "slug": "Web address",
+        "slugHint": "Generated from the name if left empty.",
+        "slugPlaceholder": "lake-house",
+        "summary": "Summary",
+        "summaryHint": "One sentence shown on cards and in Google.",
+        "description": "Description",
+        "descriptionHint": "Separate paragraphs with a blank line.",
+        "capacity": "Capacity",
+        "maxGuests": "Max guests",
+        "bedrooms": "Bedrooms",
+        "beds": "Beds",
+        "bathrooms": "Bathrooms",
+        "bathroomsHint": "Use .5 for half baths.",
+        "area": "Area (m²)",
+        "location": "Location",
+        "city": "Town",
+        "region": "Province",
+        "address": "Address",
+        "addressHint": "Only shown to the guest once the booking is confirmed.",
+        "postalCode": "Postal code",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "coordinatesHint": "Copy them from Google Maps (right-click the place).",
+        "extra": "Other details",
+        "owner": "Owner",
+        "ownerHint": "Their bank details are shown to the guest for the transfer.",
+        "noOwner": "No owner (uses the agency account)",
+        "video": "Video (YouTube or Vimeo)",
+        "videoHint": "Optional. Paste the video link.",
+        "featured": "Show as featured on the home page",
+        "save": "Save information",
+        "create": "Create and continue",
+        "translations": "Translations",
+        "translationsHint": "Anything left empty is shown in Spanish.",
+        "saveTranslation": "Save translation",
+        "ratingAverage": "Average rating (optional)",
+        "ratingAverageHint": "From 1 to 5, as shown on Airbnb or another platform. Empty: not shown.",
+        "ratingCount": "Number of reviews",
+        "ratingCountHint": "Required if you enter a rating."
+      },
+      "photos": {
+        "dropTitle": "Drag photos here",
+        "dropHint": "JPG, PNG, WEBP or AVIF up to 15 MB. We optimise them automatically.",
+        "choose": "Choose photos",
+        "someFailed": "Some photos could not be uploaded",
+        "uploaded": "{count, plural, one {# photo uploaded} other {# photos uploaded}}",
+        "orderHint": "Drag to reorder. The first one is the cover.",
+        "saveOrder": "Save order and captions",
+        "cover": "Cover",
+        "altLabel": "Description of photo {index}",
+        "altPlaceholder": "Describe the photo (accessibility and Google)",
+        "moveLeft": "Move earlier",
+        "moveRight": "Move later",
+        "delete": "Delete",
+        "confirmDelete": "Delete this photo? This cannot be undone.",
+        "deleted": "Photo deleted",
+        "empty": "No photos yet",
+        "emptyHint": "Upload at least 3 to publish."
+      },
+      "amenities": {
+        "selected": "{count, plural, one {# amenity selected} other {# amenities selected}}",
+        "custom": "Custom amenity",
+        "customTitle": "New amenity",
+        "customHint": "It becomes available for every property.",
+        "customLabel": "Name",
+        "customCategory": "Category",
+        "customIcon": "Icon",
+        "createCustom": "Create amenity",
+        "save": "Save amenities"
+      },
+      "pricing": {
+        "base": "Base price",
+        "currency": "Currency",
+        "basePrice": "Price per night",
+        "perNight": "Sunday to Thursday",
+        "weekendPrice": "Weekend price",
+        "weekendHint": "Friday and Saturday nights. Optional.",
+        "cleaningFee": "Cleaning",
+        "perStay": "Once per stay",
+        "minNights": "Minimum nights",
+        "maxNights": "Maximum nights",
+        "optional": "Optional",
+        "saveBase": "Save base price",
+        "seasons": "Seasons",
+        "seasonsHint": "They replace the base price on those dates (for example summer or winter holidays).",
+        "addSeason": "Add season",
+        "noSeasons": "No seasons yet.",
+        "minNightsShort": "minimum {count, plural, one {# night} other {# nights}}",
+        "weekendShort": "weekend {price}",
+        "specialDates": "Special dates",
+        "specialDatesHint": "Holidays and events with their own price. They take priority over everything.",
+        "addSpecialDate": "Add special date",
+        "noSpecialDates": "No special dates.",
+        "discounts": "Long-stay discounts",
+        "discountsHint": "The largest applicable discount is applied, to nights only.",
+        "addDiscount": "Add discount",
+        "noDiscounts": "No discounts.",
+        "fromNights": "From {count, plural, one {# night} other {# nights}}",
+        "fees": "Extra charges",
+        "feesHint": "Taxes, linen, heating or other charges.",
+        "addFee": "Add charge",
+        "noFees": "No extra charges.",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirmDelete": "Delete? This cannot be undone.",
+        "simulator": "Price simulator",
+        "simulatorHint": "What a guest would pay with the saved settings.",
+        "simCheckIn": "Check-in",
+        "simNights": "Nights",
+        "simGuests": "Guests",
+        "simError": {
+          "INVALID_DATES": "Invalid dates.",
+          "PAST_DATE": "The date has passed.",
+          "MIN_NIGHTS": "Below the minimum stay.",
+          "MAX_NIGHTS": "Above the maximum stay.",
+          "INVALID_GUESTS": "Invalid number of guests.",
+          "MAX_GUESTS": "Over capacity."
+        },
+        "seasonDialog": "Season",
+        "ruleDialog": {
+          "SPECIAL_DATE": "Special date",
+          "LENGTH_DISCOUNT": "Long-stay discount",
+          "FEE": "Extra charge"
+        },
+        "name": "Name",
+        "firstNight": "First night",
+        "lastNight": "Last night",
+        "nightlyPrice": "Price per night",
+        "seasonMinHint": "Optional, overrides the general minimum.",
+        "discountMinNights": "From (nights)",
+        "percent": "Discount (%)",
+        "amount": "Amount",
+        "feeUnit": "Charged",
+        "unit": {
+          "PER_STAY": "Once per stay",
+          "PER_NIGHT": "Per night",
+          "PER_GUEST": "Per guest",
+          "PER_GUEST_NIGHT": "Per guest per night"
+        }
+      },
+      "rules": {
+        "checkIn": "Check-in from",
+        "checkOut": "Check-out until",
+        "houseRules": "House rules",
+        "houseRulesHint": "One rule per line.",
+        "arrival": "Arrival instructions",
+        "arrivalHint": "Only visible to guests with a confirmed booking: codes, keys, parking.",
+        "cancellation": "Property cancellation policy",
+        "cancellationHint": "Optional. If empty, the agency's general policy is used.",
+        "save": "Save rules",
+        "translations": "Translations",
+        "translationsHint": "Anything left empty is shown in Spanish.",
+        "saveTranslation": "Save translation"
+      },
+      "channels": {
+        "importTitle": "Other channels' calendars",
+        "importHint": "Paste the iCal link from Airbnb, Booking or another channel. We sync every 30 minutes and before every booking so stays never overlap.",
+        "channel": "Channel",
+        "url": "iCal link",
+        "urlHint": "On Airbnb: Calendar, Availability, Connect calendars, Export calendar.",
+        "connect": "Connect",
+        "addedAndSynced": "Channel connected and synced",
+        "addedButFailed": "Channel connected, but the first sync failed: {error}",
+        "paused": "Paused",
+        "failing": "Failing",
+        "ok": "Synced",
+        "lastSync": "Last sync: {date}. {count, plural, one {# event} other {# events}}.",
+        "neverSynced": "Not synced yet",
+        "syncNow": "Sync",
+        "synced": "{count, plural, one {# event imported} other {# events imported}}",
+        "pause": "Pause",
+        "resume": "Resume",
+        "delete": "Disconnect",
+        "confirmDelete": "Disconnect this channel? Its dates stop blocking the calendar.",
+        "noChannels": "No channels connected yet.",
+        "exportTitle": "Your calendar for other channels",
+        "exportHint": "Copy this link and paste it into Airbnb (or another channel) so it blocks bookings made on this website.",
+        "rotate": "Generate a new link",
+        "confirmRotate": "The current link will stop working. You'll need to paste the new one into every channel. Continue?",
+        "howto1": "On Airbnb, open this listing's Calendar and go to Availability.",
+        "howto2": "Choose Connect calendars, then Import calendar, and paste this link.",
+        "howto3": "Give it a name, for example Direct website, and save. Airbnb refreshes it every few hours."
+      },
+      "publish": {
+        "checklist": "Ready to publish",
+        "items": {
+          "photos": {
+            "title": "At least 3 photos",
+            "body": "Listings with good photos get far more enquiries."
+          },
+          "price": {
+            "title": "Nightly price",
+            "body": "Needed to calculate the total."
+          },
+          "description": {
+            "title": "Full description",
+            "body": "Tell guests what makes the house special."
+          },
+          "location": {
+            "title": "Location with coordinates",
+            "body": "For the approximate map."
+          },
+          "bank": {
+            "title": "Account for transfers",
+            "body": "The owner's or the agency's general account."
+          }
+        },
+        "visibility": "Visibility",
+        "notReady": "Complete the checklist to publish.",
+        "publish": "Publish",
+        "published": "Property published",
+        "pause": "Pause",
+        "toDraft": "Move to draft",
+        "view": "View on site",
+        "pauseHint": "A paused property is hidden and takes no new bookings. Existing bookings are kept.",
+        "dangerZone": "Danger zone",
+        "archiveHint": "It has {count, plural, one {# booking} other {# bookings}}: it can be archived but not deleted.",
+        "deleteHint": "No bookings attached: it can be deleted permanently.",
+        "archive": "Archive",
+        "confirmArchive": "Archive this property? It will no longer be shown on the site.",
+        "delete": "Delete permanently",
+        "confirmDelete": "Delete the property and its photos? This cannot be undone.",
+        "deleted": "Property deleted"
+      }
+    },
+    "calendar": {
+      "title": "Calendar",
+      "subtitle": "Bookings, blocks and events from Airbnb or other channels in one view.",
+      "previous": "Previous period",
+      "next": "Next period",
+      "today": "Today",
+      "property": "Property",
+      "allProperties": "All properties",
+      "views": {
+        "month": "Month",
+        "week": "Week",
+        "list": "List"
+      },
+      "block": "Block dates",
+      "legend": {
+        "confirmed": "Confirmed",
+        "pending": "Awaiting payment",
+        "external": "Other channel",
+        "blocked": "Block"
+      },
+      "clickHint": "Tap a free day to block it.",
+      "open": "Open",
+      "unblock": "Unblock",
+      "confirmUnblock": "Release these dates?",
+      "unblocked": "Dates released",
+      "blocked": "Dates blocked",
+      "emptyPeriod": "Nothing booked in this period.",
+      "blockDay": "Block {property} on {date}",
+      "nights": "{count, plural, one {# night} other {# nights}}",
+      "externalHint": "Imported from the channel's calendar. Change it on that channel.",
+      "externalBlocked": "blocked",
+      "blockTitle": "Block dates",
+      "blockDescription": "Nobody can book those nights, neither on the website nor on channels reading your calendar.",
+      "orCreateBooking": "Create a booking",
+      "from": "From",
+      "until": "Until (inclusive)",
+      "untilHint": "Last blocked night.",
+      "reason": "Reason",
+      "note": "Internal note",
+      "reasons": {
+        "OWNER_USE": "Owner's use",
+        "MAINTENANCE": "Maintenance",
+        "MANUAL": "Manual block",
+        "OTHER": "Other"
+      }
+    },
+    "payments": {
+      "title": "Payments",
+      "subtitle": "Transfer receipts sent by guests. Pending ones are sorted oldest first.",
+      "all": "All",
+      "table": {
+        "uploaded": "Received",
+        "reservation": "Booking",
+        "guest": "Guest",
+        "due": "Due",
+        "declared": "Declared",
+        "status": "Status"
+      },
+      "duplicate": "File already used in: {codes}",
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "{total} receipts",
+      "empty": "No receipts in this list",
+      "emptyHint": "When a guest uploads one it shows up here and we notify you."
+    },
+    "guests": {
+      "title": "Guests",
+      "subtitle": "{count, plural, one {# guest} other {# guests}} on record.",
+      "search": "Name, email or phone",
+      "table": {
+        "name": "Name",
+        "contact": "Contact",
+        "country": "Country",
+        "stays": "Bookings",
+        "last": "Last booking",
+        "code": "Code",
+        "property": "Property",
+        "dates": "Dates",
+        "total": "Total",
+        "status": "Status"
+      },
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "{total} guests",
+      "empty": "No guests match.",
+      "back": "Back to guests",
+      "summaryLine": "{count, plural, one {# booking} other {# bookings}}, {spent} in confirmed stays",
+      "history": "Booking history",
+      "profile": "Profile",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "country": "Country",
+      "notes": "Internal notes",
+      "notesHint": "Preferences, allergies, pets. Only visible to the team.",
+      "save": "Save profile"
+    },
+    "owners": {
+      "title": "Owners",
+      "subtitle": "Property owners, their bank accounts and commissions.",
+      "new": "New owner",
+      "table": {
+        "name": "Name",
+        "contact": "Contact",
+        "properties": "Properties",
+        "bank": "Account",
+        "commission": "Commission"
+      },
+      "hasLogin": "Has dashboard access",
+      "cbuOnly": "CBU on file",
+      "noBank": "No account",
+      "empty": "No owners yet",
+      "emptyHint": "Not needed if every house is paid into the agency account.",
+      "back": "Back to owners",
+      "personal": "Personal details",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "taxId": "Tax ID (CUIT / CUIL)",
+      "taxIdHint": "Format 20-12345678-9.",
+      "commission": "Agency commission (%)",
+      "commissionHint": "For your settlements. It does not change the guest price.",
+      "bank": "Account for transfers",
+      "bankHint": "These details are shown to guests to pay for this owner's properties. Double-check them.",
+      "bankName": "Bank",
+      "accountHolder": "Account holder",
+      "cbu": "CBU / CVU",
+      "cbuHint": "22 digits, no spaces.",
+      "alias": "Alias",
+      "accountTaxId": "Holder's tax ID",
+      "notes": "Notes",
+      "notesHint": "Agreements, settlement method, contacts.",
+      "save": "Save",
+      "create": "Create owner",
+      "delete": "Delete owner",
+      "confirmDelete": "Delete this owner?",
+      "deleted": "Owner deleted",
+      "propertiesTitle": "Their properties",
+      "noProperties": "No properties assigned yet.",
+      "assignHint": "Assign the owner from each property's Information step."
+    },
+    "availability": {
+      "title": "Channels and blocks",
+      "subtitle": "Airbnb and other channels' calendars. They sync automatically every {minutes} minutes and before every booking.",
+      "syncAll": "Sync everything now",
+      "syncedAll": "{synced, plural, one {# calendar synced} other {# calendars synced}}",
+      "syncedWithErrors": "{synced} synced, {failed} with errors",
+      "sync": "Sync",
+      "syncedOne": "{count, plural, one {# event} other {# events}}",
+      "channelsTitle": "Connected calendars",
+      "channelsHint": "To connect a new one, open the property and go to Airbnb and iCal.",
+      "table": {
+        "property": "Property",
+        "channel": "Channel",
+        "status": "Status",
+        "lastSync": "Last sync",
+        "events": "Events"
+      },
+      "paused": "Paused",
+      "failing": "{count, plural, one {Failed # time} other {Failed # times in a row}}",
+      "ok": "Up to date",
+      "pending": "Pending",
+      "noChannels": "No calendars connected yet",
+      "noChannelsHint": "Connect Airbnb from each property to avoid overlapping bookings.",
+      "blocksTitle": "Upcoming blocks",
+      "blocksHint": "Dates closed manually (owner's use, maintenance).",
+      "unblock": "Unblock",
+      "confirmUnblock": "Release these dates?",
+      "unblocked": "Dates released",
+      "noBlocks": "No upcoming blocks.",
+      "toCalendar": "Go to the calendar to block dates"
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Agency details, booking rules, legal texts and access.",
+      "save": "Save",
+      "tabs": {
+        "agencia": "Agency",
+        "reservas": "Bookings",
+        "banco": "General account",
+        "notificaciones": "Notifications",
+        "politicas": "Policies",
+        "portada": "Home page",
+        "usuarios": "Users",
+        "auditoria": "Audit log"
+      },
+      "agency": {
+        "name": "Trading name",
+        "nameHint": "Shown on the site, in emails and in the dashboard.",
+        "legalName": "Legal name",
+        "taxId": "Tax ID (CUIT)",
+        "email": "Contact email",
+        "phone": "Phone",
+        "whatsapp": "WhatsApp",
+        "whatsappHint": "With country code, for example +54 9 3546 40-1122.",
+        "address": "Address",
+        "city": "Town and province",
+        "instagram": "Instagram"
+      },
+      "booking": {
+        "holdHours": "Hours to transfer",
+        "holdHoursHint": "How long we hold the dates waiting for the receipt (1 to 168).",
+        "reminder": "Pre-arrival reminder (days)",
+        "reminderHint": "How many days before check-in we send the welcome email."
+      },
+      "bank": {
+        "hint": "Used for properties without an owner or whose owner has no account on file.",
+        "bankName": "Bank",
+        "accountHolder": "Account holder",
+        "cbu": "CBU / CVU",
+        "alias": "Alias",
+        "accountTaxId": "Holder's tax ID"
+      },
+      "notifications": {
+        "hint": "Current delivery: {driver}. Configure the email provider in the environment variables (see the guide).",
+        "emails": "Emails that receive alerts",
+        "emailsHint": "Comma separated. If empty, administrators receive them."
+      },
+      "policies": {
+        "cancellation": "Cancellation policy",
+        "hint": "One point per line. Shown on the site, at checkout and in emails.",
+        "terms": "Terms and conditions"
+      },
+      "home": {
+        "imagesTitle": "Home page images",
+        "imagesHint": "Links to good quality landscape photos (at least 2000 px wide).",
+        "hero": "Main image",
+        "cta": "Closing image",
+        "destinationsTitle": "Destination photos",
+        "destinationsHint": "One photo per village. If empty, we use the cover of a property there.",
+        "testimonialsTitle": "Testimonials",
+        "testimonialsHint": "Real guest reviews. If there are none, the section is hidden.",
+        "name": "Name",
+        "origin": "City",
+        "quote": "Testimonial",
+        "remove": "Remove testimonial",
+        "add": "Add testimonial"
+      },
+      "users": {
+        "new": "New user",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "lastLogin": "Last sign-in",
+        "status": "Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "edit": "Edit user",
+        "roleHint": "Each role only sees what it needs.",
+        "roles": {
+          "ADMIN": "everything, including settings",
+          "MANAGER": "bookings, calendar, payments and properties",
+          "OWNER": "read-only access to their properties"
+        },
+        "owner": "Linked owner",
+        "chooseOwner": "Choose an owner",
+        "password": "Initial password",
+        "newPassword": "New password",
+        "passwordHint": "At least 10 characters. Share it through a secure channel.",
+        "activeLabel": "Active user"
+      },
+      "audit": {
+        "when": "When",
+        "who": "Who",
+        "action": "Action",
+        "entity": "On",
+        "ip": "IP",
+        "actor": {
+          "USER": "Team",
+          "GUEST": "Guest",
+          "SYSTEM": "System"
+        }
+      }
+    },
+    "account": {
+      "title": "My account",
+      "profile": "Your details",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "password": "Change password",
+      "passwordHint": "Changing it signs out your other sessions.",
+      "current": "Current password",
+      "next": "New password",
+      "nextHint": "At least 10 characters.",
+      "confirm": "Repeat new password",
+      "submit": "Change password",
+      "changed": "Password updated"
+    }
+  },
+  "legal": {
+    "termsTitle": "Terms and conditions",
+    "cancellationTitle": "Cancellation policy",
+    "cancellationAside": "Each property may have its own conditions; you see them on its page and in the summary before booking.",
+    "privacyTitle": "Privacy policy",
+    "empty": "This text has not been added yet.",
+    "privacyBody": "{agency} uses your data (name, email, phone and payment receipts) only to manage your booking and to contact you.\nWe do not sell or share your data with third parties, except the owner of the booked house when needed for your stay.\nTransfer receipts are stored privately and only authorised staff can see them.\nYou can ask us to update or delete your data by writing to {email}.\nWe only use essential technical cookies (language, access to your booking and dashboard session). We do not use advertising cookies."
+  },
+  "contact": {
+    "title": "Let's talk",
+    "subtitle": "You'll talk to people, not bots. Write to us about a house, the area or a special stay.",
+    "email": "Email",
+    "phone": "Phone",
+    "hours": "We answer every day from 9 am to 9 pm.",
+    "haveBooking": "I already have a booking",
+    "whatsappMessage": "Hi, I have a question."
+  }
+}

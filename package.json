@@ -1,26 +1,73 @@
 {
-  "name": "remanso",
+  "name": "destinocalamuchita",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "db:local": "tsx scripts/local-db.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate",
+    "check:messages": "tsx scripts/check-messages.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1143.0",
+    "@node-rs/argon2": "2.2.1",
+    "@phosphor-icons/react": "2.1.10",
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "clsx": "2.1.1",
+    "date-fns": "4.4.0",
+    "dotenv": "18.0.4",
+    "file-type": "22.1.1",
+    "ical.js": "2.2.1",
+    "maplibre-gl": "6.11.2",
+    "motion": "13.4.6",
     "next": "16.3.7",
+    "next-intl": "4.14.8",
+    "nodemailer": "10.0.12",
+    "pg": "8.23.0",
+    "prisma": "7.10.0",
+    "radix-ui": "1.6.7",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "recharts": "3.10.1",
+    "server-only": "0.0.1",
+    "sharp": "0.35.5",
+    "sonner": "2.0.8",
+    "tailwind-merge": "3.7.0",
+    "zod": "4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "24.19.0",
+    "@types/nodemailer": "8.0.2",
+    "@types/pg": "8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "embedded-postgres": "18.4.0-beta.17",
     "eslint": "^9",
     "eslint-config-next": "16.3.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "4.23.15",
+    "typescript": "^5",
+    "vitest": "5.0.2"
+  },
+  "allowScripts": {
+    "prisma@7.10.0": true,
+    "@prisma/engines@7.10.0": true,
+    "@embedded-postgres/windows-x64@18.4.0-beta.17": true,
+    "esbuild@0.28.2": true,
+    "unrs-resolver@1.12.2": true
   }
 }
