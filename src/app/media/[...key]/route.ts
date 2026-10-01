@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { storage } from "@/server/storage";
 
 /**
- * Serves the public bucket when STORAGE_DRIVER=local (development or single-server hosting).
+ * Serves the public bucket for STORAGE_DRIVER=local (development) and r2 (Cloudflare bindings).
  * With S3 the photos have their own public URL and this route is never referenced.
  */
 export async function GET(_request: Request, { params }: RouteContext<"/media/[...key]">) {

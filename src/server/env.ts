@@ -2,8 +2,9 @@ import "server-only";
 import { z } from "zod";
 
 /**
- * Environment is validated once at startup. A missing or malformed variable fails fast with a
- * readable message instead of surfacing later as an obscure runtime error.
+ * Environment is validated on first use. A missing or malformed variable fails with a readable
+ * message instead of surfacing later as an obscure runtime error. Lazy, because on Cloudflare the
+ * variables are only present at request time, and `next build` imports modules without them.
  */
 const optional = z
   .string()
@@ -13,12 +14,14 @@ const optional = z
 const schema = z
   .object({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-    DATABASE_URL: z.string().min(1),
+    /** Direct PostgreSQL URL. On Cloudflare the HYPERDRIVE binding is used instead (see db.ts). */
+    DATABASE_URL: optional,
     APP_URL: z.url(),
     CRON_SECRET: z.string().min(16, "CRON_SECRET must be at least 16 characters"),
     APP_SECRET: z.string().min(32, "APP_SECRET must be at least 32 characters"),
 
-    STORAGE_DRIVER: z.enum(["local", "s3"]).default("local"),
+    /** local: ./storage on disk · s3: any S3 API · r2: Cloudflare R2 bindings (MEDIA, RECEIPTS). */
+    STORAGE_DRIVER: z.enum(["local", "s3", "r2"]).default("local"),
     S3_ENDPOINT: optional,
     S3_REGION: z.string().default("auto"),
     S3_BUCKET_PUBLIC: optional,
@@ -55,11 +58,12 @@ const schema = z
     if (value.EMAIL_DRIVER === "resend" && !value.RESEND_API_KEY) {
       ctx.addIssue({ code: "custom", path: ["RESEND_API_KEY"], message: "RESEND_API_KEY is required when EMAIL_DRIVER=resend" });
     }
-    if (value.NODE_ENV === "production" && value.STORAGE_DRIVER === "local" && !process.env.ALLOW_LOCAL_STORAGE) {
+    const building = process.env.NEXT_PHASE === "phase-production-build";
+    if (value.NODE_ENV === "production" && value.STORAGE_DRIVER === "local" && !building && !process.env.ALLOW_LOCAL_STORAGE) {
       ctx.addIssue({
         code: "custom",
         path: ["STORAGE_DRIVER"],
-        message: "Use STORAGE_DRIVER=s3 in production (serverless filesystems are ephemeral). Set ALLOW_LOCAL_STORAGE=1 on a VPS.",
+        message: "Use STORAGE_DRIVER=r2 (Cloudflare) or s3 in production. Set ALLOW_LOCAL_STORAGE=1 only on a single server with a persistent disk.",
       });
     }
   });
@@ -73,9 +77,20 @@ function parseEnv() {
   return result.data;
 }
 
-export const env = parseEnv();
+type Env = z.output<typeof schema>;
+let parsed: Env | undefined;
 
-export const isProduction = env.NODE_ENV === "production";
+export const env: Env = new Proxy({} as Env, {
+  get(_target, key) {
+    parsed ??= parseEnv();
+    return parsed[key as keyof Env];
+  },
+});
+
+/** Secure cookies and HSTS-only behaviour. */
+export function isProduction(): boolean {
+  return env.NODE_ENV === "production";
+}
 
 /** Absolute URL on the public site. */
 export function absoluteUrl(path: string): string {

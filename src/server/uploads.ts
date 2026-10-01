@@ -1,12 +1,11 @@
 import "server-only";
 import { fileTypeFromBuffer } from "file-type";
-import sharp from "sharp";
 import { ActionError } from "./action-result";
 import { sha256 } from "./auth/crypto";
+import { transformImage } from "./images";
 
 export const PROOF_MAX_BYTES = 10 * 1024 * 1024;
 export const IMAGE_MAX_BYTES = 15 * 1024 * 1024;
-const MAX_INPUT_PIXELS = 60_000_000;
 
 /** Characters that are never needed in a stored file name. */
 export function sanitizeFileName(name: string): string {
@@ -64,13 +63,7 @@ export async function processProofFile(file: File): Promise<ProcessedProof> {
   }
   if (type?.mime === "image/jpeg" || type?.mime === "image/png") {
     try {
-      const pipeline = sharp(original, { limitInputPixels: MAX_INPUT_PIXELS })
-        .rotate()
-        .resize({ width: 2400, height: 2400, fit: "inside", withoutEnlargement: true });
-      const buffer =
-        type.mime === "image/png"
-          ? await pipeline.png({ compressionLevel: 9 }).toBuffer()
-          : await pipeline.jpeg({ quality: 86, mozjpeg: true }).toBuffer();
+      const { buffer } = await transformImage({ input: original, format: type.mime === "image/png" ? "png" : "jpeg", quality: 86, maxSide: 2400 });
       return {
         buffer,
         mimeType: type.mime,
@@ -98,12 +91,7 @@ export async function processPropertyImage(file: File): Promise<ProcessedImage> 
     throw new ActionError("FILE_TYPE");
   }
   try {
-    const { data, info } = await sharp(original, { limitInputPixels: MAX_INPUT_PIXELS })
-      .rotate()
-      .resize({ width: 2400, height: 2400, fit: "inside", withoutEnlargement: true })
-      .webp({ quality: 82 })
-      .toBuffer({ resolveWithObject: true });
-    return { buffer: data, width: info.width, height: info.height };
+    return await transformImage({ input: original, format: "webp", quality: 82, maxSide: 2400 });
   } catch {
     throw new ActionError("FILE_UNSAFE");
   }

@@ -12,12 +12,12 @@ import "dotenv/config";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { hash } from "@node-rs/argon2";
 import { PrismaPg } from "@prisma/adapter-pg";
 import sharp from "sharp";
 import { type Prisma, PrismaClient } from "../src/generated/prisma/client";
 import { addDays, todayISO, toDbDate } from "../src/lib/dates";
 import { centsToDecimalString } from "../src/lib/money";
+import { hashPassword } from "../src/lib/password";
 import { calculateQuote, type PricingConfig } from "../src/lib/pricing";
 
 const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }) });
@@ -481,7 +481,7 @@ async function main() {
   const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
   if (!existingAdmin) {
     await prisma.user.create({
-      data: { email: adminEmail, name: "Administración", role: "ADMIN", passwordHash: await hash(adminPassword.value) },
+      data: { email: adminEmail, name: "Administración", role: "ADMIN", passwordHash: await hashPassword(adminPassword.value) },
     });
     console.log(`✔ Admin user: ${adminEmail}${adminPassword.generated ? `  password: ${adminPassword.value}  (save it now)` : " (password from SEED_ADMIN_PASSWORD)"}`);
   }
@@ -595,7 +595,7 @@ async function main() {
   for (const [key, owner] of Object.entries(OWNERS)) {
     ownerIds[key] = (await prisma.owner.create({ data: owner })).id;
   }
-  const demoHash = await hash(demoPassword.value);
+  const demoHash = await hashPassword(demoPassword.value);
   await prisma.user.create({ data: { email: "gestion@destinocalamuchita.local", name: "Lucas Molina", role: "MANAGER", passwordHash: demoHash } });
   await prisma.user.create({ data: { email: "olga@destinocalamuchita.local", name: "Olga Ferreyra", role: "OWNER", ownerId: ownerIds.olga!, passwordHash: demoHash } });
   console.log(`✔ Demo users: gestion@destinocalamuchita.local (MANAGER), olga@destinocalamuchita.local (OWNER)${demoPassword.generated ? `  password: ${demoPassword.value}` : " (password from SEED_DEMO_PASSWORD)"}`);

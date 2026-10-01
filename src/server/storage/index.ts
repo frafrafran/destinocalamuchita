@@ -1,6 +1,7 @@
 import "server-only";
 import { env } from "../env";
 import { LocalStorage } from "./local";
+import { R2Storage } from "./r2";
 import { S3Storage } from "./s3";
 
 /**
@@ -26,6 +27,6 @@ export interface StorageDriver {
 let driver: StorageDriver | undefined;
 
 export function storage(): StorageDriver {
-  driver ??= env.STORAGE_DRIVER === "s3" ? new S3Storage() : new LocalStorage();
+  driver ??= env.STORAGE_DRIVER === "r2" ? new R2Storage() : env.STORAGE_DRIVER === "s3" ? new S3Storage() : new LocalStorage();
   return driver;
 }

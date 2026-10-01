@@ -1,0 +1,47 @@
+// Cloudflare Worker for DestinoCalamuchita (Next.js through OpenNext). Deploy with `npm run cf:deploy`.
+// Secrets are not here: set them with `npx wrangler secret put NAME` (see docs/GUIA-DE-USO.md, section 3).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "destinocalamuchita",
+  "account_id": "4a990748c64002284447442eb4b169fc",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-09-25",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  // Static files built by Next.js (/_next/static, public/).
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  // Lets OpenNext call back into this Worker (required by the adapter).
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "destinocalamuchita" }],
+
+  // PostgreSQL through Hyperdrive (pooled, close to the database). `id` comes from
+  // `npx wrangler hyperdrive create`; `localConnectionString` is used by `npm run cf:preview`.
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "REPLACE_WITH_HYPERDRIVE_ID",
+      "localConnectionString": "postgresql://remanso:remanso@localhost:5433/remanso",
+    },
+  ],
+  // Property photos (MEDIA, served through /media) and payment receipts (RECEIPTS, private).
+  "r2_buckets": [
+    { "binding": "MEDIA", "bucket_name": "destinocalamuchita-media" },
+    { "binding": "RECEIPTS", "bucket_name": "destinocalamuchita-receipts" },
+  ],
+  // Image resizing for uploads and next/image.
+  "images": { "binding": "IMAGES" },
+
+  // Housekeeping every 15 minutes (cloudflare/worker.js → /api/cron).
+  "triggers": { "crons": ["*/15 * * * *"] },
+
+  // Non-secret settings. APP_URL must be the public address (workers.dev or your own domain).
+  "vars": {
+    "APP_URL": "https://destinocalamuchita.REPLACE_WITH_SUBDOMAIN.workers.dev",
+    "STORAGE_DRIVER": "r2",
+    "EMAIL_DRIVER": "resend",
+    "EMAIL_FROM": "DestinoCalamuchita <reservas@example.com>",
+    "ICAL_SYNC_INTERVAL_MINUTES": "30",
+  },
+
+  "observability": { "enabled": true },
+  "upload_source_maps": true,
+}

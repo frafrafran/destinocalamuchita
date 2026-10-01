@@ -17,11 +17,14 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "check:messages": "tsx scripts/check-messages.ts"
+    "check:messages": "tsx scripts/check-messages.ts",
+    "cf:build": "node scripts/cf-build.mjs",
+    "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
+    "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1143.0",
-    "@node-rs/argon2": "2.2.1",
+    "@opennextjs/cloudflare": "1.20.7",
     "@phosphor-icons/react": "2.1.10",
     "@prisma/adapter-pg": "7.10.0",
     "@prisma/client": "7.10.0",
@@ -61,13 +64,18 @@
     "tailwindcss": "^4",
     "tsx": "4.23.15",
     "typescript": "^5",
-    "vitest": "5.0.2"
+    "vitest": "5.0.2",
+    "wrangler": "4.145.0"
   },
   "allowScripts": {
-    "prisma@7.10.0": true,
-    "@prisma/engines@7.10.0": true,
+    "@embedded-postgres/linux-x64@18.4.0-beta.17": true,
     "@embedded-postgres/windows-x64@18.4.0-beta.17": true,
+    "@prisma/engines@7.10.0": true,
+    "esbuild@0.25.4": true,
+    "esbuild@0.28.1": true,
     "esbuild@0.28.2": true,
-    "unrs-resolver@1.12.2": true
+    "prisma@7.10.0": true,
+    "unrs-resolver@1.12.2": true,
+    "workerd@1.20260930.2": true
   }
 }

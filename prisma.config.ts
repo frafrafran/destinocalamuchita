@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -7,7 +7,7 @@ export default defineConfig({
     path: "prisma/migrations",
     seed: "tsx prisma/seed.ts",
   },
-  datasource: {
-    url: env("DATABASE_URL"),
-  },
+  // Only migrate/seed/studio need a database. `prisma generate` (run on every npm install, also in
+  // CI and Cloudflare builds) must work without DATABASE_URL.
+  ...(process.env.DATABASE_URL ? { datasource: { url: process.env.DATABASE_URL } } : {}),
 });

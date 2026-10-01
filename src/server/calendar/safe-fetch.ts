@@ -1,5 +1,5 @@
 import "server-only";
-import { lookup } from "node:dns/promises";
+import { resolve4, resolve6 } from "node:dns/promises";
 import net from "node:net";
 
 /**
@@ -71,9 +71,18 @@ export function normaliseCalendarUrl(raw: string): URL {
   return url;
 }
 
+/**
+ * Every A and AAAA record must be public. resolve4/resolve6 (not lookup) because they also run on
+ * Cloudflare Workers, where node:dns answers through DNS over HTTPS and lookup is not implemented.
+ */
 async function assertPublicHost(hostname: string): Promise<void> {
-  const addresses = await lookup(hostname, { all: true, verbatim: true });
-  if (addresses.length === 0 || addresses.some(({ address }) => isPrivateAddress(address))) {
+  if (net.isIP(hostname)) {
+    if (isPrivateAddress(hostname)) throw new UnsafeUrlError("PRIVATE_ADDRESS");
+    return;
+  }
+  const results = await Promise.allSettled([resolve4(hostname), resolve6(hostname)]);
+  const addresses = results.flatMap((result) => (result.status === "fulfilled" ? result.value : []));
+  if (addresses.length === 0 || addresses.some((address) => isPrivateAddress(address))) {
     throw new UnsafeUrlError("PRIVATE_ADDRESS");
   }
 }

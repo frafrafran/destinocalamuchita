@@ -25,4 +25,7 @@ export function jsonLd(data: unknown): { __html: string } {
   return { __html: JSON.stringify(data).replace(/</g, "\\u003c") };
 }
 
-export const metadataBase = new URL(env.APP_URL);
+/** Base for absolute metadata URLs (Open Graph, canonical). Read per request: the URL comes from the runtime env. */
+export function metadataBase(): URL {
+  return new URL(env.APP_URL);
+}

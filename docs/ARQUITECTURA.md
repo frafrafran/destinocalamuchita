@@ -73,9 +73,9 @@ Next.js 16 (App Router, Server Components, Server Actions, Route Handlers)
  ├─ src/lib/*                   Utilidades puras compartidas (fechas, dinero, estados)
  └─ prisma/                     Esquema, migraciones (incluye SQL de restricciones) y seed de demostración
 PostgreSQL (Prisma 7 + driver adapter `pg`)
-Almacenamiento: driver `local` (desarrollo) o `s3` (Cloudflare R2, AWS S3, Supabase Storage, MinIO)
-Email: driver `console` (desarrollo), `smtp` o `resend`
-Cron: Vercel Cron o cualquier servicio que llame a `/api/cron` con `CRON_SECRET`
+Almacenamiento: driver `local` (desarrollo), `r2` (Cloudflare R2 por bindings, producción) o `s3` (cualquier API S3)
+Email: driver `console` (desarrollo), `resend` (producción en Cloudflare) o `smtp` (solo hosting Node.js)
+Cron: Cron Trigger de Cloudflare cada 15 min (`cloudflare/worker.js` → `/api/cron` con `CRON_SECRET`)
 ```
 
 ### Por qué este stack
@@ -85,7 +85,7 @@ Cron: Vercel Cron o cualquier servicio que llame a `/api/cron` con `CRON_SECRET`
   prevención de doble reserva no depende de la aplicación sino de la base de datos.
 - **Prisma 7**: tipado de punta a punta y migraciones versionadas; el SQL que Prisma no modela (restricciones de
   exclusión y `CHECK`) vive en la migración inicial.
-- **Autenticación propia con sesiones en base de datos** (patrón Lucia): contraseñas con Argon2id, token aleatorio
+- **Autenticación propia con sesiones en base de datos** (patrón Lucia): contraseñas con scrypt (parámetros OWASP), token aleatorio
   de 256 bits en cookie `httpOnly`, solo el hash SHA-256 se guarda. Permite revocar sesiones y no depende de un
   proveedor externo.
 - **next-intl**: traducciones de interfaz y rutas con prefijo de idioma (`/`, `/en`, `/pt`). El contenido de cada
@@ -143,12 +143,12 @@ toma primero el bloqueo de fila de la propiedad, así que las verificaciones ent
 
 ## 4. Seguridad
 
-- Contraseñas Argon2id; sesiones con token aleatorio, cookie `httpOnly`, `SameSite=Lax`, `Secure` en producción.
+- Contraseñas con scrypt (N=2^14, r=8, p=5); sesiones con token aleatorio, cookie `httpOnly`, `SameSite=Lax`, `Secure` en producción.
 - Autorización por permisos (`src/server/auth/permissions.ts`) verificada en cada Server Action y Route Handler,
   no solo en la navegación. Los propietarios (`OWNER`) solo ven datos filtrados por su `ownerId`.
 - Validación con Zod en el servidor para toda entrada. Las Server Actions tienen verificación de origen de Next.js;
   las rutas de subida verifican el encabezado `Origin`.
-- Rate limiting persistente en base de datos (funciona en serverless): login, reservas, subidas, consultas.
+- Rate limiting persistente en base de datos (funciona en Workers, sin memoria compartida): login, reservas, subidas, consultas.
 - Protección SSRF al descargar iCal: solo `https`, se resuelven los DNS y se rechazan IPs privadas, límite de
   tamaño y tiempo.
 - Enlaces de huésped firmados con HMAC-SHA256 (`APP_SECRET` + id de la reserva + versión de acceso). No se guarda
@@ -172,3 +172,24 @@ toma primero el bloqueo de fila de la propiedad, así que las verificaciones ent
 - **Movimiento**: entradas suaves con resortes, revelado de imágenes, microinteracciones en tarjetas y botones.
   Todo respeta `prefers-reduced-motion`.
 - **Modo oscuro**: tokens semánticos en CSS con variante clara y oscura (sigue al sistema, con selector manual).
+
+## Despliegue en Cloudflare Workers
+
+- **Adaptador:** `@opennextjs/cloudflare` (soporta Next.js 16). `proxy.ts` corre con el soporte de
+  middleware Node.js de OpenNext (marcado experimental por OpenNext; verificado con las pruebas de punta a
+  punta en workerd).
+- **Base de datos:** Prisma 7 genera dos clientes del mismo esquema: `src/generated/prisma` (Node.js:
+  desarrollo, pruebas, seed) y `src/generated/prisma-cf` (`runtime = "cloudflare"`, compilador de consultas
+  como módulo WASM). `npm run cf:build` usa el segundo mediante un alias. En el Worker se crea **un cliente
+  por pedido** (Workers no permite compartir sockets entre pedidos) sobre Hyperdrive, que mantiene el pool
+  de conexiones cerca de la base.
+- **Módulos nativos:** `sharp` se reemplaza por el binding de Cloudflare Images (`src/server/images.ts`) y
+  Argon2 por `scrypt` (`src/lib/password.ts`, parámetros OWASP N=2^14, r=8, p=5), disponible de forma nativa
+  en ambos entornos. SMTP y el SDK de AWS no se incluyen en el Worker.
+- **DNS:** la protección SSRF del iCal usa `resolve4`/`resolve6` (DNS sobre HTTPS en Workers; `lookup` no
+  existe ahí).
+- **Variables:** `env.ts` valida en el primer uso (en Cloudflare las variables existen recién al atender un
+  pedido). OpenNext copia el contenido de los archivos `.env` al Worker, por eso `scripts/cf-build.mjs` los
+  aparta durante el armado; los valores de producción son `vars` y secretos de Cloudflare.
+- **Windows:** OpenNext necesita Linux para armar (crea enlaces simbólicos). Se arma en WSL o en CI.
+

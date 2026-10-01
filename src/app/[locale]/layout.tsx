@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const [t, settings] = await Promise.all([getTranslations({ locale, namespace: "meta" }), getSettings()]);
   const name = settings.agency.name;
   return {
-    metadataBase,
+    metadataBase: metadataBase(),
     title: { default: t("title", { name }), template: `%s · ${name}` },
     description: t("description"),
     applicationName: name,

@@ -33,7 +33,7 @@ function cookieName(code: string): string {
 export async function setGuestAccessCookie(code: string, token: string): Promise<void> {
   (await cookies()).set(cookieName(code), token, {
     httpOnly: true,
-    secure: isProduction,
+    secure: isProduction(),
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 180,

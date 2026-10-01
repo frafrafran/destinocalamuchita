@@ -54,11 +54,14 @@ Sitio: <http://localhost:3000> · Panel: <http://localhost:3000/admin> (usuario 
 | `npm test` | Pruebas unitarias y de integración (incluye reservas simultáneas) |
 | `npm run test:e2e` | Pruebas de punta a punta con Microsoft Edge (reserva, comprobante, aprobación) |
 | `npm run check:messages` | Verifica que las traducciones tengan las mismas claves |
+| `npm run cf:preview` | Arma el Worker de Cloudflare y lo corre localmente (Linux/WSL) |
+| `npm run cf:deploy` | Arma y publica en Cloudflare (Linux/WSL o CI) |
 
 ## Tecnología
 
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · PostgreSQL + Prisma 7 · next-intl ·
-Radix UI · Motion · MapLibre · ical.js · sharp. Pensado para Vercel + Neon/Supabase + Cloudflare R2 + Resend.
+Radix UI · Motion · MapLibre · ical.js. Producción en **Cloudflare Workers** (OpenNext) con Hyperdrive + Neon
+(PostgreSQL), R2, Images y Cron Triggers; emails con Resend. Ver la sección 3 de la guía.
 
 Las superposiciones se impiden en la base de datos (restricción `EXCLUDE` sobre rangos de fechas y bloqueo
 por propiedad), no solo en la interfaz.

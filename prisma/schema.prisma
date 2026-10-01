@@ -8,6 +8,14 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+// Same client built for Cloudflare Workers (the query compiler ships as a WASM module import).
+// `npm run cf:build` swaps it in through an alias; Node (dev, tests, seed) keeps the client above.
+generator cloudflare {
+  provider = "prisma-client"
+  runtime  = "cloudflare"
+  output   = "../src/generated/prisma-cf"
+}
+
 datasource db {
   provider = "postgresql"
 }

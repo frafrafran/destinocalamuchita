@@ -19,6 +19,22 @@ const securityHeaders = [
     : []),
 ];
 
+/**
+ * `npm run cf:build` sets CF_BUILD=1: the Cloudflare Worker uses the Prisma client generated for
+ * workerd, and Node-only packages (native image library, SMTP, AWS SDK) are swapped for a stub that
+ * the Worker never calls (it uses the Images binding, Resend and R2 bindings instead).
+ */
+const cloudflareAliases: Record<string, string> =
+  process.env.CF_BUILD === "1"
+    ? {
+        "@/generated/prisma/client": "./src/generated/prisma-cf/client.ts",
+        "@/generated/prisma/enums": "./src/generated/prisma-cf/enums.ts",
+        sharp: "./src/server/unavailable-on-workers.ts",
+        nodemailer: "./src/server/unavailable-on-workers.ts",
+        "@aws-sdk/client-s3": "./src/server/unavailable-on-workers.ts",
+      }
+    : {};
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
@@ -33,7 +49,7 @@ const nextConfig: NextConfig = {
     // What `next-intl/plugin` would configure. Set directly because the plugin eagerly loads
     // @swc/core (only needed for its optional message extractor), whose native binary can be
     // blocked by Windows permission checks.
-    resolveAlias: { "next-intl/config": "./src/i18n/request.ts" },
+    resolveAlias: { "next-intl/config": "./src/i18n/request.ts", ...cloudflareAliases },
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

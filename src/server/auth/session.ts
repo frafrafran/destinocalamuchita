@@ -27,7 +27,7 @@ export async function createSession(userId: string, meta: { ip: string; userAgen
   });
   (await cookies()).set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: isProduction,
+    secure: isProduction(),
     sameSite: "lax",
     path: "/",
     expires: expiresAt,

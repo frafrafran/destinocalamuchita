@@ -1,5 +1,4 @@
 import "server-only";
-import nodemailer from "nodemailer";
 import { env } from "../env";
 
 export interface EmailMessage {
@@ -19,16 +18,20 @@ class ConsoleEmail implements ChannelSender {
   }
 }
 
+/** SMTP needs raw TCP sockets: Node.js hosting only. On Cloudflare use EMAIL_DRIVER=resend. */
 class SmtpEmail implements ChannelSender {
-  private transport = nodemailer.createTransport({
-    host: env.SMTP_HOST,
-    port: env.SMTP_PORT,
-    secure: env.SMTP_PORT === 465,
-    auth: env.SMTP_USER ? { user: env.SMTP_USER, pass: env.SMTP_PASSWORD } : undefined,
-  });
+  private transport?: Promise<import("nodemailer").Transporter>;
 
   async send(message: EmailMessage): Promise<void> {
-    await this.transport.sendMail({ from: env.EMAIL_FROM, ...message });
+    this.transport ??= import("nodemailer").then(({ default: nodemailer }) =>
+      nodemailer.createTransport({
+        host: env.SMTP_HOST,
+        port: env.SMTP_PORT,
+        secure: env.SMTP_PORT === 465,
+        auth: env.SMTP_USER ? { user: env.SMTP_USER, pass: env.SMTP_PASSWORD } : undefined,
+      }),
+    );
+    await (await this.transport).sendMail({ from: env.EMAIL_FROM, ...message });
   }
 }
 

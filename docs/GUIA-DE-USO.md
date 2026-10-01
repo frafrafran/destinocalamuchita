@@ -122,77 +122,134 @@ npm run test:e2e
 `npm run test:e2e` usa Microsoft Edge para reservar como huésped, subir un comprobante y aprobarlo como
 administrador (necesita la web corriendo y la contraseña del administrador en `.env`; borra sus reservas de prueba al terminar).
 
+**Probar como en Cloudflare** (opcional, en Linux o WSL): con la base local corriendo, creá un archivo
+`.dev.vars` con `APP_SECRET`, `CRON_SECRET`, `APP_URL="http://localhost:8787"` y `EMAIL_DRIVER="console"`,
+y ejecutá `npm run cf:preview`. Levanta el sitio en el mismo motor que usa Cloudflare (workerd), con R2 e
+imágenes simuladas. Las pruebas de punta a punta corren contra esa copia con
+`E2E_BASE_URL=http://localhost:8787 npm run test:e2e`.
+
 ---
 
 ## 3. Publicarla en internet (técnico, una vez)
 
-Recomendado, con planes gratuitos para empezar:
+La web se publica en **Cloudflare Workers** (con el adaptador OpenNext para Next.js):
 
-| Qué | Servicio sugerido | Para qué |
-| --- | --- | --- |
-| Web | [Vercel](https://vercel.com) | Aloja el sitio y el panel |
-| Base de datos | [Neon](https://neon.tech) o [Supabase](https://supabase.com) | PostgreSQL |
-| Archivos | [Cloudflare R2](https://www.cloudflare.com/developer-platform/r2/) (o AWS S3) | Fotos y comprobantes |
-| Emails | [Resend](https://resend.com) (o cualquier SMTP) | Avisos a huéspedes y al equipo |
-| Tarea periódica | [cron-job.org](https://cron-job.org) | Vencimientos, recordatorios y Airbnb cada 15 min |
+| Qué | Servicio | Para qué | Costo |
+| --- | --- | --- | --- |
+| Web y panel | Cloudflare Workers | Ejecuta el sitio | **Plan Workers Paid: USD 5/mes** (ver nota) |
+| Base de datos | [Neon](https://neon.tech) (PostgreSQL) + Cloudflare Hyperdrive | Datos y reservas | Neon tiene plan gratuito; Hyperdrive incluido |
+| Archivos | Cloudflare R2 | Fotos y comprobantes | 10 GB gratis por mes |
+| Imágenes | Cloudflare Images (binding) | Achica y optimiza fotos | Incluye transformaciones gratis por mes |
+| Emails | [Resend](https://resend.com) | Avisos a huéspedes y al equipo | Plan gratuito: 3.000 emails/mes |
+| Tarea periódica | Cron de Cloudflare | Vencimientos, recordatorios, Airbnb cada 15 min | Incluido |
 
-### 3.1 Base de datos
+**Nota sobre el plan:** iniciar sesión en el panel cifra la contraseña de forma segura (scrypt, recomendado
+por OWASP) y eso usa unos 130 ms de procesador. El plan gratuito de Workers permite 10 ms por pedido, así
+que el panel no funcionaría ahí. El plan pago (USD 5/mes) incluye 10 millones de visitas por mes.
 
-1. Creá un proyecto en Neon (región São Paulo, la más cercana).
-2. Copiá la cadena de conexión **directa** (la que *no* dice `-pooler`), terminada en `?sslmode=require`.
-   Ese valor va en `DATABASE_URL`.
+**En Windows:** el armado para Cloudflare tiene que hacerse en Linux. Usá **WSL (Ubuntu)** o los deploys
+automáticos desde GitHub (sección 3.6). Los comandos de abajo se ejecutan en una terminal de Ubuntu, dentro
+de una copia del proyecto (`git clone https://github.com/frafrafran/destinocalamuchita.git`), con
+[Node.js 22 o superior](https://nodejs.org) instalado.
 
-### 3.2 Archivos (Cloudflare R2)
+### 3.1 Base de datos (Neon)
 
-1. Creá dos buckets: uno **público** para fotos (por ejemplo `destinocalamuchita-fotos`) y uno **privado** para
-   comprobantes (`destinocalamuchita-comprobantes`). Los comprobantes nunca deben ser públicos.
-2. En el bucket de fotos activá el acceso público (dominio `r2.dev` o uno propio, como `fotos.tudominio.com`).
-3. Creá un token de API con permiso de lectura y escritura sobre ambos buckets.
-4. Variables: `STORAGE_DRIVER="s3"`, `S3_ENDPOINT` (`https://<cuenta>.r2.cloudflarestorage.com`),
-   `S3_REGION="auto"`, `S3_BUCKET_PUBLIC`, `S3_BUCKET_PRIVATE`, `S3_ACCESS_KEY_ID`,
-   `S3_SECRET_ACCESS_KEY` y `S3_PUBLIC_BASE_URL` (la dirección pública del bucket de fotos).
-
-### 3.3 Emails (Resend)
-
-1. Creá una cuenta, agregá tu dominio y cargá los registros DNS que te indica (SPF y DKIM). Sin eso los
-   emails llegan a spam.
-2. Variables: `EMAIL_DRIVER="resend"`, `RESEND_API_KEY` y `EMAIL_FROM` (por ejemplo
-   `DestinoCalamuchita <reservas@tudominio.com>`, con el dominio verificado).
-
-Con SMTP: `EMAIL_DRIVER="smtp"`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`.
-
-### 3.4 Vercel
-
-1. Subí el proyecto a un repositorio de GitHub (privado) e importalo en Vercel.
-2. En *Settings → Environment Variables* cargá todas las variables de `.env.example` con los valores de
-   producción. `APP_URL` es la dirección final (`https://tudominio.com`). Usá valores **nuevos** para
-   `APP_SECRET` y `CRON_SECRET` (no los de tu computadora).
-3. Hacé el primer deploy. El comando de build ya aplica las migraciones de la base (`vercel.json`).
-4. Cargá el usuario administrador **sin datos de demostración**: desde tu computadora, con
-   `DATABASE_URL` apuntando a la base de producción, `SEED_DEMO_DATA="false"` y tu `SEED_ADMIN_EMAIL`
-   y `SEED_ADMIN_PASSWORD`, ejecutá:
+1. Creá un proyecto en Neon, región **AWS São Paulo** (la más cercana a Córdoba).
+2. Copiá la cadena de conexión **directa** (la que *no* dice `-pooler`).
+3. Creá las tablas y el usuario administrador **sin datos de ejemplo** (reemplazá los valores):
 
    ```bash
-   npm run db:seed
+   export DATABASE_URL="postgresql://usuario:clave@ep-xxxx.sa-east-1.aws.neon.tech/neondb?sslmode=require"
    ```
 
-   Esto crea solo el administrador, el catálogo de servicios (wifi, pileta, parrilla…) y las reglas por
-   defecto. Las propiedades las cargás vos desde el panel.
-5. En *Settings → Domains* conectá tu dominio.
+   ```bash
+   npx prisma migrate deploy
+   ```
 
-### 3.5 Tarea periódica (importante)
+   ```bash
+   SEED_DEMO_DATA=false SEED_ADMIN_EMAIL="tu@email.com" SEED_ADMIN_PASSWORD="una-clave-larga" npm run db:seed
+   ```
 
-La tarea `/api/cron` vence reservas sin pago, marca estadías finalizadas, envía recordatorios, reintenta
-emails y trae los calendarios de Airbnb. El plan gratuito de Vercel la ejecuta **una vez por día**, así
-que conviene sumar una ejecución frecuente gratis:
+### 3.2 Conectar la cuenta de Cloudflare
 
-1. En [cron-job.org](https://cron-job.org) creá una tarea con la URL `https://tudominio.com/api/cron`,
-   cada **15 minutos**, método GET.
-2. En *Advanced → Headers* agregá: `Authorization` = `Bearer ` seguido de tu `CRON_SECRET`.
-3. Probala: la respuesta debe ser `{"ok":true,...}`. Si da 401, el encabezado no coincide.
+```bash
+npx wrangler login
+```
 
-Aunque la tarea falle, las reservas nunca se superponen: antes de cada reserva la web vuelve a leer los
-calendarios y libera las retenciones vencidas.
+Se abre el navegador para autorizar. El ID de cuenta ya está en `wrangler.jsonc`.
+
+### 3.3 Crear los recursos (una sola vez)
+
+```bash
+npx wrangler r2 bucket create destinocalamuchita-media
+```
+
+```bash
+npx wrangler r2 bucket create destinocalamuchita-receipts
+```
+
+```bash
+npx wrangler hyperdrive create destinocalamuchita-db --connection-string="$DATABASE_URL"
+```
+
+El último comando muestra un `id`: copialo en `wrangler.jsonc`, en `hyperdrive` → `id`.
+El bucket de comprobantes es privado: nadie puede verlo desde internet, solo el panel.
+
+### 3.4 Claves secretas y configuración
+
+Las claves se guardan cifradas en Cloudflare (nunca en el código ni en archivos):
+
+```bash
+npx wrangler secret put APP_SECRET
+```
+
+```bash
+npx wrangler secret put CRON_SECRET
+```
+
+```bash
+npx wrangler secret put RESEND_API_KEY
+```
+
+Cada comando pide el valor. Para `APP_SECRET` y `CRON_SECRET` generá valores aleatorios con:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
+```
+
+En `wrangler.jsonc` → `vars` completá `APP_URL` (la dirección final, por ejemplo
+`https://destinocalamuchita.com.ar`) y `EMAIL_FROM` (por ejemplo `DestinoCalamuchita <reservas@tudominio.com>`,
+con el dominio verificado en Resend: agregá los registros DNS que te indica, sin eso los emails van a spam).
+
+### 3.5 Publicar
+
+```bash
+npm run cf:deploy
+```
+
+Arma el sitio y lo sube. La primera vez queda en `https://destinocalamuchita.<tu-subdominio>.workers.dev`.
+Para usar tu dominio: en el panel de Cloudflare, **Workers & Pages → destinocalamuchita → Settings →
+Domains & Routes → Add → Custom domain** (el dominio tiene que estar administrado por Cloudflare). Después
+actualizá `APP_URL` y volvé a publicar.
+
+El armado deja afuera los archivos `.env` de tu computadora (scripts/cf-build.mjs), así ninguna clave local
+termina dentro del sitio publicado.
+
+### 3.6 Deploys automáticos desde GitHub (opcional, recomendado)
+
+En Cloudflare: **Workers & Pages → destinocalamuchita → Settings → Builds → Connect** y elegí el repositorio.
+Configurá:
+
+- Comando de build: `npm run cf:build`
+- Comando de deploy: `npx opennextjs-cloudflare deploy`
+
+Desde ahí, cada cambio que se sube a la rama `main` se publica solo.
+
+### 3.7 Tarea periódica
+
+No hay que configurar nada: Cloudflare ejecuta la tarea cada 15 minutos (`triggers` en `wrangler.jsonc`).
+Vence reservas sin pago, marca estadías finalizadas, envía recordatorios, reintenta emails y trae los
+calendarios de Airbnb. Los registros se ven en **Workers & Pages → destinocalamuchita → Logs**.
 
 ---
 
@@ -399,8 +456,7 @@ de producción, poné en `DATABASE_URL` la cadena de producción antes de ejecut
 - No borres propiedades con reservas: pausalas o archivalas.
 
 **Cambios de estructura** (agregar un campo nuevo) son tarea de programación: se modifica
-`prisma/schema.prisma`, se crea una migración con `npm run db:migrate` y se publica. Vercel aplica las
-migraciones solo en cada deploy.
+`prisma/schema.prisma`, se crea una migración con `npm run db:migrate` y se aplica a la base con `npx prisma migrate deploy` (sección 3.1) antes de publicar.
 
 **Empezar de cero en tu computadora** (borra todo lo local y vuelve a cargar la demo):
 
@@ -442,10 +498,10 @@ falta programación: agregarlo en `src/i18n/config.ts` y crear su archivo en `me
 - [ ] Calificaciones solo si son reales (paso *Información* de cada propiedad).
 - [ ] Políticas de cancelación y términos revisados por quien corresponda, en los 3 idiomas.
 - [ ] Emails de aviso configurados y probados (hacé una reserva de prueba y cancelala).
-- [ ] Tarea periódica cada 15 minutos funcionando (sección 3.5).
+- [ ] Tarea periódica funcionando: en los Logs del Worker aparece "Scheduled run" cada 15 minutos (sección 3.7).
 - [ ] Airbnb conectado en ambos sentidos para cada propiedad que esté publicada allí.
 - [ ] Contraseña del administrador cambiada y usuarios del equipo creados con el rol justo.
-- [ ] Dominio propio con HTTPS en Vercel y `APP_URL` con esa dirección.
+- [ ] Dominio propio conectado al Worker (sección 3.5) y `APP_URL` con esa dirección.
 
 ---
 
