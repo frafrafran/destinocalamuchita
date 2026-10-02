@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { PUBLIC_CLIENT_NAMESPACES, pickMessages } from "@/i18n/client-messages";
 import { LOCALE_TAGS } from "@/i18n/config";
 import { routing } from "@/i18n/routing";
+import { env } from "@/server/env";
 import { metadataBase } from "@/server/seo";
 import { getSettings } from "@/server/settings";
 import "../globals.css";
@@ -45,6 +46,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
     openGraph: { siteName: name, type: "website", locale: LOCALE_TAGS[locale as keyof typeof LOCALE_TAGS] ?? "es-AR" },
     twitter: { card: "summary_large_image" },
     formatDetection: { telephone: false },
+    ...(env.DEMO_MODE ? { robots: { index: false, follow: false } } : {}),
   };
 }
 

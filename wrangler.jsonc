@@ -42,6 +42,9 @@
     "EMAIL_DRIVER": "console",
     "EMAIL_FROM": "DestinoCalamuchita <reservas@example.com>",
     "ICAL_SYNC_INTERVAL_MINUTES": "30",
+    // Demonstration site: "fictional data" notice on every page and hidden from search engines.
+    // Set to "false" before publishing real properties (and delete the DEMO_ACCESS_KEY secret).
+    "DEMO_MODE": "true",
   },
 
   "observability": { "enabled": true },

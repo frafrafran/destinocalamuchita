@@ -5,6 +5,7 @@ import { BookingFlow } from "@/components/booking/booking-flow";
 import type { Locale } from "@/i18n/config";
 import { isValidISODate } from "@/lib/dates";
 import { PUBLIC_CALENDAR_DAYS, getPublicProperty } from "@/server/queries/public";
+import { DemoWarning } from "@/components/site/demo-notice";
 import { getSettings } from "@/server/settings";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,7 @@ export default async function ReservePage({ params, searchParams }: PageProps<"/
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 pt-[100px] pb-24 sm:px-6 lg:px-10">
+      <DemoWarning className="mb-8" />
       <BookingFlow
         property={{
           slug: property.slug,

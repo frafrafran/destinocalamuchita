@@ -169,6 +169,12 @@
       "system": "Automatic",
       "light": "Light",
       "dark": "Dark"
+    },
+    "demo": {
+      "badge": "Demo site",
+      "badgeHint": "fictional properties, prices and bank details",
+      "warningTitle": "This is a demonstration",
+      "warningBody": "Properties, prices and bank details are fictional. Do not send any transfer: no booking on this site is real."
     }
   },
   "nav": {

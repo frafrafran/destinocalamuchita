@@ -169,6 +169,12 @@
       "system": "Automático",
       "light": "Claro",
       "dark": "Oscuro"
+    },
+    "demo": {
+      "badge": "Sitio de demostración",
+      "badgeHint": "propiedades, precios y datos bancarios ficticios",
+      "warningTitle": "Esto es una demostración",
+      "warningBody": "Las propiedades, los precios y los datos bancarios son ficticios. No hagas transferencias: ninguna reserva de este sitio es real."
     }
   },
   "nav": {

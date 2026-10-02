@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { DemoBadge } from "@/components/site/demo-notice";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { getSettings } from "@/server/settings";
@@ -18,6 +19,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/[locale]">)
         {children}
       </main>
       <SiteFooter agency={settings.agency} />
+      <DemoBadge />
     </>
   );
 }

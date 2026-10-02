@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { DemoWarning } from "@/components/site/demo-notice";
 import { BookingSteps } from "@/components/booking/booking-steps";
 import { PriceBreakdown } from "@/components/booking/price-breakdown";
 import { HoldCountdown, PrintButton } from "@/components/reservation/guest-widgets";
@@ -80,6 +81,7 @@ export default async function GuestReservationPage({ params }: PageProps<"/[loca
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 pt-[100px] pb-24 sm:px-6 lg:px-10">
+      <DemoWarning className="mb-8 print:hidden" />
       <div className="print:hidden">
         <BookingSteps current={bookingStepFor(r.status)} complete={confirmed || r.status === "COMPLETED"} />
       </div>

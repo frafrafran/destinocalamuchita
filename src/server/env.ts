@@ -39,6 +39,14 @@ const schema = z
     RESEND_API_KEY: optional,
 
     ICAL_SYNC_INTERVAL_MINUTES: z.coerce.number().int().min(5).default(30),
+
+    /** Demonstration site: shows a "fictional data" notice everywhere and hides the site from search engines. */
+    DEMO_MODE: z
+      .enum(["true", "false"])
+      .default("false")
+      .transform((value) => value === "true"),
+    /** Secret of the private panel link (/api/demo-access?key=…). Unset = the link does not exist. */
+    DEMO_ACCESS_KEY: optional.refine((value) => !value || value.length >= 32, "DEMO_ACCESS_KEY must be at least 32 characters"),
   })
   .superRefine((value, ctx) => {
     if (value.STORAGE_DRIVER === "s3") {

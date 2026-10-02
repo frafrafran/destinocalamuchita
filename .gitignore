@@ -57,3 +57,6 @@ next-env.d.ts
 /.wrangler/
 .dev.vars*
 *.cf-hidden
+
+# private links generated for the owner (never commit)
+*.local.txt

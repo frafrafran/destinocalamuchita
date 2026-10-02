@@ -264,6 +264,23 @@ calendarios de Airbnb. Los registros se ven en **Workers & Pages → destinocala
 
 ---
 
+### Modo demostración (sin pagar Workers Paid)
+
+Mientras `DEMO_MODE` sea `"true"` en `wrangler.jsonc`, el sitio muestra la etiqueta "Sitio de
+demostración", avisa en el formulario de reserva y en la página de pago que nada es real, y no aparece en
+Google. Las propiedades, reservas, huéspedes y datos bancarios de ejemplo son ficticios.
+
+Para entrar al panel sin contraseña hay un **link privado** (archivo `acceso-demo.local.txt` en la carpeta
+del proyecto, que no se sube a GitHub). Quien tenga el link es administrador: no lo compartas. Para
+desactivarlo: `npx wrangler secret delete DEMO_ACCESS_KEY`.
+
+**Antes de usar el sitio con clientes reales:** borrá los datos de ejemplo (en Supabase, SQL Editor:
+pedímelo y te paso el script, o creá un proyecto limpio con `SEED_DEMO_DATA=false`), cargá tus propiedades y
+datos bancarios reales, poné `DEMO_MODE` en `"false"`, borrá el secreto `DEMO_ACCESS_KEY`, activá Workers Paid
+y publicá de nuevo.
+
+---
+
 ## 5. Agregar una propiedad
 
 **Propiedades → Nueva propiedad.** El asistente tiene 7 pasos; cada uno se guarda por separado y podés
@@ -437,6 +454,16 @@ mismo el rol de administrador, para no quedar sin acceso.
 ---
 
 ## 11. Cambiar datos de la base de datos
+
+**Dónde está la base:** en Supabase, proyecto `destinocalamuchita` (São Paulo). Entrá a
+<https://supabase.com/dashboard/project/iarcshlnlxacnwacorue> con tu cuenta:
+
+- **Table Editor**: ver y editar cada tabla como en una planilla (Property, Reservation, Guest, Owner…).
+- **SQL Editor**: consultas, por ejemplo `select code, status, "checkIn" from "Reservation" order by "checkIn";`.
+- **Database → Backups**: muestra qué copias de seguridad incluye tu plan de Supabase. Antes de cambios grandes, hacé una exportación desde el SQL Editor o pedí una copia.
+
+Las tablas tienen Row Level Security activado sin políticas: la API pública de Supabase no puede leerlas;
+solo la web (que se conecta con su propio usuario) y el panel de Supabase.
 
 **Primero, siempre desde el panel.** Todo lo cotidiano (propiedades, precios, reservas, huéspedes,
 propietarios, textos, usuarios) se edita ahí, con validaciones y registro de auditoría.
