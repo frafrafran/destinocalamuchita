@@ -48,12 +48,17 @@ export function SiteHeader({ agencyName }: { agencyName: string }) {
   return (
     <>
       {overlay ? <div ref={sentinel} aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[calc(var(--home-hero-h)-28svh)] motion-reduce:h-[60vh]" /> : null}
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,color,backdrop-filter] duration-300 print:hidden",
-          transparent ? "bg-transparent text-white" : "bg-bg/85 text-ink shadow-[0_1px_0_var(--line)] backdrop-blur-xl",
-        )}
-      >
+      <header className={cn("fixed inset-x-0 top-0 z-40 transition-colors duration-300 print:hidden", transparent ? "text-white" : "text-ink")}>
+        {/* The solid backdrop fades in through opacity alone (compositor-only). Transitioning backdrop-filter
+            itself re-blurred the page behind the header on every frame and stuttered right where the
+            home hero hands over to the next section. The blur is only applied while the backdrop shows. */}
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0 -z-10 bg-bg/85 shadow-[0_1px_0_var(--line)] transition-opacity duration-300",
+            transparent ? "opacity-0" : "opacity-100 backdrop-blur-xl",
+          )}
+        />
         <div className="mx-auto flex h-[68px] max-w-[1400px] items-center justify-between gap-2 px-4 sm:gap-6 sm:px-6 lg:px-10">
           <Link href="/" className="rounded-lg" aria-label={agencyName}>
             <Logo name={agencyName} inverted={transparent} />

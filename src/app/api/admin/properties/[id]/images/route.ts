@@ -26,7 +26,9 @@ export async function POST(request: Request, { params }: RouteContext<"/api/admi
   const user = await getCurrentUser();
   if (!user || !can(user.role, "properties:write")) return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
 
-  const limit = await consumeRateLimit(`images:${user.id}`, 120, 3600);
+  // The panel sends one photo per request (Cloudflare body limits), so this allows ~5 full properties
+  // (MAX_IMAGES_PER_PROPERTY) an hour.
+  const limit = await consumeRateLimit(`images:${user.id}`, 300, 3600);
   if (!limit.allowed) return NextResponse.json({ error: "RATE_LIMITED" }, { status: 429 });
 
   const { id } = await params;

@@ -11,7 +11,8 @@ interface Props {
   property: PropertyCardData;
   locale: Locale;
   sizes?: string;
-  priority?: boolean;
+  /** Preload the cover (the first card of a page, a likely LCP element). */
+  preload?: boolean;
   /** Query string carried to the property page (dates and guests from the search). */
   query?: string;
   className?: string;
@@ -20,7 +21,7 @@ interface Props {
 
 const ASPECTS = { landscape: "aspect-[4/3]", portrait: "aspect-[4/5]", wide: "aspect-[4/3] md:aspect-[16/10]" };
 
-export async function PropertyCard({ property, locale, sizes = "(min-width: 1280px) 33vw, 50vw", priority, query, className, aspect = "landscape" }: Props) {
+export async function PropertyCard({ property, locale, sizes = "(min-width: 1280px) 33vw, 50vw", preload, query, className, aspect = "landscape" }: Props) {
   const t = await getTranslations("property");
   const types = await getTranslations("propertyTypes");
   const [cover, second] = property.images;
@@ -39,7 +40,7 @@ export async function PropertyCard({ property, locale, sizes = "(min-width: 1280
               alt={cover.alt}
               fill
               sizes={sizes}
-              priority={priority}
+              preload={preload}
               className="object-cover transition-transform duration-[900ms] ease-(--ease-soft) group-hover:scale-[1.04]"
             />
           ) : null}

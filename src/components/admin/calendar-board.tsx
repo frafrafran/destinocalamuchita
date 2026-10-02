@@ -2,7 +2,7 @@
 
 import { CaretLeftIcon, CaretRightIcon, LockSimpleIcon, PlusIcon } from "@phosphor-icons/react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { createBlockAction, deleteBlockAction } from "@/actions/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,6 +59,9 @@ export function CalendarBoard({ rows, view, start, end, today, canWrite, propert
   const pathname = usePathname();
   const block = useAction();
   const unblock = useAction();
+  // Changing period, view or property renders on the server: dim the board meanwhile, so a click on
+  // "next" responds at once instead of looking frozen until the new month arrives.
+  const [navigating, startNavigation] = useTransition();
   const [dialog, setDialog] = useState<{ propertyId: string; startDate: ISODate; lastDate: ISODate; reason: string; note: string } | null>(null);
 
   const days = Array.from({ length: diffDays(start, end) }, (_, i) => addDays(start, i));
@@ -72,7 +75,7 @@ export function CalendarBoard({ rows, view, start, end, today, canWrite, propert
       if (value === null) params.delete(key);
       else params.set(key, value);
     }
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    startNavigation(() => router.replace(`${pathname}?${params.toString()}`, { scroll: false }));
   }
   const step = view === "week" ? 7 : diffDays(start, end);
   const previous = view === "week" ? addDays(start, -7) : addDays(start, -1).slice(0, 7) + "-01";
@@ -153,6 +156,7 @@ export function CalendarBoard({ rows, view, start, end, today, canWrite, propert
 
       {unblock.error ? <Notice tone="danger">{unblock.error}</Notice> : null}
 
+      <div aria-busy={navigating} className={cn("transition-opacity duration-200", navigating && "pointer-events-none opacity-50")}>
       {view === "list" ? (
         <div className="overflow-hidden rounded-2xl border border-line bg-surface">
           <ul className="divide-y divide-line">
@@ -270,6 +274,7 @@ export function CalendarBoard({ rows, view, start, end, today, canWrite, propert
           </div>
         </div>
       )}
+      </div>
 
       <Dialog open={dialog !== null} onOpenChange={(open) => !open && setDialog(null)}>
         {dialog ? (

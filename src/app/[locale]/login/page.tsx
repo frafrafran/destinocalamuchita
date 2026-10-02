@@ -37,7 +37,9 @@ export default async function LoginPage({ params, searchParams }: PageProps<"/[l
           </div>
         </div>
         <div className="relative hidden bg-[#1c2420] lg:block">
-          {image ? <Image src={image} alt="" fill sizes="55vw" className="object-cover" priority /> : null}
+          {/* A full-height column: the cropped 3:2 photo is 1.5x as wide as the screen is tall. Hidden below
+              lg, where the tiny size keeps phones from preloading a photo they never show. */}
+          {image ? <Image src={image} alt="" fill sizes="(min-width: 1024px) 150vh, 1px" className="object-cover" preload /> : null}
         </div>
       </main>
     </NextIntlClientProvider>

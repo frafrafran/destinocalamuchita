@@ -263,7 +263,7 @@ export function BookingFlow({ property, pricing, blocked, today, horizonDays, in
         <div className="rounded-3xl border border-line bg-surface p-6 shadow-soft lg:sticky lg:top-24">
           <div className="flex gap-4">
             <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl bg-surface-2">
-              {property.image ? <Image src={property.image.url} alt={property.image.alt} fill sizes="80px" className="object-cover" /> : null}
+              {property.image ? <Image src={property.image.url} alt={property.image.alt} fill sizes="120px" className="object-cover" /> : null}
             </div>
             <div className="min-w-0">
               <p className="truncate font-semibold tracking-tight">{property.title}</p>

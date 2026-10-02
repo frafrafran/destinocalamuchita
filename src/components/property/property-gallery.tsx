@@ -16,6 +16,17 @@ export interface GalleryImage {
 }
 
 /**
+ * Both layouts are in the markup and each one's first photo is preloaded, so each declares a tiny size
+ * where it is hidden: phones and desktops then preload only the photo they actually show, instead of
+ * also fetching a full-width copy for the other layout.
+ */
+// The tiles are squarer than the 3:2 photos they crop, hence sizes a bit wider than the tiles themselves.
+const STRIP_SIZES = "113vw";
+const FIRST_STRIP_SIZES = `(min-width: 768px) 1px, ${STRIP_SIZES}`;
+const MAIN_TILE_SIZES = "(min-width: 1280px) 860px, (min-width: 768px) 66vw, 1px";
+const TILE_SIZES = "(min-width: 1280px) 420px, 33vw";
+
+/**
  * Desktop: one large photo and a 2x2 grid. Phones: a swipeable strip.
  * Any photo opens a fullscreen viewer with keyboard and swipe navigation.
  */
@@ -54,7 +65,7 @@ export function PropertyGallery({ images, title }: { images: GalleryImage[]; tit
         <div ref={strip} className="scrollbar-none flex snap-x snap-mandatory overflow-x-auto">
           {images.map((image, i) => (
             <button key={image.id} type="button" data-index={i} onClick={() => show(i)} className="relative aspect-[4/3] w-full shrink-0 snap-center" aria-label={t("open", { index: i + 1 })}>
-              <Image src={image.url} alt={image.alt} fill sizes="100vw" priority={i === 0} className="object-cover" />
+              <Image src={image.url} alt={image.alt} fill sizes={i === 0 ? FIRST_STRIP_SIZES : STRIP_SIZES} preload={i === 0} className="object-cover" />
             </button>
           ))}
         </div>
@@ -68,11 +79,11 @@ export function PropertyGallery({ images, title }: { images: GalleryImage[]; tit
       {/* Tablet and desktop */}
       <div className={cn("relative hidden gap-2 overflow-hidden rounded-3xl md:grid", grid.length >= 4 ? "h-[min(62vh,560px)] grid-cols-4 grid-rows-2" : "h-[min(56vh,480px)] grid-cols-2")}>
         <button type="button" onClick={() => show(0)} className={cn("group relative overflow-hidden", grid.length >= 4 && "col-span-2 row-span-2")} aria-label={t("open", { index: 1 })}>
-          <Image src={images[0]!.url} alt={images[0]!.alt} fill priority sizes="(min-width: 768px) 50vw, 100vw" className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.02]" />
+          <Image src={images[0]!.url} alt={images[0]!.alt} fill preload sizes={MAIN_TILE_SIZES} className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.02]" />
         </button>
         {(grid.length >= 4 ? grid : grid.slice(0, 1)).map((image, i) => (
           <button key={image.id} type="button" onClick={() => show(i + 1)} className="group relative overflow-hidden" aria-label={t("open", { index: i + 2 })}>
-            <Image src={image.url} alt={image.alt} fill sizes="25vw" className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.03]" />
+            <Image src={image.url} alt={image.alt} fill sizes={TILE_SIZES} className="object-cover transition-transform duration-700 ease-(--ease-soft) group-hover:scale-[1.03]" />
           </button>
         ))}
         <button

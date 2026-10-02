@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckIcon, GlobeSimpleIcon } from "@phosphor-icons/react";
+import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Menu, MenuContent, MenuItem, MenuTrigger } from "@/components/ui/primitives";
 import { LOCALE_NAMES, LOCALES, type Locale } from "@/i18n/config";
@@ -11,6 +12,8 @@ export function LocaleSwitcher({ className }: { className?: string }) {
   const t = useTranslations("nav");
   const locale = useLocale() as Locale;
   const pathname = usePathname();
+  // Keep the query (search filters, chosen dates) so changing language does not reset the page.
+  const query = Object.fromEntries(useSearchParams());
   return (
     <Menu>
       <MenuTrigger
@@ -26,7 +29,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       <MenuContent className="min-w-40">
         {LOCALES.map((code) => (
           <MenuItem key={code} asChild>
-            <Link href={pathname} locale={code} hrefLang={code} className="justify-between">
+            <Link href={{ pathname, query }} locale={code} hrefLang={code} className="justify-between">
               {LOCALE_NAMES[code]}
               {code === locale ? <CheckIcon size={14} className="text-accent-text" /> : null}
             </Link>

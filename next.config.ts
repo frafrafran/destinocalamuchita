@@ -97,6 +97,9 @@ const nextConfig: NextConfig = {
     remotePatterns,
     formats: ["image/avif", "image/webp"],
     qualities: [60, 75, 85],
+    // No source is wider than 2400px (uploads are capped there, demo photos are 2000px), so the default
+    // 3840 variant only cost a second, heavier transform of the same pixels on large retina screens.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
   },
   experimental: {
     optimizePackageImports: ["@phosphor-icons/react", "recharts", "date-fns"],

@@ -253,7 +253,7 @@ export default async function GuestReservationPage({ params }: PageProps<"/[loca
           <div className="rounded-3xl border border-line bg-surface p-6 shadow-soft">
             <div className="flex gap-4">
               <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl bg-surface-2">
-                {r.property.image ? <Image src={r.property.image.url} alt={r.property.image.alt} fill sizes="80px" className="object-cover" /> : null}
+                {r.property.image ? <Image src={r.property.image.url} alt={r.property.image.alt} fill sizes="120px" className="object-cover" /> : null}
               </div>
               <div className="min-w-0">
                 <Link href={`/propiedades/${r.property.slug}`} className="block truncate font-semibold tracking-tight hover:underline">

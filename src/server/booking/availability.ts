@@ -38,31 +38,38 @@ export async function loadBlockedRanges(
   const toDate = toDbDate(to);
   const overlap = { startDate: { lt: toDate }, endDate: { gt: fromDate } };
 
-  // Sequential on purpose: `db` is often a transaction client, which runs one query at a time.
-  const reservations = await db.reservation.findMany({
-    where: {
-      propertyId: { in: propertyIds },
-      checkIn: { lt: toDate },
-      checkOut: { gt: fromDate },
-      ...activeReservationWhere(),
-      ...(options.excludeReservationId ? { id: { not: options.excludeReservationId } } : {}),
-    },
-    select: {
-      id: true,
-      propertyId: true,
-      code: true,
-      status: true,
-      checkIn: true,
-      checkOut: true,
-      hasConflict: true,
-      guest: { select: { firstName: true, lastName: true } },
-    },
-  });
-  const blocks = await db.availability.findMany({ where: { propertyId: { in: propertyIds }, ...overlap } });
-  const events = await db.calendarEvent.findMany({
-    where: { propertyId: { in: propertyIds }, ...overlap, integration: { isActive: true } },
-    include: { integration: { select: { channel: true } } },
-  });
+  // A transaction client runs one query at a time, so the three lookups only go out together on the
+  // top-level client (public pages), saving two database round trips there.
+  const loadReservations = () =>
+    db.reservation.findMany({
+      where: {
+        propertyId: { in: propertyIds },
+        checkIn: { lt: toDate },
+        checkOut: { gt: fromDate },
+        ...activeReservationWhere(),
+        ...(options.excludeReservationId ? { id: { not: options.excludeReservationId } } : {}),
+      },
+      select: {
+        id: true,
+        propertyId: true,
+        code: true,
+        status: true,
+        checkIn: true,
+        checkOut: true,
+        hasConflict: true,
+        guest: { select: { firstName: true, lastName: true } },
+      },
+    });
+  const loadBlocks = () => db.availability.findMany({ where: { propertyId: { in: propertyIds }, ...overlap } });
+  const loadEvents = () =>
+    db.calendarEvent.findMany({
+      where: { propertyId: { in: propertyIds }, ...overlap, integration: { isActive: true } },
+      include: { integration: { select: { channel: true } } },
+    });
+  const inTransaction = typeof (db as { $transaction?: unknown }).$transaction !== "function";
+  const [reservations, blocks, events] = inTransaction
+    ? [await loadReservations(), await loadBlocks(), await loadEvents()]
+    : await Promise.all([loadReservations(), loadBlocks(), loadEvents()]);
 
   const map = new Map<string, DetailedRange[]>(propertyIds.map((id) => [id, []]));
   for (const r of reservations) {

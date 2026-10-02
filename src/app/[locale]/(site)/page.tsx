@@ -42,6 +42,16 @@ const CLOSING_LAYERS = {
   ground: <Ridge className="size-full" options={{ seed: 97, height: 260, base: 150, amplitude: 150, roughness: 0.3, frequency: 1.5 }} fill="var(--surface)" />,
 };
 
+/**
+ * Photos are landscape (3:2) and `object-cover` crops them into each box, so in boxes taller than 3:2
+ * the photo is drawn wider than the box. `sizes` must describe that drawn width, or the browser picks a
+ * variant that gets stretched (up to 3x on phones for the full-screen hero, visibly soft).
+ * Hero: the viewport, scaled 1.08 at rest; on screens narrower than 3:2 its height sets the width.
+ */
+const HERO_SIZES = "(max-aspect-ratio: 3/2) 162vh, 108vw";
+/** Closing photo: a tall box on portrait screens, zoomed up to 1.16 by its parallax. */
+const CTA_SIZES = "(orientation: portrait) 120vh, 116vw";
+
 /** Vertical drift (px) of each destination column on desktop: alternating speeds read as depth. */
 const DESTINATION_DRIFT = [70, -40, 110, -20, 85, -55];
 
@@ -118,7 +128,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <ValleyHero
         photo={
           heroImage ? (
-            <Image src={heroImage} alt="" fill priority sizes="100vw" className="object-cover" quality={75} />
+            <Image src={heroImage} alt="" fill preload sizes={HERO_SIZES} className="object-cover" quality={75} />
           ) : (
             <div className="size-full bg-[linear-gradient(to_bottom,#6f8f95,#c9b79a)]" />
           )
@@ -165,7 +175,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   property={property}
                   locale={locale}
                   aspect={index === 0 ? "portrait" : "wide"}
-                  sizes={index === 0 ? "(min-width: 768px) 58vw, 100vw" : "(min-width: 768px) 40vw, 50vw"}
+                  // The first card is portrait (4:5): the cropped photo is ~1.9x as wide as the card. The others are
+                  // 4:3 on phones (half the width each), so their photo is a little wider than the card too.
+                  sizes={index === 0 ? "(min-width: 1400px) 1450px, (min-width: 768px) 105vw, 188vw" : "(min-width: 768px) 40vw, 57vw"}
                 />
               </Reveal>
             ))}
@@ -194,7 +206,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                         src={destination.image.url}
                         alt={destination.city}
                         fill
-                        sizes="(min-width: 1024px) 20vw, (min-width: 640px) 320px, 72vw"
+                        // 3:4 boxes draw the photo twice as wide as the box; on desktop the columns share the row.
+                        sizes={`(min-width: 1024px) ${Math.ceil(200 / data.destinations.length)}vw, (min-width: 640px) 640px, 144vw`}
                         className="object-cover transition-transform duration-[900ms] ease-(--ease-soft) group-hover:scale-[1.05]"
                       />
                     ) : null}
@@ -295,7 +308,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                       src={data.recommended[0]!.images[0].url}
                       alt={data.recommended[0]!.images[0].alt}
                       fill
-                      sizes="(min-width: 1024px) 55vw, 100vw"
+                      sizes="(min-width: 1024px) 66vw, 120vw"
                       className="object-cover transition-transform duration-[900ms] ease-(--ease-soft) group-hover:scale-[1.03]"
                     />
                   ) : null}
@@ -314,7 +327,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                     <Link href={`/propiedades/${property.slug}`} className="group flex items-center gap-5 py-5">
                       <span className="tabular w-6 text-sm text-ink-3">{index + 1}</span>
                       <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-surface-2">
-                        {property.images[0] ? <Image src={property.images[0].url} alt="" fill sizes="64px" className="object-cover" /> : null}
+                        {property.images[0] ? <Image src={property.images[0].url} alt="" fill sizes="96px" className="object-cover" /> : null}
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-semibold tracking-tight group-hover:underline group-hover:underline-offset-4">{property.title}</p>
@@ -396,7 +409,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <section className="relative isolate z-10 -mb-px overflow-hidden bg-(--scene-ink) text-white">
         {ctaImage ? (
           <Parallax className="absolute inset-0 -z-10" from={-40} to={40} scale={[1.16, 1.06]}>
-            <Image src={ctaImage} alt="" fill sizes="100vw" className="object-cover" />
+            <Image src={ctaImage} alt="" fill sizes={CTA_SIZES} className="object-cover" />
           </Parallax>
         ) : null}
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/45" />

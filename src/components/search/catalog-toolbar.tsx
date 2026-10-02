@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { type ReactNode, useState, useTransition } from "react";
 import { AmenityIcon } from "@/components/amenity-icon";
 import { DateRangePicker, useFormatDay } from "@/components/calendar/date-range-picker";
+import type { RangeValue } from "@/components/calendar/range-calendar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DrawerContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input, Select } from "@/components/ui/field";
@@ -32,7 +33,15 @@ export function CatalogToolbar({ facets, today, resultsSlot }: { facets: Facets;
   const params = useSearchParams();
   const formatDay = useFormatDay();
   const [pending, startTransition] = useTransition();
-  const [q, setQ] = useState(params.get("q") ?? "");
+  const urlQ = params.get("q") ?? "";
+  const [q, setQ] = useState(urlQ);
+  // Follow the URL when it changes from outside the box ("clear all", back button), so a stale query
+  // is not shown, nor re-applied on the next blur. Adjusted during render, not in an effect.
+  const [lastUrlQ, setLastUrlQ] = useState(urlQ);
+  if (urlQ !== lastUrlQ) {
+    setLastUrlQ(urlQ);
+    setQ(urlQ);
+  }
 
   function update(changes: Record<string, string | null>) {
     const next = new URLSearchParams(params.toString());
@@ -45,6 +54,11 @@ export function CatalogToolbar({ facets, today, resultsSlot }: { facets: Facets;
 
   const checkIn = params.get("checkIn");
   const checkOut = params.get("checkOut");
+  // The URL only holds complete ranges. The half-picked one (check-in chosen, check-out pending) lives
+  // here, tied to the URL range it started from, so the calendar can show it until both dates exist.
+  const urlRange = `${checkIn}|${checkOut}`;
+  const [draft, setDraft] = useState<{ from: string; range: RangeValue } | null>(null);
+  const range = draft?.from === urlRange ? draft.range : { checkIn, checkOut };
   const guests = Number(params.get("guests") ?? 0) || 0;
   const amenities = (params.get("amenities") ?? "").split(",").filter(Boolean);
   const advancedCount = ["type", "bedrooms", "priceMin", "priceMax"].filter((key) => params.get(key)).length + amenities.length;
@@ -68,7 +82,7 @@ export function CatalogToolbar({ facets, today, resultsSlot }: { facets: Facets;
             <Input
               value={q}
               onChange={(event) => setQ(event.target.value)}
-              onBlur={() => q.trim() !== (params.get("q") ?? "") && update({ q: q.trim() || null })}
+              onBlur={() => q.trim() !== urlQ && update({ q: q.trim() || null })}
               placeholder={t("searchPlaceholder")}
               aria-label={t("searchPlaceholder")}
               className="h-11 rounded-full pl-10"
@@ -92,10 +106,11 @@ export function CatalogToolbar({ facets, today, resultsSlot }: { facets: Facets;
             </Select>
 
             <DateRangePicker
-              value={{ checkIn, checkOut }}
-              onChange={(range) => {
-                if (range.checkIn && range.checkOut) update({ checkIn: range.checkIn, checkOut: range.checkOut });
-                else if (!range.checkIn) update({ checkIn: null, checkOut: null });
+              value={range}
+              onChange={(next) => {
+                setDraft({ from: urlRange, range: next });
+                if (next.checkIn && next.checkOut) update({ checkIn: next.checkIn, checkOut: next.checkOut });
+                else if (!next.checkIn) update({ checkIn: null, checkOut: null });
               }}
               today={today}
               trigger={() => (
@@ -196,6 +211,7 @@ export function CatalogToolbar({ facets, today, resultsSlot }: { facets: Facets;
                       <label className="flex flex-col gap-1.5 text-xs text-ink-3">
                         {t("minimum")}
                         <Input
+                          key={params.get("priceMin") ?? ""}
                           type="number"
                           inputMode="numeric"
                           min={0}
@@ -207,6 +223,7 @@ export function CatalogToolbar({ facets, today, resultsSlot }: { facets: Facets;
                       <label className="flex flex-col gap-1.5 text-xs text-ink-3">
                         {t("maximum")}
                         <Input
+                          key={params.get("priceMax") ?? ""}
                           type="number"
                           inputMode="numeric"
                           min={0}

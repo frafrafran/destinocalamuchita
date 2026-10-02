@@ -52,27 +52,37 @@ export function PhotosStep({ propertyId, images }: { propertyId: string; images:
     });
   }
 
+  /**
+   * One photo per request: a batch of phone photos in a single body could pass Cloudflare's request
+   * size limit (100 MB) or the Worker's memory, failing every file at once. Large photos are first
+   * scaled down in the browser to the size the server keeps anyway, so uploads are much faster.
+   */
   function upload(files: FileList | File[]) {
     const list = Array.from(files).slice(0, 12);
     if (!list.length) return;
     setUploadErrors([]);
     startUpload(async () => {
-      const body = new FormData();
-      for (const file of list) body.append("files", file);
-      try {
-        const response = await fetch(`/api/admin/properties/${propertyId}/images`, { method: "POST", body });
-        const result = (await response.json()) as { ok?: boolean; error?: string; results?: { name: string; ok: boolean; error?: string }[] };
-        if (!response.ok || !result.ok) {
-          setUploadErrors([te((result.error ?? "UNKNOWN") as "UNKNOWN")]);
-          return;
+      const errors: string[] = [];
+      let uploaded = 0;
+      for (const original of list) {
+        const body = new FormData();
+        body.append("files", await shrinkForUpload(original));
+        try {
+          const response = await fetch(`/api/admin/properties/${propertyId}/images`, { method: "POST", body });
+          const result = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string; results?: { ok: boolean; error?: string }[] };
+          const error = !response.ok || !result.ok ? (result.error ?? "UNKNOWN") : result.results?.find((r) => !r.ok)?.error;
+          if (error === undefined) uploaded++;
+          else errors.push(`${original.name}: ${te(error as "UNKNOWN")}`);
+          // Limits that apply to the whole property (or the account) will refuse the remaining files too.
+          if (error === "TOO_MANY_FILES" || error === "RATE_LIMITED" || error === "FORBIDDEN") break;
+        } catch {
+          errors.push(`${original.name}: ${te("UNKNOWN")}`);
         }
-        const failed = (result.results ?? []).filter((r) => !r.ok);
-        setUploadErrors(failed.map((r) => `${r.name}: ${te((r.error ?? "UNKNOWN") as "UNKNOWN")}`));
-        const uploaded = (result.results ?? []).length - failed.length;
-        if (uploaded) toast.success(t("uploaded", { count: uploaded }));
+      }
+      setUploadErrors(errors);
+      if (uploaded) {
+        toast.success(t("uploaded", { count: uploaded }));
         router.refresh();
-      } catch {
-        setUploadErrors([te("UNKNOWN")]);
       }
     });
   }
@@ -201,4 +211,37 @@ export function PhotosStep({ propertyId, images }: { propertyId: string; images:
       )}
     </div>
   );
+}
+
+/** The server stores photos at most this long on their longest side (src/server/uploads.ts). */
+const MAX_SIDE = 2400;
+/** Files below this are sent untouched. */
+const SHRINK_ABOVE_BYTES = 2.5 * 1024 * 1024;
+
+/**
+ * Scales a large photo down to MAX_SIDE (honouring its EXIF orientation) and re-encodes it as a
+ * high-quality JPEG. Anything the browser cannot decode, or that would not get smaller, is sent as is:
+ * the server validates and re-encodes every file regardless.
+ */
+async function shrinkForUpload(file: File): Promise<File> {
+  if (file.size <= SHRINK_ABOVE_BYTES || typeof createImageBitmap !== "function") return file;
+  try {
+    const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+    const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    const context = canvas.getContext("2d");
+    if (!context) return file;
+    context.fillStyle = "#fff"; // JPEG has no transparency
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.imageSmoothingQuality = "high";
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
+    if (!blob || blob.size >= file.size) return file;
+    return new File([blob], `${file.name.replace(/\.[^.]+$/, "")}.jpg`, { type: "image/jpeg" });
+  } catch {
+    return file;
+  }
 }

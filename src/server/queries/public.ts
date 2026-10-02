@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type { Prisma, PropertyType } from "@/generated/prisma/client";
 import type { Locale } from "@/i18n/config";
 import { findConflicts } from "@/lib/availability";
@@ -236,7 +237,8 @@ export async function getHomeData(locale: Locale) {
 /** How far ahead the public calendar shows availability. */
 export const PUBLIC_CALENDAR_DAYS = 540;
 
-export async function getPublicProperty(slug: string, locale: Locale) {
+/** Request-deduplicated: the page and its metadata share one database round trip. */
+export const getPublicProperty = cache(async (slug: string, locale: Locale) => {
   const row = await prisma.property.findUnique({
     where: { slug },
     include: {
@@ -288,7 +290,7 @@ export async function getPublicProperty(slug: string, locale: Locale) {
     today,
     updatedAt: row.updatedAt,
   };
-}
+});
 
 export type PublicProperty = NonNullable<Awaited<ReturnType<typeof getPublicProperty>>>;
 
