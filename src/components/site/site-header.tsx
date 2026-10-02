@@ -54,7 +54,7 @@ export function SiteHeader({ agencyName }: { agencyName: string }) {
           transparent ? "bg-transparent text-white" : "bg-bg/85 text-ink shadow-[0_1px_0_var(--line)] backdrop-blur-xl",
         )}
       >
-        <div className="mx-auto flex h-[68px] max-w-[1400px] items-center justify-between gap-6 px-4 sm:px-6 lg:px-10">
+        <div className="mx-auto flex h-[68px] max-w-[1400px] items-center justify-between gap-2 px-4 sm:gap-6 sm:px-6 lg:px-10">
           <Link href="/" className="rounded-lg" aria-label={agencyName}>
             <Logo name={agencyName} inverted={transparent} />
           </Link>
@@ -83,10 +83,8 @@ export function SiteHeader({ agencyName }: { agencyName: string }) {
             <LocaleSwitcher className={transparent ? "text-white hover:bg-white/10" : "text-ink-2"} />
             <Link
               href="/reserva"
-              className={cn(
-                "hidden sm:inline-flex",
-                buttonClasses({ variant: transparent ? "inverse" : "secondary", size: "sm" }),
-              )}
+              // `className` goes through buttonClasses so `hidden` wins over its `inline-flex`.
+              className={buttonClasses({ variant: transparent ? "inverse" : "secondary", size: "sm", className: "hidden sm:inline-flex" })}
             >
               {t("myBooking")}
             </Link>

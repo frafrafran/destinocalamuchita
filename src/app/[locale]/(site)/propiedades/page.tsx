@@ -37,7 +37,7 @@ export default async function CatalogPage({ params, searchParams }: PageProps<"/
         {result.unavailableCount > 0 ? <p className="text-sm text-ink-3">{t("hiddenUnavailable", { count: result.unavailableCount })}</p> : null}
       </div>
       {result.items.length ? (
-        <div className="mt-6 grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-12 xl:grid-cols-3">
           {result.items.map((property, index) => (
             <PropertyCard key={property.id} property={property} locale={locale} query={query} priority={index < 3} />
           ))}

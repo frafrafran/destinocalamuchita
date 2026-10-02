@@ -18,9 +18,9 @@ interface Props {
   aspect?: "landscape" | "portrait" | "wide";
 }
 
-const ASPECTS = { landscape: "aspect-[4/3]", portrait: "aspect-[4/5]", wide: "aspect-[16/10]" };
+const ASPECTS = { landscape: "aspect-[4/3]", portrait: "aspect-[4/5]", wide: "aspect-[4/3] md:aspect-[16/10]" };
 
-export async function PropertyCard({ property, locale, sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw", priority, query, className, aspect = "landscape" }: Props) {
+export async function PropertyCard({ property, locale, sizes = "(min-width: 1280px) 33vw, 50vw", priority, query, className, aspect = "landscape" }: Props) {
   const t = await getTranslations("property");
   const types = await getTranslations("propertyTypes");
   const [cover, second] = property.images;
@@ -29,9 +29,10 @@ export async function PropertyCard({ property, locale, sizes = "(min-width: 1024
     : null;
 
   return (
-    <article className={cn("group relative", className)}>
-      <Link href={`/propiedades/${property.slug}${query ? `?${query}` : ""}`} className="block rounded-2xl outline-offset-4">
-        <div className={cn("relative overflow-hidden rounded-2xl bg-surface-2", ASPECTS[aspect])}>
+    // Container queries: the card tightens its type when it is narrow (two per row on phones).
+    <article className={cn("group relative @container", className)}>
+      <Link href={`/propiedades/${property.slug}${query ? `?${query}` : ""}`} className="block rounded-xl outline-offset-4 @[13rem]:rounded-2xl">
+        <div className={cn("relative overflow-hidden rounded-xl bg-surface-2 @[13rem]:rounded-2xl", ASPECTS[aspect])}>
           {cover ? (
             <Image
               src={cover.url}
@@ -54,36 +55,36 @@ export async function PropertyCard({ property, locale, sizes = "(min-width: 1024
           ) : null}
         </div>
 
-        <div className="mt-4 flex items-start justify-between gap-4">
+        <div className="mt-2.5 flex flex-col @[13rem]:mt-4 @[13rem]:flex-row @[13rem]:items-start @[13rem]:justify-between @[13rem]:gap-4">
           <div className="min-w-0">
-            <h3 className="truncate text-[17px] font-semibold tracking-tight text-ink">{property.title}</h3>
-            <p className="mt-0.5 truncate text-sm text-ink-3">
+            <h3 className="truncate text-[15px] font-semibold tracking-tight text-ink @[13rem]:text-[17px]">{property.title}</h3>
+            <p className="mt-0.5 truncate text-[13px] text-ink-3 @[13rem]:text-sm">
               {property.city}, {types(property.type)}
             </p>
           </div>
           {rating ? (
-            <p className="flex shrink-0 items-center gap-1 text-sm text-ink" aria-label={t("ratingLabel", { rating, count: property.ratingCount })}>
+            <p className="mt-1 flex shrink-0 items-center gap-1 text-[13px] text-ink @[13rem]:mt-0 @[13rem]:text-sm" aria-label={t("ratingLabel", { rating, count: property.ratingCount })}>
               <StarIcon size={14} weight="fill" className="text-ink" />
               <span className="tabular font-medium">{rating}</span>
               <span className="text-ink-3">({property.ratingCount})</span>
             </p>
           ) : property.isNew ? (
-            <p className="shrink-0 text-sm font-medium text-accent-text">{t("new")}</p>
+            <p className="mt-1 shrink-0 text-[13px] font-medium text-accent-text @[13rem]:mt-0 @[13rem]:text-sm">{t("new")}</p>
           ) : null}
         </div>
 
-        <p className="mt-1.5 text-sm text-ink-3">
+        <p className="mt-1 text-[13px] leading-snug text-ink-3 @[13rem]:mt-1.5 @[13rem]:text-sm">
           {t("capacityShort", { guests: property.maxGuests, bedrooms: property.bedrooms, beds: property.beds })}
         </p>
 
-        <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
           {property.stay?.total ? (
-            <p className="text-[15px] text-ink">
+            <p className="text-sm text-ink @[13rem]:text-[15px]">
               <span className="tabular font-semibold">{formatMoney(property.stay.total, property.currency, locale)}</span>{" "}
               <span className="text-ink-3">{t("totalFor", { nights: property.stay.nights })}</span>
             </p>
           ) : (
-            <p className="text-[15px] text-ink">
+            <p className="text-sm text-ink @[13rem]:text-[15px]">
               <span className="text-ink-3">{t("from")} </span>
               <span className="tabular font-semibold">{formatMoney(property.fromPrice, property.currency, locale)}</span>{" "}
               <span className="text-ink-3">{t("perNight")}</span>

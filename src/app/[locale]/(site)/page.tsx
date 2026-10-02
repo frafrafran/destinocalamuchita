@@ -154,18 +154,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               <ArrowRightIcon size={16} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Reveal>
-          <div className="mt-12 grid gap-x-8 gap-y-12 md:grid-cols-12">
+          <div className="mt-12 grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-12 md:gap-x-8 md:gap-y-12">
             {data.featured.map((property, index) => (
               <Reveal
                 key={property.id}
                 delay={index * 0.08}
-                className={index === 0 ? "md:col-span-7 md:row-span-2" : "md:col-span-5"}
+                className={index === 0 ? "col-span-2 md:col-span-7 md:row-span-2" : "md:col-span-5"}
               >
                 <PropertyCard
                   property={property}
                   locale={locale}
                   aspect={index === 0 ? "portrait" : "wide"}
-                  sizes={index === 0 ? "(min-width: 768px) 58vw, 100vw" : "(min-width: 768px) 40vw, 100vw"}
+                  sizes={index === 0 ? "(min-width: 768px) 58vw, 100vw" : "(min-width: 768px) 40vw, 50vw"}
                 />
               </Reveal>
             ))}
@@ -273,10 +273,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{t("newest.title")}</h2>
             <p className="mt-3 text-ink-3">{t("newest.subtitle")}</p>
           </Reveal>
-          <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4">
             {data.newest.map((property, index) => (
               <Reveal key={property.id} delay={index * 0.06}>
-                <PropertyCard property={property} locale={locale} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                <PropertyCard property={property} locale={locale} sizes="(min-width: 1024px) 25vw, 50vw" />
               </Reveal>
             ))}
           </div>
@@ -302,7 +302,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 </div>
               </Link>
             </Reveal>
-            <div>
+            {/* min-w-0: the truncated titles below must not widen the grid column (horizontal scroll on phones). */}
+            <div className="min-w-0">
               <Reveal>
                 <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">{t("recommended.title")}</h2>
                 <p className="mt-3 text-ink-3">{t("recommended.subtitle")}</p>

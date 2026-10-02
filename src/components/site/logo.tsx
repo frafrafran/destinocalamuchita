@@ -22,7 +22,7 @@ export function Logo({ name, className, inverted }: { name: string; className?: 
 function Wordmark({ name }: { name: string }) {
   const parts = /^(\p{Lu}\p{Ll}+)(\p{Lu}.*)$/u.exec(name);
   return (
-    <span className="text-[17px] font-semibold tracking-[-0.02em]">
+    <span className="text-[15px] font-semibold tracking-[-0.02em] min-[360px]:text-[17px]">
       {parts ? (
         <>
           {parts[1]}
