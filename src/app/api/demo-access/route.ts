@@ -8,7 +8,8 @@ import { consumeRateLimit } from "@/server/rate-limit";
 import { ipFromRequest } from "@/server/request";
 
 /**
- * Private link to the admin panel for demonstrations: /api/demo-access?key=<DEMO_ACCESS_KEY>.
+ * Private link to the admin panel for demonstrations: /api/demo-access?key=<DEMO_ACCESS_KEY>,
+ * optionally with &next=/admin/<section> to land on a specific screen.
  * Opens a normal administrator session without the password step. It only exists while the
  * DEMO_ACCESS_KEY secret is set; delete the secret to disable it. Anyone holding the link is an
  * administrator, so share it only with people who should manage the site.
@@ -32,5 +33,11 @@ export async function GET(request: Request) {
 
   await createSession(admin.id, { ip, userAgent: request.headers.get("user-agent") });
   await audit(prisma, { type: "USER", id: admin.id, ip }, "auth.demo_access", { type: "User", id: admin.id });
-  return NextResponse.redirect(absoluteUrl("/admin"), { status: 303 });
+  return NextResponse.redirect(absoluteUrl(panelPath(new URL(request.url).searchParams.get("next"))), { status: 303 });
+}
+
+/** Only panel paths on this site: never an absolute URL, protocol-relative path or anything outside /admin. */
+function panelPath(next: string | null): string {
+  if (!next || !/^\/admin(\/[A-Za-z0-9\-/]*)?(\?[A-Za-z0-9=&\-_%]*)?$/.test(next) || next.includes("//")) return "/admin";
+  return next;
 }
