@@ -60,3 +60,6 @@ next-env.d.ts
 
 # private links generated for the owner (never commit)
 *.local.txt
+
+# commercial documents for the client (not part of the code)
+/presupuesto/
